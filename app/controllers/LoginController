@@ -1,0 +1,8 @@
+class LoginController extends Controller
+{   
+    public function action_index()
+    {
+        //do our login mechanisms here
+        echo 'test'; //echo test so we can test this controller out
+    }
+}
