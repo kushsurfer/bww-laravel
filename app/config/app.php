@@ -121,7 +121,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-
+		'AdamWathan\EloquentOAuth\EloquentOAuthServiceProvider',
 	),
 
 	/*
@@ -188,6 +188,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		'OAuth' 		  => 'AdamWathan\EloquentOAuth\Facades\OAuth',
+		'OAuth2' 		  => 'friendsofsymfony\oauth2-php\lib\OAuth2\OAuth2',
 
 	),
 

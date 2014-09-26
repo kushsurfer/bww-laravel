@@ -16,17 +16,30 @@
 // 	return View::make('hello');
 // });
 
-Route::get('/', array('uses' => 'HomeController@hello', 'as' => 'home'));
+Route::get('/', array('uses' => 'ShopController@index', 'as' => 'shop'));
+Route::get('/MagentoAPI', array('uses' => 'ShopController@MagentoAPI', 'as' => 'MagentoAPI'));
+
+Route::group(array('prefix' => '/forum'), function(){
+	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));
+	Route::get('/category/{id}', array('uses' => 'ForumController@category', 'as' => 'forum-category'));
+	Route::get('/thread/{id}', array('uses' => 'ForumController@thread', 'as' => 'forum-thread'));
+});
 
 // use if you are a guest user or not login
 Route::group(array('before' => 'guest'), function(){
 
 	Route::get('user/create', array('uses' => 'UserController@getCreate', 'as' => 'getCreate'));
-	Route::get('user/login', 'UserController@getLogin');
+	Route::get('user/login', array('uses' => 'UserController@getLogin', 'as' => 'getLogin'));
 
 	// check for hackers
 	Route::group(array('before' => 'csrf'), function(){
 		Route::post('/user/create', array('uses' => 'UserController@postCreate', 'as' => 'postCreate'));
-		Route::post('/user/login', 'UserController@postLogin');
+		Route::post('/user/login', array('uses' => 'UserController@postLogin', 'as' => 'postLogin'));
 	});
+});
+
+
+Route::group(array('before' => 'auth'), function(){
+	Route::get('/user/logout', array('uses' => 'UserController@getLogout', 'as' => 'getLogout'));
+
 });
