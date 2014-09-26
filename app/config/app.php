@@ -189,7 +189,6 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'OAuth' 		  => 'AdamWathan\EloquentOAuth\Facades\OAuth',
-		// 'OAuth2' 		  => 'friendsofsymfony\oauth2-php\lib\OAuth2\OAuth2',
 
 	),
 
