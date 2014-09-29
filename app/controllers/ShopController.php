@@ -4,24 +4,52 @@ class ShopController extends BaseController
 {   
     
     public function index(){
-        return View::make('shop.device');
+
+    	$products = self::getDisplayProducts();
+
+    	
+        return View::make('shop.device')->with('products', $products);
+    }
+
+    public function getDisplayProducts(){
+
+    	$session_id = MagentoAPI::initialize();
+
+		$catID = MagentoAPI::getCategoryID($session_id, 'New Phones');
+
+		$productIDs = MagentoAPI::getProductIDsByCategory($session_id, $catID);
+
+		$resources = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs);
+
+		
+		return $resources;
+    }
+
+
+    public function deviceDetail($id){
+    	
+    	$session_id = MagentoAPI::initialize();
+
+    	$products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+
+    	return View::make('shop.device_detail')->with('products', $products);
+    	
+    }
+
+    public function selectplan(){
+    	
+    	// $session_id = MagentoAPI::initialize();
+
+    	// $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+
+    	// return View::make('shop.device_detail')->with('products', $products);
+    	echo 'sdfad';
+    	
     }
 
     public function MagentoAPI(){
-
-    	// Magento login information 
-		$mage_url = 'http://bww-magento.predev.gflocal/api/soap?wsdl'; 
-		$mage_user = 'bwwmagento'; 
-		$mage_api_key = '8iKNZoW5Ju'; 
-		// Initialize the SOAP client 
-		$soap = new SoapClient( $mage_url ); 
-		// Login to Magento 
-		$session_id = $soap->login( $mage_user, $mage_api_key );
-
-		$response = $soap->getSomethingSpecific ( $arguments );
-
-		var_dump($response);
+    	var_dump(self::getDisplayProducts());
     }
 }
 
-?>
+?>  
