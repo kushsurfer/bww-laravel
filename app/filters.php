@@ -92,7 +92,7 @@ Route::filter('csrf', function()
 
 Route::filter('device', function()
 {
-	if (!Session::has('users'))
+	if (!Session::has('deviceID'))
 	{
 		return Redirect::to('/');
 	}

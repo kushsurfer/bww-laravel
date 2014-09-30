@@ -12,17 +12,16 @@ class ShopController extends BaseController
         return View::make('shop.device')->with('products', $products);
     }
 
-    public function getDisplayProducts(){
+    public function getDisplayProducts($catname = 'Devices'){
 
     	$session_id = MagentoAPI::initialize();
 
-		$catID = MagentoAPI::getCategoryID($session_id, 'Devices');
+		$catID = MagentoAPI::getCategoryID($session_id, $catname);
 
 		$productIDs = MagentoAPI::getProductIDsByCategory($session_id, $catID);
 
 		$resources = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs);
 
-		
 		return $resources;
     }
 
@@ -37,21 +36,23 @@ class ShopController extends BaseController
     	
     }
 
+    public function selectdevice($id){
+      
+       Session::put('deviceID', $id);
+
+       return Redirect::route('selectplan');
+        
+        
+    }
+
     public function selectplan(){
     	
-    	// $session_id = MagentoAPI::initialize();
+    	$products = self::getDisplayProducts('Service Plans');
 
-    	// $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
 
-        // return View::make('shop.device_detail')->with('products', $products);
-        $products = '';
     	return View::make('shop.plan')->with('products', $products);
     	
     	
-    }
-
-    public function MagentoAPI(){
-    	var_dump(self::getDisplayProducts());
     }
 }
 

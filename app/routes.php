@@ -17,23 +17,14 @@
 // });
 
 Route::get('/', array('uses' => 'ShopController@index', 'as' => 'shop'));
-Route::get('/MagentoAPI', array('uses' => 'ShopController@MagentoAPI', 'as' => 'MagentoAPI'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
+Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
+Route::get('/selectdevice/{id}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
 
-Route::filter('/selectplan', function () {
 
-	if (Session::has('users'))
-	{
-	   
-	}else{
-		return Redirect::to('shop');
-	}
-    
-});
-
-// Route::group(array('before' => 'device'), function(){
+Route::group(array('before' => 'device'), function(){
 	 Route::get('/selectplan', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
-// });
+});
 
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));

@@ -1,9 +1,9 @@
 <?php
 
 	Class MagentoAPI{
-	
 		
-		protected static $mage_url = 'http://bww-magento.gfdev.net/api/v2_soap/?wsdl'; 
+
+		protected static $mage_url = 'http://bww-magento.gfdev.net/api/soap/?wsdl'; 
 		
 		protected static $mage_user = 'bwwmagento'; 
 		protected static $mage_api_key = '8iKNZoW5Ju'; 
@@ -46,17 +46,17 @@
 
 
 		public static function getAllCategories($session_id){
-			return self::$soap->catalogCategoryLevel($session_id);
+			return self::$soap->call($session_id, 'catalog_category.level');
 		} 
 
 
 		public static function getCategoryID($session_id, $catname){
 			$categories =  self::getAllCategories($session_id);
-
+		
 			$catID = null;
 			foreach($categories as $cat){
-				if($cat->name == $catname){
-					$catID = $cat->category_id;
+				if($cat['name'] == $catname){
+					$catID = $cat['category_id'];
 					break;
 				}
 			}
@@ -68,12 +68,13 @@
 		public static function getProductIDsByCategory($session_id, $catID){
 			$productIDs = array();
 
-			$catproducts = self::$soap->catalogCategoryAssignedProducts($session_id, $catID);
-
+			$catproducts = self::$soap->call($session_id, 'catalog_category.assignedProducts',  $catID);
+			
 			foreach($catproducts as $prod){
-				$productIDs[] =  $prod->product_id;
+				$productIDs[] =  $prod['product_id'];
 			}
 
+		
 			return $productIDs;
 		}
 
@@ -84,10 +85,11 @@
 			if(count($prodids) > 0) {
 				foreach($prodids as $id){
 					
-					$prodattributes = array('product_id', 'name', 'status', 'short_description', 'price ');
-
-					$prodDetails[$id] = self::$soap->catalogProductInfo($session_id, $id, 'default', $prodattributes);	
-					$prodDetails[$id]->images = self::getImageProducts($session_id, $id);
+					// $prodattributes = array('product_id', 'name', 'status', 'short_description', 'price ');
+					// $prodDetails[$id] = self::$soap->catalogProductInfo($session_id, $id, 'default', $prodattributes);	
+					
+					$prodDetails[$id] = self::$soap->call($session_id, 'catalog_product.info', $id);
+					$prodDetails[$id]['images'] = self::getImageProducts($session_id, $id);
 				}
 				
 			}
@@ -100,11 +102,11 @@
 		public static function getImageProducts($session_id, $prodID){
 			
 			$images = array();
-			$prodimages = self::$soap->catalogProductAttributeMediaList($session_id,  $prodID);
+			$prodimages = self::$soap->call($session_id, 'catalog_product_attribute_media.list', $prodID);
 			
 			if(count($prodimages) > 0){
 				foreach($prodimages as $img){
-					$images[] = $img->url;
+					$images[] = $img['url'];
 				}
 			}
 

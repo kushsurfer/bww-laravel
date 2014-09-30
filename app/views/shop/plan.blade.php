@@ -2,7 +2,7 @@
 
 @section('head')
     @parent
-    <title>Service Plan</title>
+    <title>Service Plans</title>
 @stop
 
 @section('content')
@@ -13,17 +13,15 @@
 		<div class="clearfix"></div>
 		<div class="productdetails">
 
-			
-	    		<a href="#" class="selectshop">
-					<h3>The Just Plan</h3>
+			@foreach ($products as $prod)
+	    		<a href="{{ URL::route('deviceDetail', $prod['product_id']) }}" class="selectshop">
+					<h3>{{ $prod['name'] }}</h3>
 					<div class="col-xs-5 col-sm-5 col-md-5">
-						<img src="/images/no-image.png" width="90%"/>
+						<img src="{{ $prod['images'][0] }}" width="90%"/>
 					</div>
 				</a>
 				<div class="col-xs-7 col-sm-7 col-md-7">
-					<p>Talk – $0.03 per
-						Data - $0.03 per MB
-						SMS Text - $0.01 per text </p>
+					<p>{{ $prod['short_description'] }}</p>
 					
 					<p>
 					  <button type="button" class="btn btn-primary btn-lg">Select</button>
@@ -31,7 +29,7 @@
 				</div>
 				<div class="clearfix"></div>
 
-		
+			@endforeach
 
 		</div>
 	</div>
