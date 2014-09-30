@@ -1,4 +1,5 @@
-<?php
+<?php 
+set_time_limit ( 300 );
 
 class ShopController extends BaseController
 {   
@@ -15,7 +16,7 @@ class ShopController extends BaseController
 
     	$session_id = MagentoAPI::initialize();
 
-		$catID = MagentoAPI::getCategoryID($session_id, 'New Phones');
+		$catID = MagentoAPI::getCategoryID($session_id, 'Devices');
 
 		$productIDs = MagentoAPI::getProductIDsByCategory($session_id, $catID);
 
