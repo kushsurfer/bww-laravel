@@ -31,9 +31,9 @@ Route::filter('/selectplan', function () {
     
 });
 
-Route::group(array('before' => 'device'), function(){
+// Route::group(array('before' => 'device'), function(){
 	 Route::get('/selectplan', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
-});
+// });
 
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));

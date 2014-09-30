@@ -43,8 +43,10 @@ class ShopController extends BaseController
 
     	// $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
 
-    	// return View::make('shop.device_detail')->with('products', $products);
-    	echo 'sdfad';
+        // return View::make('shop.device_detail')->with('products', $products);
+        $products = '';
+    	return View::make('shop.plan')->with('products', $products);
+    	
     	
     }
 
