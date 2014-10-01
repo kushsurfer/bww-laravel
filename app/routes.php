@@ -18,12 +18,17 @@
 
 Route::get('/', array('uses' => 'ShopController@index', 'as' => 'shop'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
-Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
-Route::get('/selectdevice/{id}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
+Route::get('/planDetail/{id}', array('uses' => 'ShopController@planDetail', 'as' => 'planDetail'));
+Route::get('/selectdevice/{id}/{price}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
+Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
 
 
 Route::group(array('before' => 'device'), function(){
 	 Route::get('/selectplan', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
+});
+
+Route::group(array('before' => 'plan'), function(){
+	 Route::get('/selectcause', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
 });
 
 // Route::group(array('prefix' => '/forum'), function(){

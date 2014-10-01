@@ -22,10 +22,29 @@
 				</a>
 				<div class="col-xs-7 col-sm-7 col-md-7">
 					<p>{{ $prod['short_description'] }}</p>
+				@if($prod['sku'] == 'BYOD')
+					<div class="form-group">
+						<label for="username"> Select Device:</label>
+						<select name="unitdevice" id="unitdevice">
+							<option value="">Select Device</option>
+						</select>
+						
+					</div>
+					<div class="form-group">
+						<label for="username">MEID:</label>
+						<input type="text" id="meid" value=""/>
+						
+					</div>
+					<div class="form-group">
+						<input type="button" value="Check MEID" id="checkmeid" class="btn btn-default">
+					</div>
+
+				@endif
 					<h2>{{ '$' . number_format($prod['price'] , 2, '.', '') }}</h2>
 
+
 					<p>
-					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectdevice', $prod['product_id']) }}'">Select</button>
+					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectdevice', array($prod['product_id'], $prod['price'])) }}'">Select</button>
 					</p>
 				</div>
 				<div class="clearfix"></div>

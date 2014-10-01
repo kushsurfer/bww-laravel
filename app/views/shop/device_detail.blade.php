@@ -39,7 +39,7 @@
 					<h2>{{ '$' . number_format($prod['price'] , 2, '.', '') }}</h2>
 
 					<p>
-					  <button type="button" class="btn btn-primary btn-lg">Select</button>
+					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectdevice', array($prod['product_id'], $prod['price'])) }}'">Select</button>
 					</p>
 					
 

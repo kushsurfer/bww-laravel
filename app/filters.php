@@ -92,7 +92,15 @@ Route::filter('csrf', function()
 
 Route::filter('device', function()
 {
-	if (!Session::has('deviceID'))
+	if (!Session::has('device'))
+	{
+		return Redirect::to('/');
+	}
+});
+
+Route::filter('plan', function()
+{
+	if (!Session::has('selectedplan'))
 	{
 		return Redirect::to('/');
 	}
