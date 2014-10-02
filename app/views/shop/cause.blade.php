@@ -13,7 +13,7 @@
 		
 		<div class="col-xs-3 col-sm-3 col-md-3">
 			<a class="dropdown-toggle pull-right totalprice" style="text-align:right;" href="#" data-toggle="dropdown" style="color:#fff">
-				<span >{{ '$' . number_format(Session::get('device.price') , 2, '.', '') }}</span>
+				<span >{{ '$' . number_format($totalcost , 2, '.', '') }}</span>
 				<span class="caret" style="margin-top: 5px"></span>
 			</a>
 			<!-- <ul class="dropdown-menu" role="menu"> -->
@@ -23,7 +23,7 @@
 	</div>
 	<div class="shopbg">
 		<img src="/images/cellphone.png" width="7%" class="pull-left"/>
-		<h2 class="pull-left"> &nbsp;&nbsp;&nbsp;Select a Plan</h2>
+		<h2 class="pull-left"> &nbsp;&nbsp;&nbsp;Select a Cause</h2>
 		<div class="clearfix"></div>
 		<div class="productdetails">
 
@@ -38,7 +38,7 @@
 					<p>{{ $prod['short_description'] }}</p>
 					
 					<p>
-					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectplan', array($prod['product_id'], $prod['price'])) }}'">Select</button>
+					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectcause', array($prod['product_id'], $prod['price'])) }}'">Select</button>
 					</p>
 				</div>
 				<div class="clearfix"></div>

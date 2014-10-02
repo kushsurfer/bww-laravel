@@ -36,10 +36,9 @@
 				</div>
 				<div class="col-xs-7 col-sm-7 col-md-7">
 					<p>{{ $prod['short_description'] }}</p>
-					<h2>{{ '$' . number_format($prod['price'] , 2, '.', '') }}</h2>
-
+					
 					<p>
-					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectdevice', array($prod['product_id'], $prod['price'])) }}'">Select</button>
+					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectplan', array($prod['product_id'], $prod['plan_price'])) }}'">Select</button>
 					</p>
 					
 

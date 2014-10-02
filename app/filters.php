@@ -102,6 +102,6 @@ Route::filter('plan', function()
 {
 	if (!Session::has('selectedplan'))
 	{
-		return Redirect::to('/');
+		return Redirect::route('serviceplan');
 	}
 });

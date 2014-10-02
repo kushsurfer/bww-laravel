@@ -36,16 +36,6 @@ class ShopController extends BaseController
         
     }
 
-    public function planDetail($id){
-    	
-    	$session_id = MagentoAPI::initialize();
-
-    	$products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
-
-    	return View::make('shop.plan_detail')->with('products', $products);
-    	
-    }
-
     public function selectdevice($id, $price){
         Session::forget('device'); // forget previous selected device
 
@@ -54,12 +44,12 @@ class ShopController extends BaseController
                 'price'     => $price,
         ]); 
 
-       return Redirect::route('selectplan');
+       return Redirect::route('serviceplan');
         
         
     }
 
-    public function selectplan(){
+    public function serviceplan(){
     	
     	$products = self::getDisplayProducts('Service Plans');
        
@@ -68,7 +58,19 @@ class ShopController extends BaseController
     	
     }
 
-    public function selectedplan($id, $price){
+
+
+    public function planDetail($id){
+        
+        $session_id = MagentoAPI::initialize();
+
+        $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+
+        return View::make('shop.plan_detail')->with('products', $products);
+        
+    }
+
+    public function selectplan($id, $price){
         Session::forget('selectedplan'); // forget previous selected device
 
         Session::put('selectedplan', [
@@ -76,21 +78,38 @@ class ShopController extends BaseController
                 'price'     => $price,
         ]); 
 
-       return Redirect::route('selectplan');
+       return Redirect::route('causes');
         
         
     }
 
 
 
-    public function selectcause(){
+    public function causes(){
         
         $causes = self::getDisplayProducts('Cause');
+
+        $totalcost = Session::get('device.price') + Session::get('selectedplan.price');
        
-        return View::make('shop.cause')->with('causes', $causes);
+        return View::make('shop.cause')->with('products', $causes)->with('totalcost', $totalcost);
         
         
     }
+
+
+    public function selectcause($id, $price){
+        Session::forget('selectedcause'); // forget previous selected device
+
+        Session::put('selectedcause', [
+                'id'       => $id,
+                'price'     => $price,
+        ]); 
+
+       return Redirect::route('causes');
+        
+        
+    }
+
 
 }
 

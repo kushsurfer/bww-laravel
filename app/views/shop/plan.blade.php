@@ -36,9 +36,9 @@
 				</a>
 				<div class="col-xs-7 col-sm-7 col-md-7">
 					<p>{{ $prod['short_description'] }}</p>
-					
+						
 					<p>
-					  <button type="button" class="btn btn-primary btn-lg">Select</button>
+					  <button type="button" class="btn btn-primary btn-lg" onclick="location.href = '{{ URL::route('selectplan', array($prod['product_id'], $prod['plan_price'])) }}'">Select</button>
 					</p>
 				</div>
 				<div class="clearfix"></div>
