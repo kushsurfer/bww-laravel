@@ -24,7 +24,7 @@
 	<div class="clearfix"></div>
 	<div class="shopbg">
 		<img src="/images/cellphone.png" width="7%" class="pull-left"/>
-		<h2 class="pull-left" > &nbsp;&nbsp;&nbsp;<a href="{{ URL::route('selectplan') }}" class="selectshop">Select a Plan</a></h2>
+		<h2 class="pull-left" > &nbsp;&nbsp;&nbsp;<a href="{{ URL::route('shoppage') }}" class="selectshop">Select a Plan</a></h2>
 		<div class="clearfix"></div>
 		<div class="productdetails">
 

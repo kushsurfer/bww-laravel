@@ -25,13 +25,17 @@ Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectpla
 Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
 
 
-Route::group(array('before' => 'device'), function(){
+// Route::group(array('before' => 'device'), function(){
 	 Route::get('/serviceplan', array('uses' => 'ShopController@serviceplan', 'as' => 'serviceplan'));
-});
+// });
 
-Route::group(array('before' => 'plan'), function(){
+// Route::group(array('before' => 'plan'), function(){
 	 Route::get('/causes', array('uses' => 'ShopController@causes', 'as' => 'causes'));
-});
+// });
+
+
+Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testurl'));
+Route::get('/shop', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
 
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));

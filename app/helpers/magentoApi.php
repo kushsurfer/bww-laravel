@@ -63,7 +63,7 @@
 
 			return $catID;
 		} 
-
+		
 
 		public static function getProductIDsByCategory($session_id, $catID){
 			$productIDs = array();
@@ -111,6 +111,22 @@
 			}
 
 			return $images;
+		}
+
+
+		public static function getProductBySKU($session, $sku){
+			
+			$result = self::$soap->call($session, 'catalog_product.info', 'setorder');
+			var_dump ($result);
+
+			// If you don't need the session anymore
+			//$client->endSession($session);
+		}
+
+
+		public static function getBundle($session){
+			$result = self::$soap->call($session, 'bundleapi.listitems', array());
+			var_dump ($result);
 		}
 	}
 

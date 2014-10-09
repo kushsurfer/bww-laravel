@@ -6,13 +6,21 @@ class ShopController extends BaseController
     
     public function index(){
 
-    	$products = self::getDisplayProducts();
+    	$products = self::getDisplayProductsByCatname();
 
     	
         return View::make('shop.device')->with('products', $products);
     }
 
-    public function getDisplayProducts($catname = 'Devices'){
+    public function shop(){
+
+        $products = self::getDisplayProductsByCatname();
+             
+        return View::make('shop.shop_page')->with('products', $products);
+    }
+
+
+    public function getDisplayProductsByCatname($catname = 'Devices'){
 
     	$session_id = MagentoAPI::initialize();
 
@@ -51,9 +59,11 @@ class ShopController extends BaseController
 
     public function serviceplan(){
     	
-    	$products = self::getDisplayProducts('Service Plans');
+    	$products = self::getDisplayProductsByCatname('Service Plans');
        
-    	return View::make('shop.plan')->with('products', $products);
+    	return View::make('shop.service_plan')->with('products', $products);
+
+        
     	
     	
     }
@@ -87,11 +97,12 @@ class ShopController extends BaseController
 
     public function causes(){
         
-        $causes = self::getDisplayProducts('Cause');
+        $causes = self::getDisplayProductsByCatname('Cause');
 
-        $totalcost = Session::get('device.price') + Session::get('selectedplan.price');
+        // $totalcost = Session::get('device.price') + Session::get('selectedplan.price');
        
-        return View::make('shop.cause')->with('products', $causes)->with('totalcost', $totalcost);
+        // return View::make('shop.cause')->with('products', $causes)->with('totalcost', $totalcost);
+        return View::make('shop.causes')->with('products', $causes);
         
         
     }
@@ -110,6 +121,58 @@ class ShopController extends BaseController
         
     }
 
+
+    public function testurl(){
+        $session_id = MagentoAPI::initialize();
+
+        $result = MagentoAPI::getAllCategories($session_id);
+        $categories = array();
+
+        foreach($result as $cat){
+            if($cat['name'] != 'Default Category')
+                $categories[$cat['category_id']] = $cat['name'];
+        }
+
+        $productIDs = array();
+        $productDetails = array();
+        foreach ($categories as $catID => $catname){
+            $productIDs[$catname] = MagentoAPI::getProductIDsByCategory($session_id, $catID);
+
+            $productDetails[$catname] = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs[$catname]);
+        }
+
+
+    }
+
+
+
+    public function getDisplayProducts(){
+
+        $session_id = MagentoAPI::initialize();
+
+        $result = MagentoAPI::getAllCategories($session_id);
+        $categories = array();
+        $productIDs = array();
+        $productDetails = array();
+
+        if(count($result) > 0) {
+            foreach($result as $cat){
+                if($cat['name'] != 'Default Category')
+                    $categories[$cat['category_id']] = $cat['name'];
+            }
+
+          
+
+            foreach ($categories as $catID => $catname){
+
+                $productIDs[$catname] = MagentoAPI::getProductIDsByCategory($session_id, $catID);
+                $productDetails[$catname] = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs[$catname]);
+            }
+        }
+
+
+        return $productDetails;
+    }
 
 }
 

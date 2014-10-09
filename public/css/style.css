@@ -4,12 +4,14 @@ body{
 
 
 /* Customize container */
-@media (min-width: 768px) {
+@media (min-width: 950px) {
 	.container {
-		max-width: 730px;
+		max-width: 912px;
 	}
 } 
-
+.hide {
+    display: none;
+}
 /* Space out the masthead */
 /*.header {
 margin-bottom: 50px;
@@ -52,4 +54,32 @@ margin-bottom: 50px;
     color: #fff;
     font-size: 25px;
     padding-top: 18px;
+}
+
+.shoppanels .panel-heading{
+    cursor: pointer;
+}
+
+.arrows {margin-right: 10px;}
+
+.pricedetails {
+    margin: 20px 0;
+    font-size: 13px;
+}
+
+.price{
+    /*margin-left: 20px;*/
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.loader {
+    background: url("../images/loader.GIF") no-repeat;
+    width: 54px;
+    height: 55px;
+    margin: 20px auto;
+    display: block;
+}
+.name {
+    margin-bottom: 20px;
 }
