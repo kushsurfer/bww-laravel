@@ -16,7 +16,7 @@
 // 	return View::make('hello');
 // });
 
-Route::get('/', array('uses' => 'ShopController@index', 'as' => 'shop'));
+Route::get('/', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
 Route::get('/planDetail/{id}', array('uses' => 'ShopController@planDetail', 'as' => 'planDetail'));
 
@@ -35,7 +35,7 @@ Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectca
 
 
 Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testurl'));
-Route::get('/shop', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
+Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));

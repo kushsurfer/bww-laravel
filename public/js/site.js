@@ -11,11 +11,12 @@ $(document).ready(function(){
 			$('#causepanel').trigger('click');
 		})
 
-		
+
 	});
 
  	$.get( "causes", function( data ) {
 		$('#causepanel').siblings('.panel-body').html(data);
+		$('#cause').val($(this).attr('did'));
 	});
 
 	// shop panel accordion functions
@@ -40,6 +41,24 @@ $(document).ready(function(){
 		        	openpanel =  true;
 		        }else{
 		        	alert('Kindly select a device and service plan first.');
+		        }
+
+		        break;
+		    case 'createAccount':
+		    
+		        if($('#cause').val() != ''){
+		        	openpanel =  true;
+		        }else{
+		        	alert('Kindly select a cause to sponsor first');
+		        }
+
+		        break;
+		    case 'checkout':
+		    
+		        if($('#account').val() != ''){
+		        	openpanel =  true;
+		        }else{
+		        	alert('Kindly create account first');
 		        }
 
 		        break;
