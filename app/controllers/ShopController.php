@@ -123,25 +123,14 @@ class ShopController extends BaseController
 
 
     public function testurl(){
-        $session_id = MagentoAPI::initialize();
+         $ordersets[0] = array(
+            'deviceID' => 1,
+            'planID' => 1,
+            'causeID' => 1
+        );
 
-        $result = MagentoAPI::getAllCategories($session_id);
-        $categories = array();
-
-        foreach($result as $cat){
-            if($cat['name'] != 'Default Category')
-                $categories[$cat['category_id']] = $cat['name'];
-        }
-
-        $productIDs = array();
-        $productDetails = array();
-        foreach ($categories as $catID => $catname){
-            $productIDs[$catname] = MagentoAPI::getProductIDsByCategory($session_id, $catID);
-
-            $productDetails[$catname] = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs[$catname]);
-        }
-
-
+        Session::set('ordesets',  $ordersets);
+         var_dump(Session::get('ordesets'));
     }
 
 
@@ -174,6 +163,29 @@ class ShopController extends BaseController
         return $productDetails;
     }
 
+
+    public function setOrderSet(){
+        
+        $ordersets[Input::get('orderset')] = array(
+            'deviceID' => Input::get('device'),
+            'planID' => Input::get('plan'),
+            'causeID' => Input::get('cause')
+        );
+
+        if (Session::has('ordesets')) {
+
+            $sessionorders =  Session::get('ordesets');
+            $ordersets = array_merge($ordersets,  $sessionorders);
+
+            Session::forget('ordesets'); // forget previous selected device
+            
+        }
+        
+        Session::set('ordesets',  $ordersets);
+
+        var_dump(Session::get('ordesets'));
+        
+    }
 }
 
 ?>  

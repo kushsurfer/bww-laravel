@@ -1,5 +1,9 @@
 $(document).ready(function(){
  	var loaderdiv = '<div class="loader"></div>';
+ 	var orderset = {};
+ 	var ordercnt = 0;
+
+ 	orderset[ordercnt] = {};
 
 
  	//load plans in the background
@@ -9,14 +13,57 @@ $(document).ready(function(){
 		$('.planselect').on('click', function(){
 			$('#plan').val($(this).attr('did'));
 			$('#causepanel').trigger('click');
+
+
+			orderset[ordercnt]['planID'] = $(this).attr('did');
 		})
 
-
+		
 	});
 
  	$.get( "causes", function( data ) {
 		$('#causepanel').siblings('.panel-body').html(data);
 		$('#cause').val($(this).attr('did'));
+
+		$('.causeselect').on('click', function(){
+			$('#cause').val($(this).attr('did'));
+			
+			orderset[ordercnt]['causeID'] = $(this).attr('did');
+
+			var data = $('#orderform').serialize();
+
+			$.ajax({
+				type: "POST",
+				url: $('#orderform').attr('action'),
+				data: data,
+	            success  : function (resp) {
+	                // console.log(resp);
+	            }
+			});
+
+
+			if(confirm('Do you want to setup another device?')){
+
+				$('#plan').val('');
+				$('#cause').val('');
+				$('#device').val('');
+
+				$('#devicespanel').trigger('click');
+
+				ordercnt++;
+				orderset[ordercnt] = {};
+				
+				$('#device').val(orderset);
+
+			}else{
+				$('#createAccount').trigger('click');
+			}
+
+
+
+			// console.log(orderset);
+		});
+		
 	});
 
 	// shop panel accordion functions
@@ -93,9 +140,9 @@ $(document).ready(function(){
 
 		$('#device').val($(this).attr('did'));
 		$('#planpanel').trigger('click');
-		// $('#planpanel').siblings('.panel-body').html(loaderdiv);
 
-		
+		orderset[ordercnt]['deviceID'] = $(this).attr('did');
+			
 	
 	})
 

@@ -20,22 +20,22 @@ Route::get('/', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
 Route::get('/planDetail/{id}', array('uses' => 'ShopController@planDetail', 'as' => 'planDetail'));
 
-Route::get('/selectdevice/{id}/{price}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
-Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
-Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
+// Route::get('/selectdevice/{id}/{price}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
+// Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
+// Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
 
 
-// Route::group(array('before' => 'device'), function(){
-	 Route::get('/serviceplan', array('uses' => 'ShopController@serviceplan', 'as' => 'serviceplan'));
-// });
-
-// Route::group(array('before' => 'plan'), function(){
-	 Route::get('/causes', array('uses' => 'ShopController@causes', 'as' => 'causes'));
-// });
-
+Route::get('/serviceplan', array('uses' => 'ShopController@serviceplan', 'as' => 'serviceplan'));
+Route::get('/causes', array('uses' => 'ShopController@causes', 'as' => 'causes'));
 
 Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testurl'));
 Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
+
+// check for hackers
+// Route::group(array('before' => 'csrf'), function(){
+	Route::post('/setOrderSet', array('uses' => 'ShopController@setOrderSet', 'as' => 'setOrderSet'));
+// });
+
 
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));
@@ -49,12 +49,6 @@ Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 // 	Route::get('user/create', array('uses' => 'UserController@getCreate', 'as' => 'getCreate'));
 // 	Route::get('user/login', array('uses' => 'UserController@getLogin', 'as' => 'getLogin'));
 
-// 	// check for hackers
-// 	Route::group(array('before' => 'csrf'), function(){
-// 		Route::post('/user/create', array('uses' => 'UserController@postCreate', 'as' => 'postCreate'));
-// 		Route::post('/user/login', array('uses' => 'UserController@postLogin', 'as' => 'postLogin'));
-// 	});
-// });
 
 
 // Route::group(array('before' => 'auth'), function(){

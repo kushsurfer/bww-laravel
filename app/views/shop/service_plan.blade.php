@@ -19,4 +19,10 @@
 	@endif
 
 	<?php $cnt++; ?>
+	<script type="text/javascript">
+		plans[{{$prod['product_id']}}] = {};
+		plans[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
+		plans[{{$prod['product_id']}}]['price'] = '{{$prod['plan_price'] }}' ;
+	</script>
+
 @endforeach

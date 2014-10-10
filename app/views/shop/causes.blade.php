@@ -20,4 +20,9 @@
 	@endif
 
 	<?php $cnt++; ?>
+	<script type="text/javascript">
+		causes[{{$prod['product_id']}}] = {};
+		causes[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
+		causes[{{$prod['product_id']}}]['price'] = 0 ;
+	</script>
 @endforeach

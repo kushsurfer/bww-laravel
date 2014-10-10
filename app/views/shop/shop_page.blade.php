@@ -4,15 +4,20 @@
     @parent
     <title>Shop Page</title>
 @stop
+<script type="text/javascript">
+	var devices = {};
+ 	var plans = {};
+ 	var causes = {};
 
+</script>
 @section('content')
 	
-	<form action="" id="orderform" class="hide">
-		<input type="hidden" id="device" value="" >
-		<input type="hidden" id="plan" value="">
-		<input type="hidden" id="cause" value="">
-		<input type="hidden" id="account" value="">
-		<input type="hidden" id="cart" value="">
+	<form action="{{ URL::route('setOrderSet') }}" id="orderform" class="hide" method="post">
+		<input type="hidden" id="device" name="device" value="" >
+		<input type="hidden" id="plan" name="plan" value="">
+		<input type="hidden" id="cause" name="cause" value="">
+		<input type="hidden" id="orderset" name="orderset" value="0">
+		{{ Form::token() }}
 	</form>
 
 	<div class="panel panel-primary shoppanels">
@@ -40,6 +45,11 @@
 		   		@endif
 
 		   		<?php $cnt++; ?>
+		   		<script type="text/javascript">
+		   			devices[{{$prod['product_id']}}] = {};
+		   			devices[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
+		   			devices[{{$prod['product_id']}}]['price'] = '{{$prod['price'] }}' ;
+		   		</script>
 	   		@endforeach
   		</div>
 
