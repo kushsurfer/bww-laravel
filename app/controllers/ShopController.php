@@ -186,6 +186,10 @@ class ShopController extends BaseController
         var_dump(Session::get('ordesets'));
         
     }
+
+    /*public function testingCDRator(){
+        function processRequest($url, $params) { if(!is_array($params)) return false; $post_params = ""; foreach($params as $key => $val) { $post_params .= $post_params?"&":""; $post_params .= $key."=".$val; } $ch = curl_init(); curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); curl_setopt($ch, CURLOPT_URL, $url); curl_setopt($ch, CURLOPT_POST, 1); curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); curl_setopt($ch, CURLOPT_VERBOSE, 0); curl_setopt($ch, CURLOPT_TIMEOUT, 0); curl_setopt($ch, CURLOPT_HEADER, true); // 'true', for developer testing purpose curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params); $data = curl_exec($ch); if(curl_errno($ch)) print curl_error($ch); else curl_close($ch); return $data; } $url = 'http://Kunaki.com/XMLService.ASP'; $request = '<?xml version="1.0" encoding="utf-8"?><ShippingOptions><Country>United States</Country><State_Province>NY</State_Province><PostalCode>10004</PostalCode><Product><ProductId>XZZ1111111</ProductId><Quantity>2</Quantity></Product><Product><ProductId>PXZZ111112</ProductId><Quantity>3</Quantity></Product></ShippingOptions>'; $params = array('ShippingOptions' => $request);// key value pairs $response = processRequest($url, $params); print_r($response); - See more at: http://www.blogs.zeenor.com/it/php/how-to-send-xml-request-to-web-service-through-php.html#sthash.0mVYqnnv.dpuf
+    }*/
 }
 
 ?>  

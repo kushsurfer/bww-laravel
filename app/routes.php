@@ -37,6 +37,10 @@ Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 // });
 
 
+Route::get('/demotest', array('uses' => 'SController@demo', 'as' => 'demo'));
+Route::get('/checkdevice', array('uses' => 'SController@checkdevice', 'as' => 'checkdevice'));
+Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'testcon'));
+
 // Route::group(array('prefix' => '/forum'), function(){
 // 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));
 // 	Route::get('/category/{id}', array('uses' => 'ForumController@category', 'as' => 'forum-category'));

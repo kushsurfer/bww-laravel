@@ -122,6 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'AdamWathan\EloquentOAuth\EloquentOAuthServiceProvider',
+		// 'Artisaninweb\SoapWrapper\ServiceProvider'
 	),
 
 	/*
@@ -189,6 +190,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'OAuth' 		  => 'AdamWathan\EloquentOAuth\Facades\OAuth',
+		// 'SoapWrapper' => 'Artisaninweb\SoapWrapper\Facades\SoapWrapper'
 
 	),
 
