@@ -14,7 +14,7 @@
 	use NomadicBits\CDRatorSoapClient\Object\SharedService;
 
     use NomadicBits\DemoBundle\Entity\ByosdHandset;
-    use NomadicBits\DemoBundle\Model\Handset;
+    use Handset;
     use NomadicBits\DemoBundle\Model\ProductPlan;
 	
 	use NomadicBits\CDRatorSoapClient\Action\SignupSubscriptions;
@@ -23,8 +23,11 @@
 	use NomadicBits\CDRatorSoapClient\Action\OrderHandset;
     use NomadicBits\CDRatorSoapClient\Action\SubscribeProductOptions;
 
-    use Symfony\Component\Debug\Exception\ContextErrorException;
-    use Symfony\Component\HttpFoundation\Session\Session;
+    // use Symfony\Component\Debug\Exception\ContextErrorException;
+    // use Symfony\Component\HttpFoundation\Session\Session;
+
+    use Illuminate\Session\SessionManager;
+    use Illuminate\Encryption\Encrypter;
 	
 	class SignupCustomerModel
 	{
@@ -377,14 +380,16 @@
 		 * @return \NomadicBits\DemoBundle\Model\SignupCustomerModel the product configuration for the family product
 		 */
 		public static function getCurrentSignupCustomer($session) {
-			if ($session->has(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER)) {
-                return $session->get(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER);
+			if ($session::has(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER)) {
+                return $session::get(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER);
 			}
             return null;
 		}
 		
 		public static function saveCurrentSignupCustomer(SignupCustomerModel $signupCustomer, $session) {
-			$session->set(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER, $signupCustomer);
+            // $session->set(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER, $signupCustomer);
+			$session::put(SignupCustomerModel::CURRENT_SIGNUP_CUSTOMER, $signupCustomer);
+
 		}
 	}
 ?>

@@ -23,7 +23,7 @@ class PreviewTaxes extends BaseAction implements IBaseAction
     public $IsBusinessUser = false;
 	
 	protected function prepareRequest() {
-		$this->wsdlUrl = 'http://199.83.137.122:8021/workflow-soap/InvokerService?wsdl'; //Workaround to ensure the correct url being called
+		$this->wsdlUrl = 'http://172.21.40.101:8080/workflow-soap/InvokerService?wsdl'; //Workaround to ensure the correct url being called
 
         if (is_null($this->TaxDate)) {
             $this->TaxDate = date('c');

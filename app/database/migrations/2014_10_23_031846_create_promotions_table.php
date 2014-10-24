@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateForumCategoriesTable extends Migration {
+class CreatePromotionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,11 @@ class CreateForumCategoriesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('forum_categories', function(Blueprint $table){
-			$table->increments('id');
+		Schema::create('promotions', function(Blueprint $table){
+			$table->increments('promotionID');
 			$table->string('title');
-			$table->integer('group_id');
-			$table->integer('author_id');
+			$table->string('description');
+			$table->string('promo_code');
 			$table->timestamps();
 		});
 	}
@@ -28,7 +28,7 @@ class CreateForumCategoriesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('forum_categories');
+		Schema::drop('promotions');
 	}
 
 }
