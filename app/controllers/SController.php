@@ -23,13 +23,22 @@ class SController extends BaseController {
    
     public function testconnection(){
 
-        $optionsForRatePlan = new GetOptionsForRatePlan();
-        $optionsForRatePlan->ProductID = '201312240052364157';
-        $optionsForRatePlan->RatePlanID = '201312292352141290';
-        $response = $optionsForRatePlan->executeRequest();
-        echo "<pre>";
-        print_r($response);
-        echo "</pre>";
+        // $optionsForRatePlan = new GetOptionsForRatePlan();
+        // $optionsForRatePlan->ProductID = '201312240052364157';
+        // $optionsForRatePlan->RatePlanID = '201312292352141290';
+        // $response = $optionsForRatePlan->executeRequest();
+        // echo "<pre>";
+        // print_r($response);
+        // echo "</pre>";
+
+        $url = "http://bww-laravel.gfdev.net/direct_post.php";
+          $api_login_id = '3ZAdV2z4AnB';
+          $transaction_key = '42wT7f4ZJ5gJg7sU';
+          $md5_setting = '3ZAdV2z4AnB'; // Your MD5 Setting
+          $amount = "5.99";
+
+          AuthorizeNetDPM::directPostDemo($url, $api_login_id, $transaction_key, $amount, 
+        $md5_setting);
     }
 
 
@@ -234,6 +243,8 @@ class SController extends BaseController {
     public function processPayment(){
         echo 'Process payment here';
     }
+
+
 }
 
 

@@ -11,6 +11,7 @@ use NomadicBits\CDRatorSoapClient\Type\stringValueDTO;
 
 class PerformCsaCheck extends BaseAction implements IBaseAction
 {
+
 	public $ZipCode = null;
 	
 	protected function prepareRequest() {
@@ -26,4 +27,5 @@ class PerformCsaCheck extends BaseAction implements IBaseAction
 		$this->prepareRequest();
 		return $this->sendRequest();
 	}
+
 }
