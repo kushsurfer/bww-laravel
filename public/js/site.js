@@ -153,13 +153,20 @@ $(document).ready(function(){
 
 		var data = $('#addressForm').serialize();
 
+		$('#createAccount').siblings('.panel-body').append('<div class="loader" id="cloader"></div>');
+
 		$.ajax({
 			type: "POST",
 			url: $('#addressForm').attr('action'),
 			data: data,
             success  : function (resp) {
-                alert(resp);
-                $('#checkout').trigger('click');
+            	$( "#cloader" ).remove();
+                if(resp.contains("CDrator User successfully created")){
+                	$('#checkout').trigger('click');
+            	}else {
+            		alert(resp);
+            	}
+
             }
 		});
 

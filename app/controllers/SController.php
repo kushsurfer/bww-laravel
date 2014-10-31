@@ -256,38 +256,38 @@ class SController extends BaseController {
 
         $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
 
-        // $arrAddresses = array(
-        //         array(
-        //             "mode" => "shipping",
-        //             "firstname" => $signupCustomer->getUser()->FirstName,
-        //             "lastname" => $signupCustomer->getUser()->LastName,
-        //             "company" => $signupCustomer->getUser()->Company,
-        //             "street" => $signupCustomer->getUser()->Street,
-        //             "city" => $signupCustomer->getUser()->City,
-        //             // "region" => $signupCustomer->getUser()->,
-        //             "postcode" => $signupCustomer->getUser()->Zip,
-        //             "country_id" => $signupCustomer->getUser()->Country,
-        //             "telephone" => $signupCustomer->getUser()->Phone1,
-        //             "fax" => $signupCustomer->getUser()->Fax,
-        //             "is_default_shipping" => 0,
-        //             "is_default_billing" => 0
-        //         ),
-        //         array(
-        //             "mode" => "billing",
-        //             "firstname" => $signupCustomer->getUser()->FirstName,
-        //             "lastname" => $signupCustomer->getUser()->LastName,
-        //             "company" => $signupCustomer->getUser()->Company,
-        //             "street" => $signupCustomer->getUser()->Street,
-        //             "city" => $signupCustomer->getUser()->City,
-        //             // "region" => $signupCustomer->getUser()->,
-        //             "postcode" => $signupCustomer->getUser()->Zip,
-        //             "country_id" => $signupCustomer->getUser()->Country,
-        //             "telephone" => $signupCustomer->getUser()->Phone1,
-        //             // "fax" => "0123456789",
-        //             "is_default_shipping" => 0,
-        //             "is_default_billing" => 0
-        //         )
-        //     );
+        $arrAddresses = array(
+                array(
+                    "mode" => "shipping",
+                    "firstname" => $signupCustomer->getUser()->FirstName,
+                    "lastname" => $signupCustomer->getUser()->LastName,
+                    "company" => $signupCustomer->getUser()->Company,
+                    "street" => $signupCustomer->getUser()->Street,
+                    "city" => $signupCustomer->getUser()->City,
+                    // "region" => $signupCustomer->getUser()->,
+                    "postcode" => $signupCustomer->getUser()->Zip,
+                    "country_id" => $signupCustomer->getUser()->Country,
+                    "telephone" => $signupCustomer->getUser()->Phone1,
+                    "fax" => $signupCustomer->getUser()->Fax,
+                    "is_default_shipping" => 0,
+                    "is_default_billing" => 0
+                ),
+                array(
+                    "mode" => "billing",
+                    "firstname" => $signupCustomer->getUser()->FirstName,
+                    "lastname" => $signupCustomer->getUser()->LastName,
+                    "company" => $signupCustomer->getUser()->Company,
+                    "street" => $signupCustomer->getUser()->Street,
+                    "city" => $signupCustomer->getUser()->City,
+                    // "region" => $signupCustomer->getUser()->,
+                    "postcode" => $signupCustomer->getUser()->Zip,
+                    "country_id" => $signupCustomer->getUser()->Country,
+                    "telephone" => $signupCustomer->getUser()->Phone1,
+                    // "fax" => "0123456789",
+                    "is_default_shipping" => 0,
+                    "is_default_billing" => 0
+                )
+            );
 
    
         $customerAsGuest = array(
@@ -303,7 +303,7 @@ class SController extends BaseController {
         // var_dump($response);
         // echo '<br/><br/><br/>';
 
-        $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID);
+        $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
   
        
 
