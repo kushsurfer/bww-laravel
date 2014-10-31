@@ -24,7 +24,7 @@ class SoapController {
             new stringValueDTO('LANGUAGE', 'EN'),
             new stringValueDTO('OPERATOR', 'mbinder'),
             new stringValueDTO('PASSWORD', 'mbinder'),
-            new stringValueDTO('BRAND_KEY', 'BWW')
+            new stringValueDTO('BRAND_KEY', 'BWWTEST')
         );
         
         return new complexValueDTO('CONTEXT', $context);

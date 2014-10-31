@@ -12,8 +12,10 @@ $(document).ready(function(){
 		
 		$('.planselect').on('click', function(){
 			$('#plan').val($(this).attr('did'));
-			$('#causepanel').trigger('click');
+			$('#plandCode').val($(this).attr('sku'));
 
+			$('#causepanel').trigger('click');
+			
 
 			orderset[ordercnt]['planID'] = $(this).attr('did');
 		})
@@ -42,22 +44,22 @@ $(document).ready(function(){
 			});
 
 
-			if(confirm('Do you want to setup another device?')){
+			// if(confirm('Do you want to setup another device?')){
 
-				$('#plan').val('');
-				$('#cause').val('');
-				$('#device').val('');
+			// 	$('#plan').val('');
+			// 	$('#cause').val('');
+			// 	$('#device').val('');
 
-				$('#devicespanel').trigger('click');
+			// 	$('#devicespanel').trigger('click');
 
-				ordercnt++;
-				orderset[ordercnt] = {};
+			// 	ordercnt++;
+			// 	orderset[ordercnt] = {};
 				
-				$('#device').val(orderset);
+			// 	$('#device').val(orderset);
 
-			}else{
+			// }else{
 				$('#createAccount').trigger('click');
-			}
+			// }
 
 
 
@@ -133,18 +135,53 @@ $(document).ready(function(){
 		}
 		
 
-	})
+	});
 
 
 	$('.devicebutton').on('click', function(){
 
 		$('#device').val($(this).attr('did'));
+		// TODO : assign handset SKU to form address
 		$('#planpanel').trigger('click');
 
 		orderset[ordercnt]['deviceID'] = $(this).attr('did');
 			
 	
-	})
+	});
+
+	$('#submitAddress').on('click', function(){
+
+		var data = $('#addressForm').serialize();
+
+		$.ajax({
+			type: "POST",
+			url: $('#addressForm').attr('action'),
+			data: data,
+            success  : function (resp) {
+                alert(resp);
+                $('#checkout').trigger('click');
+            }
+		});
+
+			
+	
+	});
+
+
+	$('#checkout').on('click', function(){
+
+		    console.log(orderset);
+		// $.ajax({
+		// 	type: "GET",
+		// 	url: $('#addToCartUrl').val(),
+  //           success  : function (resp) {
+  //               console.log(resp);
+
+
+               
+  //           }
+		// });
+	});
 
 
 

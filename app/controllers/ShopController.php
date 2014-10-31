@@ -172,18 +172,18 @@ class ShopController extends BaseController
             'causeID' => Input::get('cause')
         );
 
-        if (Session::has('ordesets')) {
+        if (Session::has('orderset')) {
 
-            $sessionorders =  Session::get('ordesets');
+            $sessionorders =  Session::get('orderset');
             $ordersets = array_merge($ordersets,  $sessionorders);
 
-            Session::forget('ordesets'); // forget previous selected device
+            Session::forget('orderset'); // forget previous selected device
             
         }
         
-        Session::set('ordesets',  $ordersets);
+        Session::set('orderset',  $ordersets);
 
-        var_dump(Session::get('ordesets'));
+        var_dump(Session::get('orderset'));
         
     }
 

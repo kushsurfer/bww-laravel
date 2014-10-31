@@ -88,7 +88,7 @@ abstract class BaseAction
 		try {
 			$this->_SoapResponse = $this->_service->executeMethod($execMethod);
 			
-			echo 'Request : <br/><xmp>'. $this->_service->__getLastRequest(). '</xmp><br/><br/> Error Message : <br/>';
+			// echo 'Request : <br/><xmp>'. $this->_service->__getLastRequest(). '</xmp><br/><br/> Error Message : <br/>';
 			// var_dump($this->_SoapResponse->return);
 			//return $response->return;
 			return $this->convertResponse($this->_SoapResponse->return);

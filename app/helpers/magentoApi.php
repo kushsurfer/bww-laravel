@@ -117,16 +117,126 @@
 		public static function getProductBySKU($session, $sku){
 			
 			$result = self::$soap->call($session, 'catalog_product.info', 'setorder');
-			var_dump ($result);
-
+			
 			// If you don't need the session anymore
 			//$client->endSession($session);
+
+			return $result;
+
 		}
 
 
 		public static function getBundle($session){
 			$result = self::$soap->call($session, 'bundleapi.listitems', array());
 			var_dump ($result);
+		}
+
+
+
+		public static function createEmptyCart($sessionId){
+			
+			$shoppingCartIncrementId = self::$soap->call( $sessionId, 'cart.create', array('default'));
+
+			return $shoppingCartIncrementId;
+		}
+
+
+		public static function addProductToCart($session, $cart, $products){
+			$resultCartProductsAdd = self::$soap->call($session, "cart_product.add", array($cart, $products));
+
+			return $resultCartProductsAdd;
+		}
+
+		public static function addCustomerToCart($sessionId, $shoppingCartId, $customerAsGuest){
+
+			$resultCustomerSet =  self::$soap->call($sessionId, 'cart_customer.set', array( $shoppingCartId, $customerAsGuest) );
+
+			return $resultCustomerSet;
+
+		}
+
+		public static function addCustomerInfoToCart($session, $cartId){
+			$arrAddresses = array(
+			    array(
+			        "mode" => "shipping",
+			        "firstname" => "testFirstname",
+			        "lastname" => "testLastname",
+			        "company" => "testCompany",
+			        "street" => "testStreet",
+			        "city" => "testCity",
+			        "region" => "testRegion",
+			        "postcode" => "testPostcode",
+			        "country_id" => "id",
+			        "telephone" => "0123456789",
+			        "fax" => "0123456789",
+			        "is_default_shipping" => 0,
+			        "is_default_billing" => 0
+			    ),
+			    array(
+			        "mode" => "billing",
+			        "firstname" => "testFirstname",
+			        "lastname" => "testLastname",
+			        "company" => "testCompany",
+			        "street" => "testStreet",
+			        "city" => "testCity",
+			        "region" => "testRegion",
+			        "postcode" => "testPostcode",
+			        "country_id" => "id",
+			        "telephone" => "0123456789",
+			        "fax" => "0123456789",
+			        "is_default_shipping" => 0,
+			        "is_default_billing" => 0
+			    )
+			);
+
+
+			$response = self::$soap->call($session, "cart_customer.addresses", array($cartId, $arrAddresses));
+
+			return $response;
+
+		}
+
+		public static function getShippingMethod($sessionId, $cartId){
+
+			$result = self::$soap->call($sessionId, 'cart_shipping.list', $cartId);   
+
+			return $result;
+		}
+
+
+		public static function setShippingMethod($sessionId, $cartId){
+
+			$result = self::$soap->call($sessionId, 'cart_shipping.method', array($cartId, 'flatrate_flatrate'));
+			
+			return $result;
+		}
+
+		public static function getCartTotal($session, $cartId){
+			$total =  self::$soap->call($session,'cart.totals',array($cartId));
+
+			return $total;
+		}
+
+
+		public static function getPaymentList($session, $cartID){
+			$result = self::$soap->call($session, 'cart_payment.list', $cartID);
+			
+			return $result;
+		}
+
+
+		public static function addCartPaymentMethod($sessionId, $shoppingCartId, $paymentMethod){
+			$resultPaymentMethod = self::$soap->call($sessionId, "cart_payment.method", array($shoppingCartId, $paymentMethod));
+
+			return $resultPaymentMethod;
+		}
+
+
+		public static function createOrderFromCart($sessionId,  $shoppingCartId){
+
+			$resultOrderCreation = self::$soap->call($sessionId, "cart.order",  array($shoppingCartId));
+
+			return $resultOrderCreation;
 		}
 	}
 

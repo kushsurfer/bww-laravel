@@ -9,7 +9,7 @@
 			<!-- <span class="name"><a href="{{ URL::route('planDetail', $prod['product_id']) }}" class="selectshop">{{ $prod['name'] }}</a></span> -->
 			<br/><span class="price"> {{ '$' . number_format($prod['price'] , 2, '.', '') }}</span>
 			<br/>
-			<button type="button" class="btn btn-primary btn-sm planselect" did="{{ $prod['product_id'] }}">Select</button>
+			<button type="button" class="btn btn-primary btn-sm planselect" did="{{ $prod['product_id'] }}" sku="{{ $prod['sku'] }}">Select</button>
 		</p>
 		
 	</div>
