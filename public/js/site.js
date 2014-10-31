@@ -170,17 +170,15 @@ $(document).ready(function(){
 
 	$('#checkout').on('click', function(){
 
-		    console.log(orderset);
-		// $.ajax({
-		// 	type: "GET",
-		// 	url: $('#addToCartUrl').val(),
-  //           success  : function (resp) {
-  //               console.log(resp);
-
-
+		// console.log(orderset);
+		$.ajax({
+			type: "GET",
+			url: $('#addToCartUrl').val(),
+            success  : function (resp) {
                
-  //           }
-		// });
+            	$('#checkout').siblings('.panel-body').html(resp);               
+            }
+		});
 	});
 
 

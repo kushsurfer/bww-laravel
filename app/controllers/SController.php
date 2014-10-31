@@ -300,14 +300,12 @@ class SController extends BaseController {
                     );
 
         $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
-        var_dump($response);
-        echo '<br/><br/><br/>';
+        // var_dump($response);
+        // echo '<br/><br/><br/>';
 
         $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID);
   
-        // $response = MagentoAPI::getCartTotal($session_id, $cartID);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
+       
 
         // $response = MagentoAPI::getPaymentList($session_id, $cartID);
         // var_dump($response);
@@ -319,8 +317,8 @@ class SController extends BaseController {
         // echo '<br/><br/><br/>';
 
         $response = MagentoAPI::setShippingMethod($session_id, $cartID);
-        var_dump($response);
-        echo '<br/><br/><br/>';
+        // var_dump($response);
+        // echo '<br/><br/><br/>';
 
        $paymentMethod = array(
                         "po_number" => null,
@@ -333,13 +331,19 @@ class SController extends BaseController {
                     );
 
         $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
-        var_dump($response);
-        echo '<br/><br/><br/>';
+        // var_dump($response);
+        // echo '<br/><br/><br/>';
 
 
         $response = MagentoAPI::createOrderFromCart($session_id, $cartID);
-        var_dump($response);
-        echo '<br/><br/><br/>';
+        // var_dump($response);
+        // echo '<br/><br/><br/>';
+
+        $response = MagentoAPI::getCartTotal($session_id, $cartID);
+        foreach($response as $res){
+            echo $res['title'].': '.$res['amount'].'<br/>';
+        }
+       
 
 
     }
