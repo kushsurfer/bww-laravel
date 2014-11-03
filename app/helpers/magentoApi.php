@@ -156,39 +156,42 @@
 		}
 
 		public static function addCustomerInfoToCart($session, $cartId, $arrAddresses){
-			// $arrAddresses = array(
-			//     array(
-			//         "mode" => "shipping",
-			//         "firstname" => "testFirstname",
-			//         "lastname" => "testLastname",
-			//         "company" => "testCompany",
-			//         "street" => "testStreet",
-			//         "city" => "testCity",
-			//         "region" => "testRegion",
-			//         "postcode" => "testPostcode",
-			//         "country_id" => "id",
-			//         "telephone" => "0123456789",
-			//         "fax" => "0123456789",
-			//         "is_default_shipping" => 0,
-			//         "is_default_billing" => 0
-			//     ),
-			//     array(
-			//         "mode" => "billing",
-			//         "firstname" => "testFirstname",
-			//         "lastname" => "testLastname",
-			//         "company" => "testCompany",
-			//         "street" => "testStreet",
-			//         "city" => "testCity",
-			//         "region" => "testRegion",
-			//         "postcode" => "testPostcode",
-			//         "country_id" => "id",
-			//         "telephone" => "0123456789",
-			//         "fax" => "0123456789",
-			//         "is_default_shipping" => 0,
-			//         "is_default_billing" => 0
-			//     )
-			// );
 
+			if(count($arrAddresses) == 0){
+				$arrAddresses = array(
+				    array(
+				        "mode" => "shipping",
+				        "firstname" => "testFirstname",
+				        "lastname" => "testLastname",
+				        "company" => "testCompany",
+				        "street" => "testStreet",
+				        "city" => "testCity",
+				        "region" => "testRegion",
+				        "postcode" => "testPostcode",
+				        "country_id" => "id",
+				        "telephone" => "0123456789",
+				        "fax" => "0123456789",
+				        "is_default_shipping" => 0,
+				        "is_default_billing" => 0
+				    ),
+				    array(
+				        "mode" => "billing",
+				        "firstname" => "testFirstname",
+				        "lastname" => "testLastname",
+				        "company" => "testCompany",
+				        "street" => "testStreet",
+				        "city" => "testCity",
+				        "region" => "testRegion",
+				        "postcode" => "testPostcode",
+				        "country_id" => "id",
+				        "telephone" => "0123456789",
+				        "fax" => "0123456789",
+				        "is_default_shipping" => 0,
+				        "is_default_billing" => 0
+				    )
+				);
+
+			}
 
 			$response = self::$soap->call($session, "cart_customer.addresses", array($cartId, $arrAddresses));
 

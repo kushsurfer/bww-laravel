@@ -23,7 +23,7 @@ class SController extends BaseController {
    
 
     public function setAddress(){
-        
+        // exit;
         $frminput = Input::get();
 
         $session = new Session();
@@ -289,7 +289,8 @@ class SController extends BaseController {
                 )
             );
 
-   
+        // $arrAddresses = null;
+
         $customerAsGuest = array(
                         "firstname" => "Retchel",
                         "lastname" => "Tapayan",
@@ -335,19 +336,38 @@ class SController extends BaseController {
         // echo '<br/><br/><br/>';
 
 
-        $response = MagentoAPI::createOrderFromCart($session_id, $cartID);
+        $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
         // var_dump($response);
         // echo '<br/><br/><br/>';
 
+        $grandtotal = 0;
         $response = MagentoAPI::getCartTotal($session_id, $cartID);
         foreach($response as $res){
             echo $res['title'].': '.$res['amount'].'<br/>';
+
+            if($res['title'] == 'Grand Total'){
+                $grandtotal = $res['amount'];
+            }
+
         }
        
 
+        // $savePaymentRequest = new SavePayment();
+        // $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+        // $savePaymentRequest->Amount = $grandtotal;
+        // $savePaymentRequest->PaymentDate = date('YmD');
+        // $savePaymentRequest->PaymentReference = $orderID;
+        // $savePaymentRequest->PaymentCaptured = $isCaptured;
+        // $savePaymentRequest->TransactionID = $transactionID;
+        // $savePaymentRequest->executeRequest();
 
     }
 
+
+    // public function savePayment(){
+
+
+    // }
 
 
     public function testconnection(){
