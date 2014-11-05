@@ -47,14 +47,28 @@
         public static function refreshList() {
             $handsetList = null;
 
-            $data = Handsets::all();
+            $data = Handset::getDisplayProductsByCatname();
+
                       
             foreach($data as $handset) {
-                $handsetList[$handset->rator_product_id] = new Handset($handset->rator_product_id, $handset->phone_name, $handset->price, $handset->ltecapable, $handset->customer_care_only, $handset->shipping_fee);
+                $handsetList[$handset['sku']] = new Handset($handset['sku'], $handset['name'], $handset['price'], $handset['ltecapable'], $handset['customer_care_only'], $handset['shipping_per_product']);
            }
 
             //apc_add(Handset::CACHE_KEY, $handsetList, 3600);
 			return $handsetList;
+        }
+
+        public static function getDisplayProductsByCatname($catname = 'Devices'){
+
+            $session_id = MagentoAPI::initialize();
+
+            $catID = MagentoAPI::getCategoryID($session_id, $catname);
+
+            $productIDs = MagentoAPI::getProductIDsByCategory($session_id, $catID);
+
+            $resources = MagentoAPI::getProductDetailsByIDs($session_id, $productIDs);
+
+            return $resources;
         }
 
         /**
@@ -72,7 +86,7 @@
          */
         public static function getHandsetFromID($identifier, $refresh = false) {
             $handsetList = Handset::getHandsetList();
-
+            
             if (array_key_exists($identifier, $handsetList)) {
                 return $handsetList[$identifier];
             } else {

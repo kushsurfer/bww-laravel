@@ -17,6 +17,8 @@ use NomadicBits\CDRatorSoapClient\Object\UpdateUser;
 use NomadicBits\CDRatorSoapClient\Action\UpdateUser as UpdateUserRequest;
 
 use NomadicBits\DemoBundle\Model\AuthorizeNet;
+use NomadicBits\CDRatorSoapClient\Action\SavePayment;
+use NomadicBits\CDRatorSoapClient\Action\AddCharge;
 
 class SController extends BaseController {
 
@@ -55,6 +57,8 @@ class SController extends BaseController {
         if ($handsetID != null) {
             $signupCustomer->setHandset($handsetID);
         }
+
+
 
         if ($meid != null) {
             $repository = $this->getDoctrine()->getManager()->getRepository('NomadicBitsDemoBundle:ByosdHandset');
@@ -121,7 +125,37 @@ class SController extends BaseController {
             // TODO : render error message zipcode not acceptable
         }
 
+
+
+        // save customer information to database        
+        $customer = new Customers;
         // form values
+        $customer->firstname = $frminput['signup']['FirstName'];
+        $customer->lastname = $frminput['signup']['LastName'];
+        $customer->email_address = $frminput['signup']['Email'];
+        $customer->phone = '';
+        $customer->street_address = $frminput['signup']['Street'];
+        $customer->city = $frminput['signup']['City'];
+        $customer->zipcode = $frminput['signup']['Zip'];
+        $customer->state = $frminput['signup']['State'];
+        $customer->country = $frminput['signup']['Country'];
+        $customer->dob = '';
+        $customer->employment = '';
+        $customer->education = '';
+        $customer->hometown = '';
+        $customer->relationship = ''; 
+        $customer->likes = '';
+        $customer->shipping_address =  $frminput['signup']['Street'];
+        $customer->shipping_state = $frminput['signup']['State'];
+        $customer->shipping_zip = $frminput['signup']['Zip'];
+        $customer->username = $frminput['signup']['Username'];
+        $customer->password = '';
+        $customer->subscription_date = date('Y-m-d H:i:s');
+        $customer->customerStaatus = 'Pending';
+        $customer->save();
+
+        Session::put('customerID', $customer->id);
+
 
         $user->Company = $frminput['signup']['Company'];
         $user->FirstName = $frminput['signup']['FirstName'];
@@ -218,149 +252,228 @@ class SController extends BaseController {
 
     public function addToCart(){
         
+        if(Session::has('orderset')){
 
-        $session = new Session();
+            // session order selections
+            $orderset = Session::get('orderset');
 
-        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+            $session = new Session();
 
-        // session order selections
-        $orderset = Session::get('orderset');
+            $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
 
-        $session_id = MagentoAPI::initialize();
-        
-        $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
-        $prodID = $bundleProd['product_id'];
+            
+            $session_id = MagentoAPI::initialize();
+            
+            $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
+            $prodID = $bundleProd['product_id'];
 
-        $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID=21');
-        $options = json_decode($homepage);
+            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID=21');
+            $options = json_decode($homepage);
 
-        $products = array();
+            $products = array();
 
-        foreach( $orderset as $order){
+            foreach( $orderset as $order){
 
-           
-            $products []= array(
-                "product_id"    =>  $prodID,
-                "qty"           => "1",
-                "bundle_option" => array(
-                                $options->Device->option_id => $options->Device->prodIDs->$order['deviceID'], 
-                                $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$order['planID'], 
-                                $options->Causes->option_id => $options->Causes->prodIDs->$order['causeID'], 
+               
+                $products []= array(
+                    "product_id"    =>  $prodID,
+                    "qty"           => "1",
+                    "bundle_option" => array(
+                                    $options->Device->option_id => $options->Device->prodIDs->$order['deviceID'], 
+                                    $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$order['planID'], 
+                                    $options->Causes->option_id => $options->Causes->prodIDs->$order['causeID'], 
 
-                                )
-                );
-        }
-
-        $cartID = MagentoAPI::createEmptyCart($session_id);
-        
-
-        $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
-
-        $arrAddresses = array(
-                array(
-                    "mode" => "shipping",
-                    "firstname" => $signupCustomer->getUser()->FirstName,
-                    "lastname" => $signupCustomer->getUser()->LastName,
-                    "company" => $signupCustomer->getUser()->Company,
-                    "street" => $signupCustomer->getUser()->Street,
-                    "city" => $signupCustomer->getUser()->City,
-                    // "region" => $signupCustomer->getUser()->,
-                    "postcode" => $signupCustomer->getUser()->Zip,
-                    "country_id" => $signupCustomer->getUser()->Country,
-                    "telephone" => $signupCustomer->getUser()->Phone1,
-                    "fax" => $signupCustomer->getUser()->Fax,
-                    "is_default_shipping" => 0,
-                    "is_default_billing" => 0
-                ),
-                array(
-                    "mode" => "billing",
-                    "firstname" => $signupCustomer->getUser()->FirstName,
-                    "lastname" => $signupCustomer->getUser()->LastName,
-                    "company" => $signupCustomer->getUser()->Company,
-                    "street" => $signupCustomer->getUser()->Street,
-                    "city" => $signupCustomer->getUser()->City,
-                    // "region" => $signupCustomer->getUser()->,
-                    "postcode" => $signupCustomer->getUser()->Zip,
-                    "country_id" => $signupCustomer->getUser()->Country,
-                    "telephone" => $signupCustomer->getUser()->Phone1,
-                    // "fax" => "0123456789",
-                    "is_default_shipping" => 0,
-                    "is_default_billing" => 0
-                )
-            );
-
-        // $arrAddresses = null;
-
-        $customerAsGuest = array(
-                        "firstname" => "Retchel",
-                        "lastname" => "Tapayan",
-                        "email" => "rtapayan@global-fusion.net",
-                        "website_id" => "0",
-                        "store_id" => "0",
-                        "mode" => "guest"
+                                    )
                     );
-
-        $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-        $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
-  
-       
-
-        // $response = MagentoAPI::getPaymentList($session_id, $cartID);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-
-        // $response = MagentoAPI::getShippingMethod($session_id, $cartID);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-        $response = MagentoAPI::setShippingMethod($session_id, $cartID);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-       $paymentMethod = array(
-                        "po_number" => null,
-                        "method" => 'authorizenet_directpost',
-                        "cc_type" => 'DI',
-                        "cc_number" =>'6011000000000012',
-                        "cc_exp_month" => 12,
-                        "cc_exp_year" => 2014,
-                        "cc_cid" => 123     
-                    );
-
-        $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-
-        $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
-        // var_dump($response);
-        // echo '<br/><br/><br/>';
-
-        $grandtotal = 0;
-        $response = MagentoAPI::getCartTotal($session_id, $cartID);
-        foreach($response as $res){
-            echo $res['title'].': '.$res['amount'].'<br/>';
-
-            if($res['title'] == 'Grand Total'){
-                $grandtotal = $res['amount'];
             }
 
+            // forget orderset
+            Session::forget('orderset');
+
+            $cartID = MagentoAPI::createEmptyCart($session_id);
+            
+
+            $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
+
+            $arrAddresses = array(
+                    array(
+                        "mode" => "shipping",
+                        "firstname" => $signupCustomer->getUser()->FirstName,
+                        "lastname" => $signupCustomer->getUser()->LastName,
+                        "company" => $signupCustomer->getUser()->Company,
+                        "street" => $signupCustomer->getUser()->Street,
+                        "city" => $signupCustomer->getUser()->City,
+                        // "region" => $signupCustomer->getUser()->,
+                        "postcode" => $signupCustomer->getUser()->Zip,
+                        "country_id" => $signupCustomer->getUser()->Country,
+                        "telephone" => $signupCustomer->getUser()->Phone1,
+                        "fax" => $signupCustomer->getUser()->Fax,
+                        "is_default_shipping" => 0,
+                        "is_default_billing" => 0
+                    ),
+                    array(
+                        "mode" => "billing",
+                        "firstname" => $signupCustomer->getUser()->FirstName,
+                        "lastname" => $signupCustomer->getUser()->LastName,
+                        "company" => $signupCustomer->getUser()->Company,
+                        "street" => $signupCustomer->getUser()->Street,
+                        "city" => $signupCustomer->getUser()->City,
+                        // "region" => $signupCustomer->getUser()->,
+                        "postcode" => $signupCustomer->getUser()->Zip,
+                        "country_id" => $signupCustomer->getUser()->Country,
+                        "telephone" => $signupCustomer->getUser()->Phone1,
+                        // "fax" => "0123456789",
+                        "is_default_shipping" => 0,
+                        "is_default_billing" => 0
+                    )
+                );
+
+            // $arrAddresses = null;
+
+            $customerAsGuest = array(
+                            "firstname" => "Retchel",
+                            "lastname" => "Tapayan",
+                            "email" => "rtapayan@global-fusion.net",
+                            "website_id" => "0",
+                            "store_id" => "0",
+                            "mode" => "guest"
+                        );
+
+            $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
+            // var_dump($response);
+            // echo '<br/><br/><br/>';
+
+            $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
+      
+           
+
+            // $response = MagentoAPI::getPaymentList($session_id, $cartID);
+            // var_dump($response);
+            // echo '<br/><br/><br/>';
+
+
+            // $response = MagentoAPI::getShippingMethod($session_id, $cartID);
+            // var_dump($response);
+            // echo '<br/><br/><br/>';
+
+            $response = MagentoAPI::setShippingMethod($session_id, $cartID);
+            // var_dump($response);
+            // echo '<br/><br/><br/>';
+
+           $paymentMethod = array(
+                            "po_number" => null,
+                            "method" => 'authorizenet_directpost',
+                            "cc_type" => 'DI',
+                            "cc_number" =>'6011000000000012',
+                            "cc_exp_month" => 12,
+                            "cc_exp_year" => 2014,
+                            "cc_cid" => 123     
+                        );
+
+            $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
+            // var_dump($response);
+            // echo '<br/><br/><br/>';
+
+
+            $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
+
+            echo '<br/> Order created in Magento';
+           
+            if($orderID != 0){
+
+                $signupCustomer->AuthNetCustomerProfileID = $orderID; // set orderID from magento 
+             
+                $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+                $transactionID =  $response['payment']['last_trans_id'];
+
+                echo 'SubTotal: '. $response['base_subtotal'].'<br/>';
+                echo 'Shipping & Handling (Flat Rate - Fixed): '. $response['shipping_amount'].'<br/>';
+                echo 'Grand Total: '. $response['grand_total'].'<br/>';
+              
+                if($response['status'] == 'pending_payment'){
+                    $invoiceID = MagentoAPI::createInvoice($session_id, $orderID);
+
+                    echo '<br/> Invoice created in Magento';
+                   
+                    $paid = MagentoAPI::captureInvoice($session_id, $invoiceID);
+
+                   
+
+                    $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+
+                    $transactionID =  $response['payment']['last_trans_id'];
+
+                    $shippingFee = $response['shipping_amount'];
+
+                }
+
+                $signupCustomer->AuthNetPaymentProfileID = $transactionID; // set transaction ID as paymentProfile ID from Magento
+
+                
+                // if($paid){
+
+                //     echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+
+                //     // save payment to CDRator API
+                //     $savePaymentRequest = new SavePayment();
+                //     $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                //     $savePaymentRequest->Amount = $grandtotal; // symfony - included plan rate 
+                //     $savePaymentRequest->PaymentDate = date('YmD');
+                //     $savePaymentRequest->PaymentReference = $orderID; 
+                //     $savePaymentRequest->PaymentCaptured = true;
+                //     $savePaymentRequest->TransactionID = $transactionID;
+                //     $savePaymentRequest->executeRequest();
+
+                //     //TODO: Find out cost for Handset and what OrderID to use
+                //     $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $shippingFee : 6.25; //6.25 is the byosd "import" fee
+                //     $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
+
+                //     $signupCustomer->signupSubscription();
+                //     $signupCustomer->createRechargeTicket();
+                //     if (!$signupCustomer->isByosd()) {
+                //         $signupCustomer->orderHandset();
+                //     }
+
+                //     $addChargeRequest = new AddCharge();
+                //     $addChargeRequest->Amount = $handsetCost;
+                //     $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                //     if ($signupCustomer->isByosd()) {
+                //         $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
+                //     } else {
+                //         $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
+                //     }
+
+                //     $addChargeRequest->setChargeItemID('201406141600076507');
+                //     $response = $addChargeRequest->executeRequest();
+
+                //     if (!is_null($signupCustomer->getHandset()) && $shippingFee > 0) {
+                //         $addChargeRequest = new AddCharge();
+                //         $addChargeRequest->Amount = $shippingFee;
+                //         $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                //         $addChargeRequest->Description = "Handset shipping fee";
+                //         $addChargeRequest->setChargeItemID('201406141600076507');
+                //         $response = $addChargeRequest->executeRequest();
+                //     }
+
+                //     if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
+                //         $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
+
+                //         $addChargeRequest = new AddCharge();
+                //         $addChargeRequest->Amount = 20;
+                //         $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                //         $addChargeRequest->Description = $chargeDescription;
+                //         $addChargeRequest->setChargeItemID('201406141600076507');
+                //         $response = $addChargeRequest->executeRequest();
+                //    }
+
+                //    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+
+                //    echo 'Order is complete!';
+                // }
+            }
+        }else{
+            echo 'Select Device, Plan and Cause first';
         }
-       
-
-        // $savePaymentRequest = new SavePayment();
-        // $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-        // $savePaymentRequest->Amount = $grandtotal;
-        // $savePaymentRequest->PaymentDate = date('YmD');
-        // $savePaymentRequest->PaymentReference = $orderID;
-        // $savePaymentRequest->PaymentCaptured = $isCaptured;
-        // $savePaymentRequest->TransactionID = $transactionID;
-        // $savePaymentRequest->executeRequest();
-
     }
 
 
@@ -580,6 +693,45 @@ class SController extends BaseController {
 
     public function processPayment(){
         echo 'Process payment here';
+    }
+
+     public function confirmationAction(Request $request) {
+        $session = new Session();
+        
+        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+
+        $getWebUserRequest = new GetWebUserProfileInternal();
+        $getWebUserRequest->CustomerNumber = $signupCustomer->getCustomerNumber();
+        $response = $getWebUserRequest->executeRequest();
+        $userManager = null;
+
+        if ($response['errorCode'] == '0' && array_key_exists('ROLE', $response) && $response['ROLE'] != '') {
+            $userManager = new UserManager($response);
+
+            //If the signup is Byosd try and activate right away. Display confirmation / error and send email on error
+            if ($signupCustomer->isByosd() && !$signupCustomer->isActivated()) {
+                $activateRequest = new ActivateSubscription();
+                $activateRequest->SubscriptionID = $userManager->getCurrentSubscription()->getID();
+                $activateRequest->MEID = $signupCustomer->getMEID();
+                $activateResponse = $activateRequest->executeRequest();
+                echo "<pre>";
+                echo $activateRequest->getLastRequest();
+                print_r($activateResponse);
+                echo "</pre>";
+                if ($activateResponse['errorCode'] == '0') {
+                    $signupCustomer->setActivated();
+                    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+                }
+            }
+        }
+        
+        return $this->render('NomadicBitsDemoBundle:Signup:confirmation.html.twig', array(
+            'signupCustomer' => $signupCustomer,
+            'userManager' => $userManager,
+            'user' => $signupCustomer->getUser(),
+            'handset' => $signupCustomer->getHandset(),
+            'productPlan' => $signupCustomer->getProductPlan()
+        )); 
     }
 
     

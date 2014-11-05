@@ -237,9 +237,54 @@
 
 		public static function createOrderFromCart($sessionId,  $shoppingCartId){
 
-			$resultOrderCreation = self::$soap->call($sessionId, "cart.order",  array($shoppingCartId));
+			try{
+				$resultOrderCreation = self::$soap->call($sessionId, "cart.order",  array($shoppingCartId));
+			}catch (SoapFault $e){
+				$resultOrderCreation = 0; // no order number returned
+			}catch (\Exception $e){
+				$resultOrderCreation = 0; // no order number returned
+			}
 
 			return $resultOrderCreation;
+		}
+
+
+		public static function getOrderInfo($session, $orderID){
+
+			$result = self::$soap->call($session, 'sales_order.info', $orderID);
+			
+			return $result;
+
+			
+		}
+
+
+		public static function createInvoice($session, $orderIncrementId){
+			//Create invoice for order
+			$invoiceIncrementId = self::$soap->call(
+			    $session,
+			    'sales_order_invoice.create',
+			    array(
+			        'orderIncrementId' => $orderIncrementId,
+			        array('order_item_id' => '15', 'qty' => '1')
+			    )
+			);
+
+			return $invoiceIncrementId;
+
+		}
+
+
+		public static function captureInvoice($session, $invoiceIncrementId){
+
+			//Capture invoice amount
+			$result = self::$soap->call(
+			    $session,
+			    'sales_order_invoice.capture',
+			    $invoiceIncrementId
+			);
+
+			return $result;
 		}
 	}
 

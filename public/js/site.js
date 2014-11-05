@@ -145,6 +145,7 @@ $(document).ready(function(){
 		$('#planpanel').trigger('click');
 
 		orderset[ordercnt]['deviceID'] = $(this).attr('did');
+		$('#handsetID').val($(this).attr('sku'))
 			
 	
 	});

@@ -280,7 +280,7 @@
 				
 			$signupSubscriptions = new SignupSubscriptions();
 			$signupSubscriptions->addCDMAService($cdmaService); //This is always CDMA Service, as a workflow creates the shared service (if necessary)
-			$signupSubscriptions->ProductCode = 'BWW';
+			$signupSubscriptions->ProductCode = 'BWWTEST';
 			$signupSubscriptions->AccountID = $this->getAccountID();
 			$signupSubscriptions->BillingGroupID = $this->getBillingGroupID();
 			$signupSubscriptions->OwnerID = $this->getOwnerID();

@@ -26,30 +26,32 @@
 		<div class="panel-body">
 			<?php $cnt = 1 ?>
 			@foreach ($products as $prod)
-		   		<div class="col-xs-3 col-sm-3 col-md-3">
-		   			<a href="{{ URL::route('deviceDetail', $prod['product_id']) }}" class="selectshop">
-		   				<span class="name">{{ $prod['name'] }}</span><br/><br/>
-		   				<img src="{{ $prod['images'][0] }}" width="65%"/>
-		   			</a><br/>
-		   			<p class="pricedetails">
-		   				<span class="decription"> {{ $prod['short_description'] }}</span>
-		   				<br/><span class="price"> {{ '$' . number_format($prod['price'] , 2, '.', '') }}</span>
-		   				<br/>
-		   				<button type="button" class="btn btn-primary btn-sm devicebutton" did="{{ $prod['product_id'] }}">Select</button>
-		   			</p>
-		   			
-		   		</div>
-		   		@if($cnt == 4)
-		   			<div class="clearfix"></div><br/><br/>
-		   			<?php $cnt = 0 ?>
-		   		@endif
+				@if( $prod['sku'] != 'BYOD')
+			   		<div class="col-xs-3 col-sm-3 col-md-3">
+			   			<a href="{{ URL::route('deviceDetail', $prod['product_id']) }}" class="selectshop">
+			   				<span class="name">{{ $prod['name'] }}</span><br/><br/>
+			   				<img src="{{ $prod['images'][0] }}" width="65%"/>
+			   			</a><br/>
+			   			<p class="pricedetails">
+			   				<span class="decription"> {{ $prod['short_description'] }}</span>
+			   				<br/><span class="price"> {{ '$' . number_format($prod['price'] , 2, '.', '') }}</span>
+			   				<br/>
+			   				<button type="button" class="btn btn-primary btn-sm devicebutton" did="{{ $prod['product_id'] }}" sku="{{ $prod['sku'] }}">Select</button>
+			   			</p>
+			   			
+			   		</div>
+			   		@if($cnt == 4)
+			   			<div class="clearfix"></div><br/><br/>
+			   			<?php $cnt = 0 ?>
+			   		@endif
 
-		   		<?php $cnt++; ?>
-		   		<script type="text/javascript">
-		   			devices[{{$prod['product_id']}}] = {};
-		   			devices[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
-		   			devices[{{$prod['product_id']}}]['price'] = '{{$prod['price'] }}' ;
-		   		</script>
+			   		<?php $cnt++; ?>
+			   		<script type="text/javascript">
+			   			devices[{{$prod['product_id']}}] = {};
+			   			devices[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
+			   			devices[{{$prod['product_id']}}]['price'] = '{{$prod['price'] }}' ;
+			   		</script>
+		   		@endif
 	   		@endforeach
   		</div>
 
@@ -77,7 +79,7 @@
 	   		<div class="row">
 				<div class="span12">
 					<form class="well form-horizontal" id="addressForm" method="post" action="{{ URL::route('setAddress') }}">
-						<input type="hidden" name="handsetID" id="handsetID" value="SAM-SPHM580"/>
+						<input type="hidden" name="handsetID" id="handsetID" value=""/>
 						<input type="hidden" name="plandCode" id="plandCode" value=""/>
 						<input type="hidden" name="causeID" id="causeID" value=""/>
 						<legend>Address Information</legend>
