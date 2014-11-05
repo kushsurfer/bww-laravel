@@ -303,10 +303,10 @@ class SController extends BaseController {
                         "company" => $signupCustomer->getUser()->Company,
                         "street" => $signupCustomer->getUser()->Street,
                         "city" => $signupCustomer->getUser()->City,
-                        // "region" => $signupCustomer->getUser()->,
+                        "region" => $signupCustomer->getUser()->State,
                         "postcode" => $signupCustomer->getUser()->Zip,
                         "country_id" => $signupCustomer->getUser()->Country,
-                        "telephone" => $signupCustomer->getUser()->Phone1,
+                        "telephone" => '0123456789',//$signupCustomer->getUser()->Phone1,
                         "fax" => $signupCustomer->getUser()->Fax,
                         "is_default_shipping" => 0,
                         "is_default_billing" => 0
@@ -318,10 +318,10 @@ class SController extends BaseController {
                         "company" => $signupCustomer->getUser()->Company,
                         "street" => $signupCustomer->getUser()->Street,
                         "city" => $signupCustomer->getUser()->City,
-                        // "region" => $signupCustomer->getUser()->,
+                        "region" => $signupCustomer->getUser()->State,
                         "postcode" => $signupCustomer->getUser()->Zip,
                         "country_id" => $signupCustomer->getUser()->Country,
-                        "telephone" => $signupCustomer->getUser()->Phone1,
+                        "telephone" => '0123456789',
                         // "fax" => "0123456789",
                         "is_default_shipping" => 0,
                         "is_default_billing" => 0
@@ -331,9 +331,9 @@ class SController extends BaseController {
             // $arrAddresses = null;
 
             $customerAsGuest = array(
-                            "firstname" => "Retchel",
-                            "lastname" => "Tapayan",
-                            "email" => "rtapayan@global-fusion.net",
+                            "firstname" => $signupCustomer->getUser()->FirstName,
+                            "lastname" => $signupCustomer->getUser()->LastName,
+                            "email" => $signupCustomer->getUser()->Email,
                             "website_id" => "0",
                             "store_id" => "0",
                             "mode" => "guest"
