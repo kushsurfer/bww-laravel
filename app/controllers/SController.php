@@ -410,66 +410,66 @@ class SController extends BaseController {
                 $signupCustomer->AuthNetPaymentProfileID = $transactionID; // set transaction ID as paymentProfile ID from Magento
 
                 
-                // if($paid){
+                if($paid){
 
-                //     echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+                    echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
 
-                //     // save payment to CDRator API
-                //     $savePaymentRequest = new SavePayment();
-                //     $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                //     $savePaymentRequest->Amount = $grandtotal; // symfony - included plan rate 
-                //     $savePaymentRequest->PaymentDate = date('YmD');
-                //     $savePaymentRequest->PaymentReference = $orderID; 
-                //     $savePaymentRequest->PaymentCaptured = true;
-                //     $savePaymentRequest->TransactionID = $transactionID;
-                //     $savePaymentRequest->executeRequest();
+                    // save payment to CDRator API
+                    $savePaymentRequest = new SavePayment();
+                    $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                    $savePaymentRequest->Amount = $grandtotal; // symfony - included plan rate 
+                    $savePaymentRequest->PaymentDate = date('YmD');
+                    $savePaymentRequest->PaymentReference = $orderID; 
+                    $savePaymentRequest->PaymentCaptured = true;
+                    $savePaymentRequest->TransactionID = $transactionID;
+                    $savePaymentRequest->executeRequest();
 
-                //     //TODO: Find out cost for Handset and what OrderID to use
-                //     $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $shippingFee : 6.25; //6.25 is the byosd "import" fee
-                //     $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
+                    //TODO: Find out cost for Handset and what OrderID to use
+                    $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $shippingFee : 6.25; //6.25 is the byosd "import" fee
+                    $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
 
-                //     $signupCustomer->signupSubscription();
-                //     $signupCustomer->createRechargeTicket();
-                //     if (!$signupCustomer->isByosd()) {
-                //         $signupCustomer->orderHandset();
-                //     }
+                    $signupCustomer->signupSubscription();
+                    $signupCustomer->createRechargeTicket();
+                    if (!$signupCustomer->isByosd()) {
+                        $signupCustomer->orderHandset();
+                    }
 
-                //     $addChargeRequest = new AddCharge();
-                //     $addChargeRequest->Amount = $handsetCost;
-                //     $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                //     if ($signupCustomer->isByosd()) {
-                //         $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
-                //     } else {
-                //         $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
-                //     }
+                    $addChargeRequest = new AddCharge();
+                    $addChargeRequest->Amount = $handsetCost;
+                    $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                    if ($signupCustomer->isByosd()) {
+                        $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
+                    } else {
+                        $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
+                    }
 
-                //     $addChargeRequest->setChargeItemID('201406141600076507');
-                //     $response = $addChargeRequest->executeRequest();
+                    $addChargeRequest->setChargeItemID('201406141600076507');
+                    $response = $addChargeRequest->executeRequest();
 
-                //     if (!is_null($signupCustomer->getHandset()) && $shippingFee > 0) {
-                //         $addChargeRequest = new AddCharge();
-                //         $addChargeRequest->Amount = $shippingFee;
-                //         $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                //         $addChargeRequest->Description = "Handset shipping fee";
-                //         $addChargeRequest->setChargeItemID('201406141600076507');
-                //         $response = $addChargeRequest->executeRequest();
-                //     }
+                    if (!is_null($signupCustomer->getHandset()) && $shippingFee > 0) {
+                        $addChargeRequest = new AddCharge();
+                        $addChargeRequest->Amount = $shippingFee;
+                        $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                        $addChargeRequest->Description = "Handset shipping fee";
+                        $addChargeRequest->setChargeItemID('201406141600076507');
+                        $response = $addChargeRequest->executeRequest();
+                    }
 
-                //     if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
-                //         $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
+                    if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
+                        $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
 
-                //         $addChargeRequest = new AddCharge();
-                //         $addChargeRequest->Amount = 20;
-                //         $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                //         $addChargeRequest->Description = $chargeDescription;
-                //         $addChargeRequest->setChargeItemID('201406141600076507');
-                //         $response = $addChargeRequest->executeRequest();
-                //    }
+                        $addChargeRequest = new AddCharge();
+                        $addChargeRequest->Amount = 20;
+                        $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                        $addChargeRequest->Description = $chargeDescription;
+                        $addChargeRequest->setChargeItemID('201406141600076507');
+                        $response = $addChargeRequest->executeRequest();
+                   }
 
-                //    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+                   SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
 
-                //    echo 'Order is complete!';
-                // }
+                   echo 'Order is complete!';
+                }
             }
         }else{
             echo 'Select Device, Plan and Cause first';
