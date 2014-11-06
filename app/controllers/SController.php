@@ -19,10 +19,32 @@ use NomadicBits\CDRatorSoapClient\Action\UpdateUser as UpdateUserRequest;
 use NomadicBits\DemoBundle\Model\AuthorizeNet;
 use NomadicBits\CDRatorSoapClient\Action\SavePayment;
 use NomadicBits\CDRatorSoapClient\Action\AddCharge;
+use NomadicBits\CDRatorSoapClient\Action\ManageDevice;
+use NomadicBits\CDRatorSoapClient\Action\GetWebUserProfileInternal;
+
 
 class SController extends BaseController {
 
    
+    public function checkMEID(){
+
+        $manageDevice = new ManageDevice();
+        $manageDevice->MEID = Input::get('meid');
+
+        if (Input::has('ownershipcode')) {
+            $manageDevice->OwnerShipCode;
+        }
+        
+        $response = $manageDevice->executeRequest();
+
+       if (strpos($response['errorMessage'], 'are') !== 'DOES_NOT_EXIST_IN_DB'){
+            echo "It's not possible to use this device at the moment";
+       }else {
+            echo 'Found';
+       }
+        
+
+    }
 
     public function setAddress(){
         // exit;
@@ -35,7 +57,7 @@ class SController extends BaseController {
         
         $productKey =  $frminput['plandCode']; // plan code ()
         $handsetID = $frminput['handsetID'];
-        $meid = null; // MEID number for BYOSD
+        $meid = $frminput['deviceMEID']; // MEID number for BYOSD
 
 
 
@@ -61,8 +83,7 @@ class SController extends BaseController {
 
 
         if ($meid != null) {
-            $repository = $this->getDoctrine()->getManager()->getRepository('NomadicBitsDemoBundle:ByosdHandset');
-            $byosdHandset = $repository->find($handsetID);
+            $byosdHandset = $user = ByosdHansets::find($handsetID);
             if ($byosdHandset) {
                 $signupCustomer->setByosd($meid, $byosdHandset);
             } else {

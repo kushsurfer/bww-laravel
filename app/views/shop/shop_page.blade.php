@@ -26,32 +26,50 @@
 		<div class="panel-body">
 			<?php $cnt = 1 ?>
 			@foreach ($products as $prod)
-				@if( $prod['sku'] != 'BYOD')
-			   		<div class="col-xs-3 col-sm-3 col-md-3">
-			   			<a href="{{ URL::route('deviceDetail', $prod['product_id']) }}" class="selectshop">
-			   				<span class="name">{{ $prod['name'] }}</span><br/><br/>
-			   				<img src="{{ $prod['images'][0] }}" width="65%"/>
-			   			</a><br/>
-			   			<p class="pricedetails">
-			   				<span class="decription"> {{ $prod['short_description'] }}</span>
-			   				<br/><span class="price"> {{ '$' . number_format($prod['price'] , 2, '.', '') }}</span>
-			   				<br/>
-			   				<button type="button" class="btn btn-primary btn-sm devicebutton" did="{{ $prod['product_id'] }}" sku="{{ $prod['sku'] }}">Select</button>
-			   			</p>
-			   			
-			   		</div>
-			   		@if($cnt == 4)
-			   			<div class="clearfix"></div><br/><br/>
-			   			<?php $cnt = 0 ?>
-			   		@endif
+				
+		   		<div class="col-xs-3 col-sm-3 col-md-3">
+		   			<a href="{{ URL::route('deviceDetail', $prod['product_id']) }}" class="selectshop">
+		   				<span class="name">{{ $prod['name'] }}</span><br/><br/>
+		   				<img src="{{ $prod['images'][0] }}" width="65%"/>
+		   			</a><br/>
+		   			<p class="pricedetails">
+		   				<span class="decription"> {{ $prod['short_description'] }}</span>
+		   				<br/>
 
-			   		<?php $cnt++; ?>
-			   		<script type="text/javascript">
-			   			devices[{{$prod['product_id']}}] = {};
-			   			devices[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
-			   			devices[{{$prod['product_id']}}]['price'] = '{{$prod['price'] }}' ;
-			   		</script>
+		   				@if( $prod['sku'] == 'BYOD')
+		   					<input type="hidden" id="checkmeid" name="checkmeid" value="{{ URL::route('checkMEID') }}">
+		   					Device: <select id="byosddevice" name="byosddevice">
+		   					@if(count($byosdhansets) > 0)
+
+		   						@foreach($byosdhansets as $handset)
+		   							<option value="{{ $handset->id }}">{{ $handset->manufacturer.' '.$handset->name }}</option>
+		   						@endforeach
+
+		   					@endif
+		   					</select><br/><br/>
+		   					Input MEID: <input type="text" id="meid" name="meid" /><br/>
+		   					<span id="meidmessage" style="color:##610B21;font-size:10px"></span><br/><br/>
+		   					<button type="button" id="byosd" class="btn btn-primary btn-sm" did="{{ $prod['product_id'] }}" sku="{{ $prod['sku'] }}" disabled>Select</button>
+		   				@else
+		   					<br/><span class="price"> {{ '$' . number_format($prod['price'] , 2, '.', '') }}</span>
+		   					<br/>
+		   					<button type="button" class="btn btn-primary btn-sm devicebutton" did="{{ $prod['product_id'] }}" sku="{{ $prod['sku'] }}">Select</button>
+		   				@endif
+		   			</p>
+		   			
+		   		</div>
+		   		@if($cnt == 4)
+		   			<div class="clearfix"></div><br/><br/>
+		   			<?php $cnt = 0 ?>
 		   		@endif
+
+		   		<?php $cnt++; ?>
+		   		<script type="text/javascript">
+		   			devices[{{$prod['product_id']}}] = {};
+		   			devices[{{$prod['product_id']}}]['desc'] = '{{ $prod['name'] }}';
+		   			devices[{{$prod['product_id']}}]['price'] = '{{$prod['price'] }}' ;
+		   		</script>
+		   		
 	   		@endforeach
   		</div>
 
@@ -82,6 +100,7 @@
 						<input type="hidden" name="handsetID" id="handsetID" value=""/>
 						<input type="hidden" name="plandCode" id="plandCode" value=""/>
 						<input type="hidden" name="causeID" id="causeID" value=""/>
+						<input type="hidden" name="deviceMEID" id="deviceMEID" value=""/>
 						<legend>Address Information</legend>
 						<div class="control-group ">
 							<label class="control-label required" for="signup_Company">Company name</label>

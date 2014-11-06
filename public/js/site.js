@@ -138,8 +138,49 @@ $(document).ready(function(){
 	});
 
 
-	$('.devicebutton').on('click', function(){
 
+	$('#meid').on('focusout', function(){
+
+		var meid = $(this).val();
+
+		$.ajax({
+			type: "POST",
+			url: $('#checkmeid').val(),
+			data : {'meid' : meid },
+            success  : function (resp) {
+               
+            	if(resp == 'Found'){
+
+            		$('#byosd').attr('disabled', false);
+            		$('#deviceMEID').val(meid);
+
+            	}else {
+
+            		$('#meidmessage').text(resp);
+            		$('#byosd').attr('disabled', true);
+            		$('#deviceMEID').val('');
+            	
+            	}
+            }
+		});
+	
+	});
+
+
+	$('#byosd').on('focusout', function(){
+		
+		$('#device').val($(this).attr('did'));
+		// TODO : assign handset SKU to form address
+		$('#planpanel').trigger('click');
+
+		orderset[ordercnt]['deviceID'] = $(this).attr('did');
+        $('#handsetID').val($('#byosddevice').val());
+	
+	});
+
+
+	$('.devicebutton').on('click', function(){
+		
 		$('#device').val($(this).attr('did'));
 		// TODO : assign handset SKU to form address
 		$('#planpanel').trigger('click');

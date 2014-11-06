@@ -6,6 +6,8 @@ class ShopController extends BaseController
     
     public function index(){
 
+
+       
     	$products = self::getDisplayProductsByCatname();
 
     	
@@ -14,9 +16,11 @@ class ShopController extends BaseController
 
     public function shop(){
 
+        $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
+
         $products = self::getDisplayProductsByCatname();
              
-        return View::make('shop.shop_page')->with('products', $products);
+        return View::make('shop.shop_page')->with('products', $products)->with('byosdhansets', $handsets);
     }
 
 

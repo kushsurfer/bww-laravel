@@ -35,6 +35,7 @@ Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 // Route::group(array('before' => 'csrf'), function(){
 	Route::post('/setOrderSet', array('uses' => 'ShopController@setOrderSet', 'as' => 'setOrderSet'));
 	Route::post('/setAddress', array('uses' => 'SController@setAddress', 'as' => 'setAddress'));
+	Route::post('/checkMEID', array('uses' => 'SController@checkMEID', 'as' => 'checkMEID'));
 	Route::get('/addToCart', array('uses' => 'SController@addToCart', 'as' => 'addToCart'));
 // });
 
