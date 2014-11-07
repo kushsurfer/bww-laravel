@@ -8,6 +8,7 @@ use NomadicBits\CDRatorSoapClient\executeMethod;
 use NomadicBits\CDRatorSoapClient\executeMethodResponse;
 use NomadicBits\CDRatorSoapClient\Action\GetProductConfigs;
 use NomadicBits\DemoBundle\Manager\DeviceManager;
+use NomadicBits\DemoBundle\Model\UserManager;
 use NomadicBits\CDRatorSoapClient\Action\GetOptionsForRatePlan;
 
 use NomadicBits\DemoBundle\Model\SignupCustomerModel;
@@ -15,12 +16,15 @@ use NomadicBits\CDRatorSoapClient\Action\SignupCustomer;
 use NomadicBits\CDRatorSoapClient\Object\User;
 use NomadicBits\CDRatorSoapClient\Object\UpdateUser;
 use NomadicBits\CDRatorSoapClient\Action\UpdateUser as UpdateUserRequest;
+use NomadicBits\CDRatorSoapClient\Action\ActivateSubscription;
 
 use NomadicBits\DemoBundle\Model\AuthorizeNet;
 use NomadicBits\CDRatorSoapClient\Action\SavePayment;
 use NomadicBits\CDRatorSoapClient\Action\AddCharge;
 use NomadicBits\CDRatorSoapClient\Action\ManageDevice;
 use NomadicBits\CDRatorSoapClient\Action\GetWebUserProfileInternal;
+
+
 
 
 class SController extends BaseController {
@@ -489,6 +493,10 @@ class SController extends BaseController {
 
                    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
 
+                    if ($signupCustomer->isByosd()){
+                        self::confirmationAction();
+                    }
+
                    echo 'Order is complete!';
                 }
             }
@@ -502,6 +510,58 @@ class SController extends BaseController {
 
 
     // }
+
+
+    public function displayTerms(){
+        echo 'Display Terms and condition page';
+    }
+
+    public function processPayment(){
+        echo 'Process payment here';
+    }
+
+     public function confirmationAction() {
+        $session = new Session();
+        
+        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+
+        $getWebUserRequest = new GetWebUserProfileInternal();
+        $getWebUserRequest->CustomerNumber = $signupCustomer->getCustomerNumber();
+        $response = $getWebUserRequest->executeRequest();
+        $userManager = null;
+
+        if ($response['errorCode'] == '0' && array_key_exists('ROLE', $response) && $response['ROLE'] != '') {
+            $userManager = new UserManager($response);
+
+            //If the signup is Byosd try and activate right away. Display confirmation / error and send email on error
+            if ($signupCustomer->isByosd() && !$signupCustomer->isActivated()) {
+                $activateRequest = new ActivateSubscription();
+                $activateRequest->SubscriptionID = $userManager->getCurrentSubscription()->getID();
+                $activateRequest->MEID = $signupCustomer->getMEID();
+                $activateResponse = $activateRequest->executeRequest();
+                echo "<pre>";
+                echo $activateRequest->getLastRequest();
+                print_r($activateResponse);
+                echo "</pre>";
+                if ($activateResponse['errorCode'] == '0') {
+                    $signupCustomer->setActivated();
+                    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+                }
+            }
+        }
+            
+        echo 'BYOSD subscription is created';
+
+        // return $this->render('NomadicBitsDemoBundle:Signup:confirmation.html.twig', array(
+        //     'signupCustomer' => $signupCustomer,
+        //     'userManager' => $userManager,
+        //     'user' => $signupCustomer->getUser(),
+        //     'handset' => $signupCustomer->getHandset(),
+        //     'productPlan' => $signupCustomer->getProductPlan()
+        // )); 
+    }
+
+    
 
 
     public function testconnection(){
@@ -519,13 +579,13 @@ class SController extends BaseController {
 
     public function demo(){
         // $session = $this->get('session');
-    	$session = new Session();
+        $session = new Session();
 
         $formResponse = array();
-		$formResponse['response'] = '';
-		
-		$productKey = 'BWW_Package_Mini'; // plan code ()
-		$handsetID = 'SAM-SPHM580';
+        $formResponse['response'] = '';
+        
+        $productKey = 'BWW_Package_Mini'; // plan code ()
+        $handsetID = 'SAM-SPHM580';
         $meid = null; // MEID number for BYOSD
 
 
@@ -539,15 +599,15 @@ class SController extends BaseController {
         }
 
 
-		if ($productKey != null) {
-			$productPlan = $signupCustomer->getPackageByKey($productKey);
+        if ($productKey != null) {
+            $productPlan = $signupCustomer->getPackageByKey($productKey);
             $signupCustomer->setProductPlan($productPlan);
-		}
+        }
 
 
-		if ($handsetID != null) {
-			$signupCustomer->setHandset($handsetID);
-		}
+        if ($handsetID != null) {
+            $signupCustomer->setHandset($handsetID);
+        }
 
         if ($meid != null) {
             $repository = $this->getDoctrine()->getManager()->getRepository('NomadicBitsDemoBundle:ByosdHandset');
@@ -564,12 +624,12 @@ class SController extends BaseController {
             // return to product list / shop page
         }
 
-		if (is_object($signupCustomer->getUser())) {
-			$user = $signupCustomer->getUser();
-		} else {
-			$user = new User();
-			$user->Country = 'US';
-		}
+        if (is_object($signupCustomer->getUser())) {
+            $user = $signupCustomer->getUser();
+        } else {
+            $user = new User();
+            $user->Country = 'US';
+        }
 
 
         $promotionCode = null; // promotion code
@@ -707,55 +767,6 @@ class SController extends BaseController {
 
     }
 
-
-    public function displayTerms(){
-        echo 'Display Terms and condition page';
-    }
-
-    public function processPayment(){
-        echo 'Process payment here';
-    }
-
-     public function confirmationAction(Request $request) {
-        $session = new Session();
-        
-        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
-
-        $getWebUserRequest = new GetWebUserProfileInternal();
-        $getWebUserRequest->CustomerNumber = $signupCustomer->getCustomerNumber();
-        $response = $getWebUserRequest->executeRequest();
-        $userManager = null;
-
-        if ($response['errorCode'] == '0' && array_key_exists('ROLE', $response) && $response['ROLE'] != '') {
-            $userManager = new UserManager($response);
-
-            //If the signup is Byosd try and activate right away. Display confirmation / error and send email on error
-            if ($signupCustomer->isByosd() && !$signupCustomer->isActivated()) {
-                $activateRequest = new ActivateSubscription();
-                $activateRequest->SubscriptionID = $userManager->getCurrentSubscription()->getID();
-                $activateRequest->MEID = $signupCustomer->getMEID();
-                $activateResponse = $activateRequest->executeRequest();
-                echo "<pre>";
-                echo $activateRequest->getLastRequest();
-                print_r($activateResponse);
-                echo "</pre>";
-                if ($activateResponse['errorCode'] == '0') {
-                    $signupCustomer->setActivated();
-                    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
-                }
-            }
-        }
-        
-        return $this->render('NomadicBitsDemoBundle:Signup:confirmation.html.twig', array(
-            'signupCustomer' => $signupCustomer,
-            'userManager' => $userManager,
-            'user' => $signupCustomer->getUser(),
-            'handset' => $signupCustomer->getHandset(),
-            'productPlan' => $signupCustomer->getProductPlan()
-        )); 
-    }
-
-    
 }
 
 
