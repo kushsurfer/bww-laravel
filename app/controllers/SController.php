@@ -414,6 +414,8 @@ class SController extends BaseController {
                 echo 'SubTotal: '. $response['base_subtotal'].'<br/>';
                 echo 'Shipping & Handling (Flat Rate - Fixed): '. $response['shipping_amount'].'<br/>';
                 echo 'Grand Total: '. $response['grand_total'].'<br/>';
+
+                $grandtotal = $response['grand_total'];
               
                 if($response['status'] == 'pending_payment'){
                     $invoiceID = MagentoAPI::createInvoice($session_id, $orderID);
