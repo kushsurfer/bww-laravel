@@ -148,7 +148,7 @@ $(document).ready(function(){
 			url: $('#checkmeid').val(),
 			data : {'meid' : meid },
             success  : function (resp) {
-               
+               	alert(resp);
             	if(resp == 'Found'){
 
             		$('#byosd').attr('disabled', false);

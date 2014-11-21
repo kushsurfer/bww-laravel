@@ -19,8 +19,11 @@
 Route::get('/', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
 Route::get('/planDetail/{id}', array('uses' => 'ShopController@planDetail', 'as' => 'planDetail'));
+Route::get('/causeDetail/{id}', array('uses' => 'ShopController@causeDetail', 'as' => 'causeDetail'));
 
-// Route::get('/selectdevice/{id}/{price}', array('uses' => 'ShopController@selectdevice', 'as' => 'selectdevice'));
+Route::get('/byosdhandset', array('uses' => 'ShopController@getBYOSDhansets', 'as' => 'byosdhandset'));
+Route::get('/getDeviceList', array('uses' => 'ShopController@getDeviceList', 'as' => 'getDeviceList'));
+Route::get('/getPlanOption', array('uses' => 'ShopController@getPlanOption', 'as' => 'getPlanOption'));
 // Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
 // Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
 

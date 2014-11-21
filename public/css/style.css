@@ -1,14 +1,21 @@
 body{
 	padding-top: 30px;
+    font-family:"Raleway",Arial,sans-serif;
+    color:#5a5a5a;
 }
 
 
 /* Customize container */
-@media (min-width: 950px) {
+@media (min-width: 1070px) {
 	.container {
-		max-width: 912px;
+		max-width: 1140px;
 	}
 } 
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
 .hide {
     display: none;
 }
@@ -17,6 +24,354 @@ body{
 margin-bottom: 50px;
 } */
 
+#header-section {
+    background-color: transparent;
+    border: none;
+}
+
+.header-container {
+    max-width: 1070px;
+}
+.navbar-collapse {
+    max-height: 485px !important;
+    overflow: hidden;
+}
+
+h2 , h3 {
+    font-weight: bold;
+}
+
+.header .nav > li > a {
+
+    color: #666;
+    font-family: "Open Sans",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7em;
+
+}
+
+.social-network {
+    background: url("../images/social-networks.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    transition: all 0.2s ease 0s;
+    vertical-align: middle;
+    width: 32px;
+}
+
+
+
+.social-network.facebook {
+    background-position: -210px -42px;
+}
+
+.social-network.twitter {
+    background-position: -1134px -42px;
+}
+.social-network.linkedin {
+    background-position: -504px -42px;
+}
+
+.social-network.facebook:hover, .active .social-network.facebook {
+    background-position: -210px 0;
+}
+.social-network.linkedin:hover, .active .social-network.linkedin {
+    background-position: -504px 0;
+}
+.social-network.twitter:hover, .active .social-network.twitter {
+    background-position: -1134px 0;
+}
+
+.socialmedia {
+    margin: 0 -11px;
+    padding-right: 15px !important;
+   
+}
+
+#topnav > li > a{
+    color: #666 !important;
+    padding: 5px 10px;
+}
+#topnav > li > a:hover, .nav > li > a:focus{
+   background-color: transparent !important;
+}
+
+
+#menu-utility-menu li a{
+    display: inline-block;
+    font-size: 20px;
+    padding:0px 10px;
+    color: #004389;
+    font-weight: 500;
+}
+
+
+#menu-utility-menu li a[title="sign up"] {
+    background-color: #fc8722;
+    color: #fff;
+    font-weight: 700;
+    padding: 5px;
+}
+
+
+
+.orange-border {
+    background-color: #fc8722;
+    display: block;
+    height: 46px;
+    margin: 20px 0 0;
+}
+
+
+.select-section {
+    display: table;
+    vertical-align: middle;
+    height: 370px;
+    padding: 0 65px 0 41px;
+    cursor: pointer;
+
+}
+.select-device {
+    background: url('../images/device_bg.jpg') no-repeat;
+}
+
+.select-plan {
+    background: url('../images/plan_bg.jpg') no-repeat;
+}
+
+.select-content {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    color:#fff;
+}
+
+.select-content h3{
+    text-decoration: underline;
+}
+
+
+.option-text {
+    margin-top: -5px;
+}
+
+.plan-section {
+    height: 200px;
+}
+
+.plan-package {
+    background: url('../images/package_bg.jpg') no-repeat;
+}
+
+
+.cause-msg {
+    background: url('../images/cause_img1.jpg') no-repeat;
+    font-weight: bold;
+    height: 370px;
+    padding: 30px 40px;
+}
+
+
+.cause-msg .content-msg{
+   text-align: left;
+   color:#fff;
+   
+}
+
+.content-msg .msg-header{
+  font-size: 22px;
+}
+
+.mobile-all {
+    font-size: 14px;
+    font-weight: normal;
+    padding-top: 25px;
+}
+
+.cause-description {
+    margin: 30px;
+}
+
+.cause-item {
+    color: #fff;
+    height: 201px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    text-align: center;
+}
+.cause-item h2{
+   text-decoration: underline;
+}
+
+.cause1 {
+    background: url('../images/cause_1.jpg') no-repeat;
+}
+
+.cause2 {
+    background: url('../images/cause_2.jpg') no-repeat;
+}
+
+.cause3 {
+    background: url('../images/cause_3.jpg') no-repeat;
+}
+
+
+.loader {
+    background: url("../images/loader.GIF") no-repeat;
+    width: 54px;
+    height: 55px;
+    margin: 20px auto;
+    display: block;
+}
+
+.search{
+    height: 42px;
+}
+/*
+.search-button {
+    background-color: #fc8722;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    height: 42px;
+    padding: 9px;
+    text-align: center;
+    width: 104px;
+}*/
+.orange-button {
+    background-color: #fc8722;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    min-height: 42px;
+    padding: 11px;
+    text-align: center;
+    width: 104px;
+}
+
+.blue-button {
+    background-color: #69d2e7;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    min-height: 42px;
+    padding: 11px;
+    text-align: center;
+    width: 104px;
+}
+
+
+.device-list {
+    border-top: 1px solid #d0d2d3;
+    margin-top: 40px;
+    padding-top: 30px;
+}
+
+.device-list div {
+    padding-left:0px 
+}
+.device-list div > ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.hmanufacturer {
+    margin-bottom: 20px;
+}
+
+
+#compatible p > a, .orange-link{
+    color:#fe8700;
+}
+
+#device-container {
+    margin-top: -30px;
+    text-align: left;
+}
+
+.handset-list {
+   padding:0px;
+   margin:0px -15px;
+}
+
+.handset-container {
+    border: 1px solid #eaebeb;
+    margin-bottom: 30px;
+    min-height: 225px;
+    overflow: auto;
+    padding: 15px;
+}
+
+
+.handset-container img{
+   width: 35%
+}
+
+.hanset-info {
+    margin-left: 10px;
+}
+.hanset-info a{
+   width: 100%;
+}
+
+
+.package-table {
+    text-align: center;
+    font-size: 18px
+}
+
+.package-table strong{
+    font-size: 25px
+}
+
+.package-table span{
+    font-size: 13px;
+    display: block;
+}
+
+.cause-button {
+    border:1px solid #fc8722;
+    color: #5a5a5a;
+    display: block;
+    font-weight: 700;
+    height: 42px;
+    padding: 11px;
+    text-align: center;
+    width: 20%;
+    float:left;
+    margin-right: 20px;
+}
+
+.cause-info {
+    margin-top: 20px;
+    font-size: 16px
+}
+
+#another-device h2, #shopping-cart h2{
+    font-weight: normal;
+}
+
+.add-device-action a {
+    float: left;
+    margin-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------------------------*/
 .shopheader {
     background-color: #fa9742;
     color: #fff;
@@ -73,13 +428,7 @@ margin-bottom: 50px;
     font-weight: bold;
 }
 
-.loader {
-    background: url("../images/loader.GIF") no-repeat;
-    width: 54px;
-    height: 55px;
-    margin: 20px auto;
-    display: block;
-}
+
 .name {
     margin-bottom: 20px;
 }
