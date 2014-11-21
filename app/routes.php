@@ -33,6 +33,7 @@ Route::get('/causes', array('uses' => 'ShopController@causes', 'as' => 'causes')
 
 Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testurl'));
 Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
+Route::get('/orderSummary', array('uses' => 'ShopController@orderSummary', 'as' => 'orderSummary'));
 
 // check for hackers
 // Route::group(array('before' => 'csrf'), function(){

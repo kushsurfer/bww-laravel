@@ -80,6 +80,17 @@ class ShopController extends BaseController
     }
 
 
+    public function orderSummary(){
+        
+        // $session_id = MagentoAPI::initialize();
+
+        // $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+
+        return View::make('shop_view.shopping_cart');
+        
+    }
+
+
 
     public function shop(){
 

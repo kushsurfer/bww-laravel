@@ -117,6 +117,15 @@ $(document).ready(function(){
 
  	$('#gotoshoppingcart').on('click', function(){
 
+ 		
+ 		$.get("orderSummary", function( data ) {
+			$('#shopping-cart').html(data);
+
+			// intialize event functions
+			// Devices.initialize();
+			
+		});
+
  		displayPageSection('page-section', 'shopping-cart');
 
 
