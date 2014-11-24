@@ -114,6 +114,21 @@ $(document).ready(function(){
  	});
 
 
+ 	$('.proceedcheckout').on('click', function(event){
+
+ 		$.get("checkout", function( data ) {
+			$('#checkout-container').html(data);
+
+			displayPageSection('page-section', 'checkout-container');
+			
+		});
+
+ 		event.preventDefault();
+ 	
+
+ 	});
+
+
 
  	$('#gotoshoppingcart').on('click', function(){
 
@@ -121,8 +136,11 @@ $(document).ready(function(){
  		$.get("orderSummary", function( data ) {
 			$('#shopping-cart').html(data);
 
-			// intialize event functions
-			// Devices.initialize();
+			$('#checkout').on('click', function(event){
+				displayPageSection('page-section', 'create-account');
+				
+				event.preventDefault();
+			})
 			
 		});
 

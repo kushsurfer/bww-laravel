@@ -5,7 +5,7 @@
 	<div class="col-xs-1 col-sm-1 col-lg-1">
 		<img src="<?php echo url();?>/images/device_item.jpg" >
 	</div>
-	<div class="col-xs-10 col-sm-10 col-lg-10">
+	<div class="col-xs-11 col-sm-11 col-lg-11">
 		<table class="table">
 			<tr>
 				<td colspan="3"><strong>Item 1</strong></td>
@@ -60,7 +60,7 @@
 	<div class="col-xs-1 col-sm-1 col-lg-1">
 		<img src="<?php echo url();?>/images/device_item.jpg" >
 	</div>
-	<div class="col-xs-10 col-sm-10 col-lg-10">
+	<div class="col-xs-11 col-sm-11 col-lg-11">
 		<table class="table">
 			<tr>
 				<td colspan="3"><strong>Item 2</strong></td>
@@ -118,8 +118,48 @@
 	<h4>Summary</h4>
 </div>
 <div class="cart-summary row">
-	<h4>Shipping</h4>
+	
+	<div class="col-xs-1 col-sm-1 col-lg-1">
+		<h4>Shipping</h4>
+	</div>
+	<div class="col-xs-11 col-sm-11 col-lg-11">
+		<table class="table shopping-table">
+			<tbody><tr>
+        
+				<td colspan="4">&nbsp;</td>
+				<td>FREE</td>
+			</tr>
+		</tbody></table>
+	</div>
 </div>
 <div class="cart-summary row">
-	<h4>Estimated tax</h4>
-</div></div>
+	<div class="col-xs-1 col-sm-1 col-lg-1">
+		<h4>Estimated tax</h4>
+	</div>
+	<div class="col-xs-11 col-sm-11 col-lg-11">
+		<table class="table shopping-table">
+			<tbody><tr>
+        
+				<td colspan="4">&nbsp;</td>
+				<td>$0.00</td>
+			</tr>
+		</tbody></table>
+	</div>
+</div>
+<div class="pull-right" style="margin-right: -15px; width: 36%;">
+	<table style="float: right; width: 70%;" class="table summary-table">
+     	<tbody>
+     		<tr>
+    			<td style="width: 45%;"><strong>Due Today*</strong></td>
+				<td><strong>$340.00</strong></td>
+			</tr>
+			<tr>
+    			<td style="width: 45%;">Due Monthly</td>
+				<td>$75.00</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="clearfix"></div>
+	<a id="checkout" style="float: right; width: 45%;" href="#" class="orange-button">CHECKOUT</a>
+	<div class="clearfix"></div>
+</div>

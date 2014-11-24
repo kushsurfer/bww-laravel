@@ -61,7 +61,10 @@ h2 , h3 {
     width: 32px;
 }
 
-
+.orange-text {
+    color: #fe8700;
+    margin-left: 5px;
+}
 
 .social-network.facebook {
     background-position: -210px -42px;
@@ -348,6 +351,9 @@ h2 , h3 {
     margin-top: 20px;
     font-size: 16px
 }
+.cause-name {
+    cursor: pointer;
+}
 
 #another-device h2, #shopping-cart h2{
     font-weight: normal;
@@ -367,11 +373,122 @@ h2 , h3 {
 
 .cart-summary {
     border-bottom: 1px solid #e2e3e4;
-    padding: 5px;
+    /*padding: 5px;*/
+}
+.shopping-table {
+    width: 92%
+}
+
+.shopping-table > thead > tr > th, 
+.shopping-table > tbody > tr > th, 
+.shopping-table > tfoot > tr > th, 
+.shopping-table> thead > tr > td, 
+.shopping-table > tbody > tr > td, 
+.shopping-table > tfoot > tr > td {
+    border-top: none;
+    text-align: right;
+    width: 100%
+}
+.summary-table > thead > tr > th, 
+.summary-table > tbody > tr > th, 
+.summary-table > tfoot > tr > th, 
+.summary-table > thead > tr > td, 
+.summary-table > tbody > tr > td, 
+.summary-table > tfoot > tr > td {
+    border-top: none;
+    border-bottom: 1px solid #e2e3e4;
+    text-align: left;
+}
+
+.spanspacer {
+    width: 55px;
+}
+
+.caccount-border {
+    border-right: 2px solid #e2e3e4;
+    display: block;
+    min-height: 500px;
+    padding-bottom: 20%;
 }
 
 
+#create-account h2, 
+#create-account h3 {
+    font-weight: normal;
+    margin-bottom: -15px;
+}
 
+
+.create-account-form {
+    margin-top: 10%;
+    width: 75%
+}
+
+.create-account-form label{
+    font-weight: normal
+}
+
+.form-control:focus {
+    border-color: #fea540;
+    box-shadow: 0 1px 1px #e3b179 inset, 0 0 5px #e3b179;
+}
+
+.shipping-address {
+    border-bottom: 2px solid #bcbec0;
+    border-top: 2px solid #bcbec0;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.custom-checkbox {
+    border: 1px solid #d9dadb;
+    display: block;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: -5px;
+    text-align: center;
+    width: 40px;
+    cursor: pointer;
+}
+
+.order-details {
+    /*border-bottom: 3px solid gray;*/
+    border-top: 3px solid gray;
+    color: #a6a8ab;
+    margin-top: 50px;
+    text-align: right;
+}
+
+.order-details th{
+    font-weight: bold;
+    padding-top: 20px !important;    
+}/*
+
+.order-details tbody{
+    border-bottom: 2px solid #d3d4d5
+}*/
+
+.order-details .oder-total{
+    border-top: 3px solid gray;
+    border-bottom: none;
+}
+.order-details .oder-total td,
+.order-details .oder-total th {
+   border: none;
+   padding: 3px;
+}
+
+.order-details .o-device {
+    font-size: 20px;
+    text-align: left;
+    width: 70%;
+}
+.order-details .product-name {
+    text-align: left;
+}
 /*------------------------------------------------------------------------------*/
 .shopheader {
     background-color: #fa9742;

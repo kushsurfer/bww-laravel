@@ -171,4 +171,44 @@
 	<div class="row  page-section" id="shopping-cart" style="display:none">
 		<div class="loader"></div>
 	</div>
+
+	<div class="row  page-section" id="create-account" style="display:none;margin-top:-40px">
+		<!-- <div class="loader"></div> -->
+		<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border">
+			<h2>CREATE AN ACCOUNT</h2>
+			<h3>Fields marked with an <span class="orange-text">*</span> are required </h3>
+			<form role="form" class="create-account-form">
+				<div class="form-group">
+				    <label for="exampleInputEmail1">Email address<span class="orange-text">*</span></label>
+				    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+				</div>
+				<div class="form-group">
+				    <label for="exampleInputPassword1">Password<span class="orange-text">*</span></label>
+				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				</div>
+				<div class="form-group">
+				    <label for="exampleInputPassword1">Re-enter Password<span class="orange-text">*</span></label>
+				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				</div>
+				  <button type="button" class="btn orange-button proceedcheckout" style="width:100%" >Submit</button>
+			</form>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-lg-6">
+			<h2>OR LOGIN USING....</h2>
+			<br/><br/><br/>
+			<a href="#" class="proceedcheckout">
+				<img src="<?php echo url();?>/images/facebook_login.png">
+			</a>
+			<h2>Or</h2>
+			<br/><br/>
+			<a href="#" class="proceedcheckout">
+				<img src="<?php echo url();?>/images/amazon_login.png">
+			</a>
+		</div>
+	</div>
+
+	<div class="row  page-section" id="checkout-container" style="display:none;margin-top:-40px">
+		<div class="loader"></div>
+		
+	</div>
 @stop

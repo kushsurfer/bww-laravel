@@ -91,6 +91,17 @@ class ShopController extends BaseController
     }
 
 
+    public function checkout(){
+        
+        // $session_id = MagentoAPI::initialize();
+
+        // $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+
+        return View::make('shop_view.checkout');
+        
+    }
+
+
 
     public function shop(){
 
