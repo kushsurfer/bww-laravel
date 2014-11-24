@@ -127,6 +127,10 @@ h2 , h3 {
     margin: 20px 0 0;
 }
 
+.orange-border img{
+    cursor: pointer   
+}
+
 
 .select-section {
     display: table;
