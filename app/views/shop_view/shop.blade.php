@@ -43,10 +43,58 @@
 	<div class="row  page-section" id="device-container" style="display:none">
 		<div class="loader"></div>
 	</div>
+	<div class="row  page-section" id="device-detail" style="display:none">
+		<div class="loader"></div>
+	</div>
+
+	<!-- BYOSD information Section -->
+
 	<div class="row  page-section" id="byosd-list" style="display:none">
 		<div class="loader"></div>
 	</div>
 
+	<div class="row  page-section" id="byosd-checkmeid" style="display:none">
+		<h3 class="option-text" >BRING YOUR OWN DEVICE</h3>
+		<h4 class="meid-res">Great! Your phone is compatible & eligible for Betterworld Wireless.</h4><br/>
+		<div style="padding-left:0px;" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
+			<img class="pull-left" src="http://laravel.dev/images/sample_device.jpg">
+			<div class="pull-left" style="width:80%;margin-top:2%">
+				<div id="input-meid">
+					Dial *#06# to display your 15-digit IMEI number. Enter it below.<br/><br/>
+					<input type="text" value="" style="width: 76%;" class="search pull-left" id="meid" placeholder="Enter a 15 digit IMEI number">
+					<a href="#" class="orange-button pull-left" id="check-meid">CHECK</a>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="row  page-section" id="byosd-editmeid" style="display:none">
+		<h3 class="option-text" >BRING YOUR OWN DEVICE</h3>
+		<h4 class="meid-res">Great! Your phone is compatible & eligible for Betterworld Wireless.</h4><br/>
+		<div style="padding-left:0px;" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
+			<img class="pull-left" src="http://laravel.dev/images/sample_device.jpg">
+			<div class="pull-left" style="width:80%;margin-top:2%">
+						
+				<div id="valid-meid">
+  					<h4>Your IMEI number: 123456789101112 <a class="orange-link" href="#" id="editBYOSD">Edit</a></h4><br/>
+					<a style="width: 68%;" href="#" class="orange-button" id="selectplan">Next To Choose a Plan</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-lg-6 "></div>
+		<div class="clearfix"></div>
+		<div class="device-list meid-res" id="compatible">
+			<strong>FAQ</strong>
+			<p>
+				You need an unlocked GSM phone to use the BetterWorld Wireless Network.<br/>
+				<a href="#">How can I tell if it's unlocked?</a><br/>
+				<br/>
+				<a href="#">What if I don't see a number or it's fewer than 15 digits?</a><br/>
+				<a href="#">What is an IMEI number?</a>
+			</p>
+		</div>
+		
+	</div>
 	<!-- Plan Information Section -->
 
 	<div class="row  page-section plan-section" id="planselection"  style="display:none">
@@ -77,7 +125,7 @@
 		<div style="text-align: center;">
 			<img style="" src="<?php echo url();?>/images/justplan_picture.jpg">
 			<br>
-			<a class="orange-button select-package" href="#" style="width: 17%;margin:20px 40%">SELECT</a>
+			<a class="orange-button select-justplan" href="#" style="width: 17%;margin:20px 40%">SELECT</a>
 		</div>
 		<br/><br/>
 		<div>

@@ -1,17 +1,18 @@
+@foreach ($products as $prod)
 <div class="col-xs-6 col-sm-6 col-lg-6">
-	<img src="<?php echo url();?>/images/device_image.jpg">
+	<img src="{{ $prod['images'][0] }}">
 </div>
 <div class="col-xs-6 col-sm-6 col-lg-6">
-	<h2>Sony Xperia Z3</h2>
-	<p>Sonys most advanced smartphone gives you unrivaled performance in a beautifully slim waterproof design. Don't settle for good. Demand great.</p>
-	<span class="price">$0.00</span><br/><br/>
+	<h2>{{ $prod['name'] }}</h2>
+	<p>{{ $prod['short_description'] }}</p>
+	<span class="price">{{ '$' . number_format($prod['price'] , 2, '.', '') }}</span><br/><br/>
 	<a style="width: 50%;" href="#" class="orange-button" id="selectdevice">SELECT</a>
 </div>
 
 <div class="clearfix"></div>
 
 <div class="device-list">
-	<div class="col-xs-6 col-sm-6 col-lg-6">
+	<!-- <div class="col-xs-6 col-sm-6 col-lg-6">
 		<h4>Specifications</h4>
 		<br/>
 		Size and Weight<br/>
@@ -54,5 +55,7 @@
 		4G LTE Capable<br/>
 		Wi-Fi Calling<br/>
 		Operating Syste<br/>
-	</div>
+	</div> -->
+	{{ $prod['description'] }}
 </div>
+@endforeach

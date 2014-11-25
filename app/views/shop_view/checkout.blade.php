@@ -1,4 +1,4 @@
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" style="display:none">
+<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
 			<h2>ACCOUNT INFORMATION</h2>
 			<h3>Fields marked with an <span class="orange-text">*</span> are required </h3>
 			<form role="form" class="create-account-form">
@@ -70,9 +70,10 @@
 				    <label for="exampleInputEmail1" class="orange-text">I agree to Betterworld Wireless Terms & Conditions</label>
 				</div>
 				<br/><br/>
-				<button type="submit" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
+				<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 			</form>
-		</div><div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" style="display:block">
+		</div>
+		<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
 			<h2>CREDIT CARD VALIDATION</h2>
 			<h3>Fields marked with an <span class="orange-text">*</span> are required </h3>
 			<form role="form" class="create-account-form">
@@ -100,7 +101,7 @@
 				    <label for="exampleInputEmail1">CVV Number<span class="orange-text">*</span></label>
 				    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
 				</div>
-				<button type="submit" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
+				<button  class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 			</form>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-lg-6">

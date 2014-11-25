@@ -3,7 +3,7 @@
 <div class="table-responsive">
 	<table class="table table-hover table-condensed package-table ">
 		@foreach ($plan_options as $key => $package)
-		<tr id="{{ $key }}">
+		<tr id="{{ $key }}" class="service-plan-item">
 			<td><strong>{{ $package['name'] }}</strong></td>
 			<td>
 				{{ $package['per month'] }}<br/>

@@ -97,7 +97,7 @@
 		</div>
 
 		<div class="orange-border">
-			<img src="<?php echo url();?>/images/back_button.jpg" class="pull-left" id="back-button" cid="">
+			<img src="<?php echo url();?>/images/back_button.jpg" class="pull-left" id="back-button" style="display:none">
 			<img src="<?php echo url();?>/images/cart_icon.png" class="pull-right" id="back-button" cid="">
 		</div>
 	</nav>

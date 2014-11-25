@@ -10,22 +10,7 @@
 				<div class="clearfix"></div>
 			</div>
 		</div>
-		<div style="padding-left:0px;display:none" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
-			<img class="pull-left" src="http://laravel.dev/images/sample_device.jpg">
-			<div class="pull-left" style="width:80%;margin-top:2%">
-				<div id="input-meid">
-					Dial *#06# to display your 15-digit IMEI number. Enter it below.<br/><br/>
-					<input type="text" value="" style="width: 76%;" class="search pull-left" id="meid" placeholder="Enter a 15 digit IMEI number">
-					<a href="#" class="orange-button pull-left" id="check-meid">CHECK</a>
-					<div class="clearfix"></div>
-				</div>
-				
-				<div id="valid-meid" style="display:none">
-  					<h4>Your IMEI number: 123456789101112 <a class="orange-link" href="#">Edit</a></h4><br/>
-					<a style="width: 68%;" href="#" class="orange-button" id="selectplan">Next To Choose a Plan</a>
-				</div>
-			</div>
-		</div>
+		
 		<div class="col-xs-6 col-sm-6 col-lg-6 "></div>
 		<div class="clearfix"></div>
 		<!-- device list -->
@@ -121,14 +106,5 @@
 			</div>	
 		</div>
 
-		<div class="device-list meid-res" id="compatible" style="display:none">
-			<strong>FAQ</strong>
-			<p>
-				You need an unlocked GSM phone to use the BetterWorld Wireless Network.<br/>
-				<a href="#">How can I tell if it's unlocked?</a><br/>
-				<br/>
-				<a href="#">What if I don't see a number or it's fewer than 15 digits?</a><br/>
-				<a href="#">What is an IMEI number?</a>
-			</p>
-		</div>
+		
 	<?php #var_dump($byosdhansets);?>
