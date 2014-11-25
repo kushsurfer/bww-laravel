@@ -1,6 +1,6 @@
 @foreach ($products as $prod)
 <div class="col-xs-6 col-sm-6 col-lg-6">
-	<img src="{{ $prod['images'][0] }}">
+	<img src="{{ $prod['images'][0] }}" style="width:100%">
 </div>
 <div class="col-xs-6 col-sm-6 col-lg-6">
 	<h2>{{ $prod['name'] }}</h2>
