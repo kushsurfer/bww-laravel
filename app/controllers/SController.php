@@ -42,7 +42,7 @@ class SController extends BaseController {
         $response = $manageDevice->executeRequest();
 
        if (strpos($response['errorMessage'], 'are') !== 'DOES_NOT_EXIST_IN_DB'){
-            echo "It's not possible to use this device at the moment";
+            echo "Sorry, it's not possible to use this device at the moment.";
        }else {
             echo 'Found';
        }
@@ -292,7 +292,7 @@ class SController extends BaseController {
             $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
             $prodID = $bundleProd['product_id'];
 
-            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID=21');
+            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID='.$prodID);
             $options = json_decode($homepage);
 
             $products = array();

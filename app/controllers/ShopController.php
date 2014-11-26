@@ -30,38 +30,7 @@ class ShopController extends BaseController
 
     public function getPlanOption(){
 
-        $plan_options = array(
-            'BWW_PACKAGE_MINI' => array(
-                                'name' => 'Mini',
-                                'per month' => '$22',
-                                'minutes' => '250',
-                                'messages' => '500',
-                                'data' => '350 MB'), 
-            'BWW_PACKAGE_SMALL' => array(
-                                'name' => 'Small',
-                                'per month' => '$33',
-                                'minutes' => '500',
-                                'messages' => '750',
-                                'data' => '500 MB'),  
-            'BWW_PACKAGE_MEDIUM' => array(
-                                'name' => 'Medium',
-                                'per month' => '$55',
-                                'minutes' => '1200',
-                                'messages' => 'unlimited',
-                                'data' => '750 MB'), 
-            'BWW_PACKAGE_LARGE' => array(
-                                'name' => 'Large',
-                                'per month' => '$77',
-                                'minutes' => '1500',
-                                'messages' => 'unlimited',
-                                'data' => '1.2 GB'), 
-            'BWW_PACKAGE_JUMBO' => array(
-                                'name' => 'Jumbo',
-                                'per month' => '$99',
-                                'minutes' => 'unlimited',
-                                'messages' => 'unlimited',
-                                'data' => '2 GB'), 
-            );
+        $plan_options = self::getDisplayProductsByCatname('Service Plans');
 
         return View::make('shop_view.plan_list')->with('plan_options', $plan_options);
     }
@@ -69,13 +38,25 @@ class ShopController extends BaseController
 
 
 
+
+    public function causes(){
+        
+        $causes = self::getDisplayProductsByCatname('Cause');
+
+        return View::make('shop_view.cause_list')->with('causes', $causes);
+        
+        
+    }
+
+
+
     public function causeDetail($id){
         
-        // $session_id = MagentoAPI::initialize();
+        $session_id = MagentoAPI::initialize();
 
-        // $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
+        $causeprod = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
 
-        return View::make('shop_view.cause_detail');
+        return View::make('shop_view.cause_detail')->with('causeprod', $causeprod);
         
     }
 
@@ -186,21 +167,6 @@ class ShopController extends BaseController
         
     }
 
-
-
-    public function causes(){
-        
-        $causes = self::getDisplayProductsByCatname('Cause');
-
-        // $totalcost = Session::get('device.price') + Session::get('selectedplan.price');
-       
-        // return View::make('shop.cause')->with('products', $causes)->with('totalcost', $totalcost);
-        return View::make('shop.causes')->with('products', $causes);
-        
-        
-    }
-
-
     public function selectcause($id, $price){
         Session::forget('selectedcause'); // forget previous selected device
 
@@ -269,9 +235,43 @@ class ShopController extends BaseController
         
     }
 
-    /*public function testingCDRator(){
-        function processRequest($url, $params) { if(!is_array($params)) return false; $post_params = ""; foreach($params as $key => $val) { $post_params .= $post_params?"&":""; $post_params .= $key."=".$val; } $ch = curl_init(); curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); curl_setopt($ch, CURLOPT_URL, $url); curl_setopt($ch, CURLOPT_POST, 1); curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); curl_setopt($ch, CURLOPT_VERBOSE, 0); curl_setopt($ch, CURLOPT_TIMEOUT, 0); curl_setopt($ch, CURLOPT_HEADER, true); // 'true', for developer testing purpose curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params); $data = curl_exec($ch); if(curl_errno($ch)) print curl_error($ch); else curl_close($ch); return $data; } $url = 'http://Kunaki.com/XMLService.ASP'; $request = '<?xml version="1.0" encoding="utf-8"?><ShippingOptions><Country>United States</Country><State_Province>NY</State_Province><PostalCode>10004</PostalCode><Product><ProductId>XZZ1111111</ProductId><Quantity>2</Quantity></Product><Product><ProductId>PXZZ111112</ProductId><Quantity>3</Quantity></Product></ShippingOptions>'; $params = array('ShippingOptions' => $request);// key value pairs $response = processRequest($url, $params); print_r($response); - See more at: http://www.blogs.zeenor.com/it/php/how-to-send-xml-request-to-web-service-through-php.html#sthash.0mVYqnnv.dpuf
-    }*/
+    public function addToCart(){
+
+                  
+            $session_id = MagentoAPI::initialize();
+            
+            $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
+            $prodID = $bundleProd['product_id'];
+
+            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID='.$prodID);
+            $options = json_decode($homepage);
+
+            $products = array();
+
+            foreach( $orderset as $order){
+
+               
+                $products []= array(
+                    "product_id"    =>  $prodID,
+                    "qty"           => "1",
+                    "bundle_option" => array(
+                                    $options->Device->option_id => $options->Device->prodIDs->$order['deviceID'], 
+                                    $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$order['planID'], 
+                                    $options->Causes->option_id => $options->Causes->prodIDs->$order['causeID'], 
+
+                                    )
+                    );
+            }
+
+            // forget orderset
+            Session::forget('orderset');
+
+            $cartID = MagentoAPI::createEmptyCart($session_id);
+            
+
+            $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
+    }
+
 }
 
 ?>  

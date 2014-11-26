@@ -6,7 +6,7 @@
 	<h2>{{ $prod['name'] }}</h2>
 	<p>{{ $prod['short_description'] }}</p>
 	<span class="price">{{ '$' . number_format($prod['price'] , 2, '.', '') }}</span><br/><br/>
-	<a style="width: 50%;" href="#" class="orange-button" id="selectdevice">SELECT</a>
+	<a style="width: 50%;" href="#" class="orange-button" id="selectdevice" pid="{{ $prod['product_id'] }}">SELECT</a>
 </div>
 
 <div class="clearfix"></div>

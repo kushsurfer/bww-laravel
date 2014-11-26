@@ -61,9 +61,11 @@
 			<div class="pull-left" style="width:80%;margin-top:2%">
 				<div id="input-meid">
 					Dial *#06# to display your 15-digit IMEI number. Enter it below.<br/><br/>
+					<input type="hidden" id="checkmeid" name="checkmeid" value="{{ URL::route('checkMEID') }}">
 					<input type="text" value="" style="width: 76%;" class="search pull-left" id="meid" placeholder="Enter a 15 digit IMEI number">
 					<a href="#" class="orange-button pull-left" id="check-meid">CHECK</a>
 					<div class="clearfix"></div>
+					<div id="showloader"></div>
 				</div>
 			</div>
 		</div>
@@ -76,7 +78,7 @@
 			<div class="pull-left" style="width:80%;margin-top:2%">
 						
 				<div id="valid-meid">
-  					<h4>Your IMEI number: 123456789101112 <a class="orange-link" href="#" id="editBYOSD">Edit</a></h4><br/>
+  					<h4>Your IMEI number: <span id="validmeid"></span> <a class="orange-link" href="#" id="editBYOSD">Edit</a></h4><br/>
 					<a style="width: 68%;" href="#" class="orange-button" id="selectplan">Next To Choose a Plan</a>
 				</div>
 			</div>
@@ -145,59 +147,7 @@
 		<div class="loader"></div>
 	</div>
 	<div class="row  page-section plan-section" id="causeselection" style="display:none">
-		<div class="cause-msg">
-			<div class="content-msg">
-				<span class="msg-header">What if you could help someone who sleeps on the streets find a home?</span>
-				<div class="mobile-all">
-					<h2 style="text-decoration:underline">MOBILE<span style="color:#fe8700">4</span>ALL</h2>
-					<p>
-						Mission: End homelessness<br/>
-						Where: U.S. <br/>
-						What: Smartphones<br/> 
-						Goal: 250 Sponsors: ###
-					</p>
-				</div>
-			</div>
-		</div>
-		<div class="cause-description">
-			<p>	
-				<strong>Excepteur sint occaecat cupidatat non proident</strong><br/>
-			 	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			 </p>
-		</div>
-		<div class="cause1 cause-item">
-			<h2 class="cause-name" sku="">E-reader Classroom Kit</h2>
-			<p>
-				MISSION: Eradicate Illiteracy<br/>
-				WHERE: Oltikampu School - Kilgoris, Kenya<br/>
-				HOW: Classroom kits of e-readers loaded with entire libraries of books in local languages<br/>
-				DEVICE TYPE: Kindle e-readers DEVICE #: 50<br/>
-				METRICS: Literacy rates<br/>
-			</p>
-		</div>
-		<div class="cause2 cause-item">
-			<h2 class="cause-name" sku="">PROGRAM NAME</h2>
-			<p>
-				MISSION: [brief mission statement] <br/>
-				WHERE: [program location]<br/>
-				HOW: [130 characters or less] <br/>
-				DEVICE TYPE: [Device type] DEVICE #: [Number]<br/>
-				METRICS: [text - i.e. self sufficiency matrix]<br/>
-			</p>
-		</div>
-		
-		<div class="cause3 cause-item">
-			<h2 class="cause-name" sku="">PROGRAM NAME</h2>
-			<p>
-				MISSION: [brief mission statement] <br/>
-				WHERE: [program location]<br/>
-				HOW: [130 characters or less] <br/>
-				DEVICE TYPE: [Device type] DEVICE #: [Number]<br/>
-				METRICS: [text - i.e. self sufficiency matrix]<br/>
-			</p>
-		</div>
-		
-		<br/><br/><br/>
+		<div class="loader"></div>
 	</div>
 	<div class="row  page-section" id="cause-detail" style="display:none">
 		<div class="loader"></div>
@@ -259,4 +209,10 @@
 		<div class="loader"></div>
 		
 	</div>
+
+
+
+
+
 @stop
+

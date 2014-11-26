@@ -11,7 +11,8 @@
 	    <!-- Bootstrap -->
 	    <link href="<?php echo url();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 	    <link href="<?php echo url();?>/css/style.css" rel="stylesheet"/>
-
+	    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  	
 
 	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -111,6 +112,8 @@
 	<br/><br/><br/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!--<script src="//code.jquery.com/jquery-1.10.2.js"></script>-->
+  	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo url();?>/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo url();?>/js/main.js"></script>

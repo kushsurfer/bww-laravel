@@ -2,26 +2,26 @@
 <p>Prefer a fixed rate every month? Pick the package that is right for you.</p>
 <div class="table-responsive">
 	<table class="table table-hover table-condensed package-table ">
-		@foreach ($plan_options as $key => $package)
-		<tr id="{{ $key }}" class="service-plan-item">
+		@foreach ($plan_options as $package)
+		<tr id="{{ $package['product_id'] }}" class="service-plan-item">
 			<td><strong>{{ $package['name'] }}</strong></td>
 			<td>
-				{{ $package['per month'] }}<br/>
+				${{ $package['per_month'] }}<br/>
 				<span>per month</span>
 			</td>
 			<td>
-				{{ $package['minutes'] }}<br/>
+				{{ $package['plan_minutes'] }}<br/>
 				<span>minutes</span>
 			</td>
 			<td>
-				{{ $package['messages'] }}<br/>
+				{{ $package['plan_messages'] }}<br/>
 				<span>messages </span>
 			</td>
 			<td>
-				{{ $package['data'] }}<br/>
+				{{ $package['plan_data'] }}<br/>
 				<span>data</span>
 			</td>
-		</tr>'
+		</tr>
 		@endforeach
 	</table>
 </div>

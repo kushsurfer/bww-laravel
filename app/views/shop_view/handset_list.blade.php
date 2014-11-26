@@ -6,6 +6,8 @@
 			<h5>Search for your current phone</h5>
 			<div class="col-xs-6 col-sm-6 col-lg-6 " style="padding-left:0px" >
 				<input id="bhandset" class="search pull-left" type="text" style="width: 81%;" value="">
+				<input type="hidden" name="selectbyosd" id="bhandset_hidden"  value="">
+
 				<a class="orange-button pull-left" href="#" id="search-handset"><img src="<?php echo url();?>/images/search_icon.png"></a>
 				<div class="clearfix"></div>
 			</div>
@@ -15,96 +17,59 @@
 		<div class="clearfix"></div>
 		<!-- device list -->
 		<div class="device-list hsearch-main" >
-			<div class="hmanufacturer">
-				<strong>Acer</strong><br/>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Acer Liquid Z500</li>
-						<li>Acer Liquid X1</li>
-						<li>Acer Liquid Jade</li>
-						<li>Acer Liquid E700</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Acer Liquid Z500</li>
-						<li>Acer Liquid X1</li>
-						<li>Acer Liquid Jade</li>
-						<li>Acer Liquid E700</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Acer Liquid Z500</li>
-						<li>Acer Liquid X1</li>
-						<li>Acer Liquid Jade</li>
-						<li>Acer Liquid E700</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Acer Liquid Z500</li>
-						<li>Acer Liquid X1</li>
-						<li>Acer Liquid Jade</li>
-						<li>Acer Liquid E700</li>
-					</ul>
-				</div>
-				<div class="clearfix"></div>
-			</div>
 
-			<div class="hmanufacturer">
-				<strong>Alcatel</strong><br/>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Alcatel Pop D3</li>
-						<li>Alcatel Pop D1</li>
-						<li>Alcatel Icon</li>
-						<li>Alcatel Fire C</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Alcatel Pop D3</li>
-						<li>Alcatel Pop D1</li>
-						<li>Alcatel Icon</li>
-						<li>Alcatel Fire C</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Alcatel Pop D3</li>
-						<li>Alcatel Pop D1</li>
-						<li>Alcatel Icon</li>
-						<li>Alcatel Fire C</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Alcatel Pop D3</li>
-						<li>Alcatel Pop D1</li>
-						<li>Alcatel Icon</li>
-						<li>Alcatel Fire C</li>
-					</ul>
-				</div>
-				<div class="clearfix"></div>
+			<?php 
+
+				// $manufacturer = $byosdhansets[0]->manufacturer;
+				$manufacturer = '';
+				$cnt = 0;
+				$autocompleteList = '';
+				
+			?>
+
+			@foreach($byosdhansets as $handset)
+
+			@if($manufacturer != $handset->manufacturer)
+
+			@if($cnt != 0)
 			</div>
+			@endif
+			<div class="clearfix"></div>		
 			<div class="hmanufacturer">
-				<strong>Allview</strong><br/>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Allview X2 Soul Mini</li>
-						<li>Allview Impera S</li>
-					</ul>
-				</div>
-				<div class="col-xs-3 col-sm-3 col-lg-3 ">
-					<ul>
-						<li>Allview X2 Soul Mini</li>
-						<li>Allview Impera S</li>
-					</ul>
-				</div>
-				<div class="clearfix"></div>
-			</div>	
+				<strong>{{ $handset->manufacturer }}</strong><br/>
+
+			<?php 
+				$manufacturer = $handset->manufacturer; 
+				$cnt = 1;
+
+			?>
+
+			@endif
+
+				<p class="col-xs-3 col-sm-3 col-lg-3 ">{{ $handset->name }}</p>
+	
+			<?php
+
+			$autocompleteList .= '{value: '.$handset->id.',  label: "'.$handset->name.'"}, ';
+
+			?>		
+					
+			@endforeach
+
+
 		</div>
 
 		
-	<?php #var_dump($byosdhansets);?>
+	<?php #var_dump($byosdhansets[0]->manufacturer);?>
+
+
+<script>
+$( "#bhandset" ).autocomplete({
+  	source: [ <?php echo $autocompleteList; ?> ],
+	select: function(event, ui) {  
+	    $( "#bhandset" ).val(ui.item.label);  
+	    $( "#bhandset_hidden" ).val(ui.item.value);
+	    return false;  
+	}   
+});
+</script>

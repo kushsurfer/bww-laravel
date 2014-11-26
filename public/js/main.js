@@ -6,7 +6,9 @@ $(document).ready(function(){
 	var backorder = []; // set history for page order view
 
 	var selectedpackage = '';
+	var selectedbyosd = '';
 
+	cart[orderCnt] = {};
 
  	$('.navbar-toggle').on('click', function(){
  		$('#navbar').css('background-color', '#c9c9c9');
@@ -28,22 +30,6 @@ $(document).ready(function(){
 		
 	});
  	
-	//load byosd list of devices in the background 
- 	$.get( baseurl + "causeDetail/1", function( data ) {
-		$('#cause-detail').html(data);
-
-		$('#select-sponsor').on('click', function(){
-			displayPageSection('page-section', 'another-device');
-
-			addbackHistory('cause-detail');
-
-			console.log(backorder);
-			
-		})
-		
-		
-	});
-
 	// load byosd list of devices in the background 
  	$.get("getDeviceList", function( data ) {
 		$('#device-container').html(data);
@@ -58,9 +44,49 @@ $(document).ready(function(){
 	// load byosd list of devices in the background 
  	$.get("getPlanOption", function( data ) {
 		$('#plan-container').html(data);
-
+		
 		// intialize event functions
 		Plans.initialize();
+		
+	});
+
+
+
+	// load byosd list of devices in the background 
+ 	$.get("causes", function( data ) {
+		$('#causeselection').html(data);
+
+
+	 	$('.cause-name').on('click', function(){
+
+
+			displayPageSection('page-section', 'cause-detail');
+
+			//load byosd list of devices in the background 
+		 	$.get( baseurl + "causeDetail/" + $(this).attr('cid'), function( data ) {
+				$('#cause-detail').html(data);
+
+		 		addbackHistory('causeselection');
+
+
+				$('#select-sponsor').on('click', function(){
+
+					cart[orderCnt]['causeID'] = $(this).attr('cid');
+
+					displayPageSection('page-section', 'another-device');
+
+					addbackHistory('cause-detail');
+
+					console.log(cart);
+					
+				})
+				
+				
+			});
+
+	 		
+
+	 	});
 		
 	});
 
@@ -96,25 +122,18 @@ $(document).ready(function(){
 
 
 
- 	$('.cause-name').on('click', function(){
-
- 		displayPageSection('page-section', 'cause-detail');
-
- 		addbackHistory('causeselection');
-
-		console.log(backorder);
-
- 	});
-
-
-
  	$('#addevice').on('click', function(){
+
+ 		// reset/update orderset data
+ 		orderCnt++;
+ 		selectedpackage = '';
+ 		selectedbyosd = '';
+ 		cart[orderCnt] = {};
+
 
  		displayPageSection('page-section', 'deviceselection');
 
  		addbackHistory('another-device');
-
-		console.log(backorder);
 
 
  	});
@@ -178,13 +197,45 @@ $(document).ready(function(){
 
 
 	$('#check-meid').on('click', function(){
+
+		if($('#meid').val() != ''){
+
+			$('#showloader').addClass('loader');
+
+			$.ajax({
+				type: "POST",
+				url: $('#checkmeid').val(),
+				data : {'meid' : $('#meid').val() },
+	            success  : function (resp) {
+	               	
+	               	$('#showloader').removeClass('loader');
+	            	
+	            	if(resp == 'Found'){
+
+	            		$('#validmeid').text($('#meid').val());
+
+	            		cart[orderCnt]['byoshandset'] = selectedbyosd;
+	            		cart[orderCnt]['meid'] = $('#meid').val();
+
+
+	            		displayPageSection('page-section', 'byosd-editmeid');
+
+						addbackHistory('byosd-checkmeid');
+
+	            	}else {
+
+	            		alert(resp);
+	            	
+	            	}
+	            }
+			});
+
+			
+		}else{
+			alert('Kindly enter IMEI number');
+		}
 		
-		displayPageSection('page-section', 'byosd-editmeid');
-
-		addbackHistory('byosd-checkmeid');
-
-		console.log(backorder);
-				
+								
 		
 	})
 
@@ -202,11 +253,20 @@ $(document).ready(function(){
 
 	$('#selectplan').on('click', function(){
 
-		displayPageSection('page-section', 'planselection');
+		
+		if(cart[orderCnt]['byoshandset'] !== undefined){
 
-		addbackHistory('byosd-editmeid');
+			if(cart[orderCnt]['planID'] === undefined ){
+				displayPageSection('page-section', 'planselection');
+			}else{
+				displayPageSection('page-section', 'causeselection');
+			}
 
-		console.log(backorder);
+			addbackHistory('byosd-editmeid');
+
+		}else{
+			alert('Kindly provide a valid IMEI number first.')
+		}
 
 	})
 
@@ -238,6 +298,8 @@ $(document).ready(function(){
 
 
 
+
+
  	function displayPageSection(classname, id){
 
  		$( "." + classname ).each(function() {
@@ -264,11 +326,16 @@ $(document).ready(function(){
 
        		// load byosdhandset event functions
 			$('#search-handset').on('click', function(){
-				addbackHistory('byosd-list');
 
-				console.log(backorder);
+				if($( "#bhandset_hidden" ).val() != ''){
 
-				displayPageSection('page-section', 'byosd-checkmeid');
+					addbackHistory('byosd-list');
+					selectedbyosd = $( "#bhandset_hidden" ).val();
+
+					displayPageSection('page-section', 'byosd-checkmeid');
+				}else{
+					alert('Kindly provide your current phone.');
+				}
 
 				
 			})
@@ -288,28 +355,32 @@ $(document).ready(function(){
 
 				addbackHistory('device-container');
 
-				console.log(backorder);
 				$('#device-detail').html('<div class="loader"></div>');
+
 				displayPageSection('page-section', 'device-detail');
 				
 				$.get($(this).attr('href'), function( data ) {
 					
 					$('#device-detail').html(data);
-
 					
 					$('#selectdevice').on('click', function(){
 
-						displayPageSection('page-section', 'planselection');
+						cart[orderCnt]['deviceID'] = $(this).attr('pid'); // set selected device per order set
+
+						if(cart[orderCnt]['planID'] === undefined ){
+							displayPageSection('page-section', 'planselection');
+						}else{
+							displayPageSection('page-section', 'causeselection');
+						}
+
+						
 
 						addbackHistory('device-detail');
-
-						console.log(backorder);
 
 					})
 					
 				});
 			})
-			
 
     	},
  	}
@@ -320,7 +391,14 @@ $(document).ready(function(){
 
        		// load byosdhandset event functions
 			$('.select-justplan').on('click', function(event){
-				displayPageSection('page-section', 'causeselection');
+
+				cart[orderCnt]['planID'] = 'justplan';
+
+				if(cart[orderCnt]['deviceID'] === undefined ){
+					displayPageSection('page-section', 'deviceselection');
+				}else{
+					displayPageSection('page-section', 'causeselection');
+				}
 
 				addbackHistory('just-plan');
 
@@ -330,11 +408,24 @@ $(document).ready(function(){
 
        		// load byosdhandset event functions
 			$('.select-package').on('click', function(event){
-				displayPageSection('page-section', 'causeselection');
 
-				addbackHistory('plan-container');
+				if(selectedpackage != ''){
 
-				console.log(backorder);
+					cart[orderCnt]['planID'] = selectedpackage; // set selected device per order set
+
+					if(cart[orderCnt]['deviceID'] === undefined ){
+						displayPageSection('page-section', 'deviceselection');
+					}else{
+						displayPageSection('page-section', 'causeselection');
+					}
+
+					addbackHistory('plan-container');
+
+				}else{
+					alert('Kindly select a plan package first.')
+				}
+
+				
 			})
 
 			$('.service-plan-item').on('click', function(){

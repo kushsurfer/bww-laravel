@@ -285,7 +285,12 @@ h2 , h3 {
 }
 
 .hmanufacturer {
-    margin-bottom: 20px;
+    margin: 15px 0;
+}
+
+.hmanufacturer p{
+    margin: 0px;
+    padding: 0px;
 }
 
 
