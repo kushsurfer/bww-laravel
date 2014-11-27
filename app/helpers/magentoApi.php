@@ -141,6 +141,15 @@
 		}
 
 
+		public static function getCartProducts($sessionId, $cartID){
+			
+			$result = self::$soap->call( $sessionId, 'cart_product.list', $cartID);
+
+			return $result;
+
+		}
+
+
 		public static function addProductToCart($session, $cart, $products){
 			$resultCartProductsAdd = self::$soap->call($session, "cart_product.add", array($cart, $products));
 
@@ -240,9 +249,12 @@
 			try{
 				$resultOrderCreation = self::$soap->call($sessionId, "cart.order",  array($shoppingCartId));
 			}catch (SoapFault $e){
+				var_dump($e);
 				$resultOrderCreation = 0; // no order number returned
 			}catch (\Exception $e){
 				$resultOrderCreation = 0; // no order number returned
+				var_dump($e);
+				
 			}
 
 			return $resultOrderCreation;

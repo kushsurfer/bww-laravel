@@ -41,6 +41,9 @@ Route::get('/checkout', array('uses' => 'ShopController@checkout', 'as' => 'chec
 	Route::post('/setOrderSet', array('uses' => 'ShopController@setOrderSet', 'as' => 'setOrderSet'));
 	Route::post('/setAddress', array('uses' => 'SController@setAddress', 'as' => 'setAddress'));
 	Route::post('/checkMEID', array('uses' => 'SController@checkMEID', 'as' => 'checkMEID'));
+	Route::post('/shopAddtoCart', array('uses' => 'ShopController@addToCart', 'as' => 'shopAddtoCart'));
+	Route::post('/createAccount', array('uses' => 'ShopController@createAccount', 'as' => 'createAccount'));
+	Route::get('/getCurrentCartInfo', array('uses' => 'ShopController@getCurrentCartInfo', 'as' => 'getCurrentCartInfo'));
 	Route::get('/addToCart', array('uses' => 'SController@addToCart', 'as' => 'addToCart'));
 // });
 

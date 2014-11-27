@@ -73,6 +73,29 @@ $(document).ready(function(){
 
 					cart[orderCnt]['causeID'] = $(this).attr('cid');
 
+
+
+					var data = {'deviceID' : cart[orderCnt]['deviceID'], 'planID' : cart[orderCnt]['planID'], 'causeID' : cart[orderCnt]['causeID']}
+
+					if(cart[orderCnt]['deviceID'] == 'BYOD'){
+						data.byoshandset = cart[orderCnt]['byoshandset'];
+						data.meid = cart[orderCnt]['meid'];
+					}
+
+					$.ajax({
+						type: "POST",
+						url: baseurl + 'shopAddtoCart',
+						data : data,
+			            success  : function (resp) {
+			             	// load byosd list of devices in the background 
+						 // 	$.get("getCurrentCartInfo", function( data ) {
+							// 	console.log(data);
+								
+							// });	
+			             
+			            }
+					});
+
 					displayPageSection('page-section', 'another-device');
 
 					addbackHistory('cause-detail');
@@ -141,26 +164,56 @@ $(document).ready(function(){
 
  	$('.proceedcheckout').on('click', function(event){
 
- 		addbackHistory('create-account');
+ 		var formData = $('#create-account-form').serialize();
 
-		console.log(backorder);
+ 		$.each($('.errormsg'), function(){
+ 			$(this).text('');
+ 		})
+ 		$.each($('.form-group'), function(){
+ 			$(this).removeClass('has-error');
+ 		})
 
- 		$.get("checkout", function( data ) {
-			$('#checkout-container').html(data);
+		$.ajax({
+			type: "POST",
+			url: $('#create-account-form').attr('action'),
+			data : formData,
+            success  : function (data) {
+            	if(data.success){
 
-			displayPageSection('page-section', 'checkout-container');
 
-			$('#submitAcctInfo').on('click', function(){
+            		addbackHistory('create-account');
 
-				$('#acct-info').hide();
-				$('#ccvalidation').show();
+            		$.get("checkout", function( data ) {
+						$('#checkout-container').html(data);
 
-				addbackHistory('acct-info');
+						displayPageSection('page-section', 'checkout-container');
 
-				console.log(backorder);
-			});
-			
-		});
+						$('#submitAcctInfo').on('click', function(){
+
+							$('#acct-info').hide();
+							$('#ccvalidation').show();
+
+							addbackHistory('acct-info');
+
+							console.log(backorder);
+						});
+						
+					});
+
+
+            	}else{
+            		 	$.each(data.errors, function(index, error){
+
+               		$('#'+ index + 'Box').addClass('has-error');
+               		$('#'+ index + 'Error').text(error);
+				})
+            	}
+              
+            }
+		}); 		
+
+ 		
+ 	
 
  		event.preventDefault();
  	
@@ -175,6 +228,8 @@ $(document).ready(function(){
 
 		console.log(backorder);
  		
+ 		$('#shopping-cart').html('<div class="loader"></div>');
+
  		$.get("orderSummary", function( data ) {
 			$('#shopping-cart').html(data);
 
@@ -214,6 +269,7 @@ $(document).ready(function(){
 
 	            		$('#validmeid').text($('#meid').val());
 
+	            		cart[orderCnt]['deviceID'] = 'BYOD';
 	            		cart[orderCnt]['byoshandset'] = selectedbyosd;
 	            		cart[orderCnt]['meid'] = $('#meid').val();
 
@@ -296,10 +352,6 @@ $(document).ready(function(){
  	});
 
 
-
-
-
-
  	function displayPageSection(classname, id){
 
  		$( "." + classname ).each(function() {
@@ -367,6 +419,10 @@ $(document).ready(function(){
 
 						cart[orderCnt]['deviceID'] = $(this).attr('pid'); // set selected device per order set
 
+						// reset byosdhandset if device is selected
+						cart[orderCnt]['byoshandset'] = '';
+	            		cart[orderCnt]['meid'] = '';
+
 						if(cart[orderCnt]['planID'] === undefined ){
 							displayPageSection('page-section', 'planselection');
 						}else{
@@ -392,7 +448,7 @@ $(document).ready(function(){
        		// load byosdhandset event functions
 			$('.select-justplan').on('click', function(event){
 
-				cart[orderCnt]['planID'] = 'justplan';
+				cart[orderCnt]['planID'] = 'BWW_PAYG';
 
 				if(cart[orderCnt]['deviceID'] === undefined ){
 					displayPageSection('page-section', 'deviceselection');

@@ -41,6 +41,12 @@ h2 , h3 {
     font-weight: bold;
 }
 
+.errormsg {
+    color : red;
+    margin-left: 5px;
+    font-size: 11px;
+}
+
 .header .nav > li > a {
 
     color: #666;
@@ -398,6 +404,9 @@ h2 , h3 {
     padding: 20px 0 20px 20px;
 }
 
+.cart-item img {
+    width: 100%;
+}
 
 .cart-summary {
     border-bottom: 1px solid #e2e3e4;

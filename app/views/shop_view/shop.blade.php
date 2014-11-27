@@ -175,18 +175,18 @@
 		<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border">
 			<h2>CREATE AN ACCOUNT</h2>
 			<h3>Fields marked with an <span class="orange-text">*</span> are required </h3>
-			<form role="form" class="create-account-form">
-				<div class="form-group">
-				    <label for="exampleInputEmail1">Email address<span class="orange-text">*</span></label>
-				    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+			<form role="form" class="create-account-form" id="create-account-form" action="{{ URL::route('createAccount') }}">
+				<div class="form-group" id="email_addressBox">
+				    <label for="email_address">Email address<span class="orange-text">*</span><span class="errormsg" id="email_addressError"></a></label>
+				    <input type="email" class="form-control" id="email_address" name="email_address" placeholder="Enter email">
 				</div>
-				<div class="form-group">
-				    <label for="exampleInputPassword1">Password<span class="orange-text">*</span></label>
-				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<div class="form-group" id="passwordBox">
+				    <label for="password">Password<span class="orange-text">*</span><span class="errormsg" id="passwordError"></a></label>
+				    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
 				</div>
-				<div class="form-group">
-				    <label for="exampleInputPassword1">Re-enter Password<span class="orange-text">*</span></label>
-				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<div class="form-group" id="password_confirmBox">
+				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></a></label>
+				    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter Password">
 				</div>
 				  <button type="button" class="btn orange-button proceedcheckout" style="width:100%" >Submit</button>
 			</form>

@@ -3,6 +3,7 @@
 <div class="table-responsive">
 	<table class="table table-hover table-condensed package-table ">
 		@foreach ($plan_options as $package)
+		@if($package['sku'] != 'BWW_PAYG')
 		<tr id="{{ $package['product_id'] }}" class="service-plan-item">
 			<td><strong>{{ $package['name'] }}</strong></td>
 			<td>
@@ -22,6 +23,7 @@
 				<span>data</span>
 			</td>
 		</tr>
+		@endif
 		@endforeach
 	</table>
 </div>

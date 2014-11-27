@@ -1,11 +1,23 @@
 <h2>ORDER SUMMARY</h2>
 <p>Your items</p>
+<?php 
+	$dueAmount = 0;
+	$monthlydue = 0;
+?>
+@foreach($cartdetails as $key => $cartItem)
+
+<?php 
+	$dueAmount += $cartItem['deviceDetails']['price'];
+	$monthlydue += $cartItem['planDetails']['price'];
+
+
+?>
 
 <div class="cart-item row">
-	<div class="col-xs-1 col-sm-1 col-lg-1">
-		<img src="<?php echo url();?>/images/device_item.jpg" >
+	<div class="col-xs-2 col-sm-2 col-lg-2">
+		<img src="{{ $cartItem['deviceImage'] }}" >
 	</div>
-	<div class="col-xs-11 col-sm-11 col-lg-11">
+	<div class="col-xs-10 col-sm-10 col-lg-10">
 		<table class="table">
 			<tr>
 				<td colspan="3"><strong>Item 1</strong></td>
@@ -15,32 +27,32 @@
 			<tr>
 				<td>Device:	</td>
 				<td>
-					Sony Xperia Z3<br/>
+					{{ $cartItem['deviceDetails']['name'] }}<br/>
 					New from BetterWorld Wireless
 				</td>
 				<td>
-					<a href="#" class="cause-button" style="width:60%">Edit</a>
+					<a href="#" class="cause-button" cid="{{ $key }}" style="width:60%">Edit</a>
 					<div class="clearfix"></div>
 				</td>
 				<td>
 					&nbsp;
 				</td>
 				<td>
-					$340.00
+					{{ '$' . number_format($cartItem['deviceDetails']['price'] , 2, '.', '') }}
 				</td>
 			</tr>
 			<tr>
 				<td>Plan:	</td>
 				<td>
-					Just Plan Medium Family<br/>
-					1200 minutes, unlimited messages, 750 MB data
+					{{ $cartItem['planDetails']['name'] }}<br/>
+					<!-- 1200 minutes, unlimited messages, 750 MB data -->
 				</td>
 				<td>
 					<a href="#" class="cause-button" style="width:60%">Edit</a>
 					<div class="clearfix"></div>
 				</td>
 				<td>
-					$75.00
+					{{ '$' . number_format($cartItem['planDetails']['price'] , 2, '.', '') }}
 				</td>
 				<td>
 					&nbsp;
@@ -49,68 +61,15 @@
 			<tr>
 				<td colspan="4">One-Time Activation Fee</td>
 				<td>
-					$75.00
+					{{ '$' . number_format($cartItem['activationFee'] , 2, '.', '') }}
 				</td>
 			</tr>
 		</table>
 	</div>
 	<div class="clearfix"></div>
 </div>
-<div class="cart-item row">
-	<div class="col-xs-1 col-sm-1 col-lg-1">
-		<img src="<?php echo url();?>/images/device_item.jpg" >
-	</div>
-	<div class="col-xs-11 col-sm-11 col-lg-11">
-		<table class="table">
-			<tr>
-				<td colspan="3"><strong>Item 2</strong></td>
-				<td><strong>Monthy</strong></td>
-				<td><strong>Due Today</strong></td>
-			</tr>
-			<tr>
-				<td>Device:	</td>
-				<td>
-					Sony Xperia Z3<br/>
-					New from BetterWorld Wireless
-				</td>
-				<td>
-					<a href="#" class="cause-button" style="width:60%">Edit</a>
-					<div class="clearfix"></div>
-				</td>
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					$340.00
-				</td>
-			</tr>
-			<tr>
-				<td>Plan:	</td>
-				<td>
-					Just Plan Medium Family<br/>
-					1200 minutes, unlimited messages, 750 MB data
-				</td>
-				<td>
-					<a href="#" class="cause-button" style="width:60%">Edit</a>
-					<div class="clearfix"></div>
-				</td>
-				<td>
-					$75.00
-				</td>
-				<td>
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4">One-Time Activation Fee</td>
-				<td>
-					$75.00
-				</td>
-			</tr>
-		</table>
-	</div>
-	<div class="clearfix"></div>
-</div>
+@endforeach
+
 
 <div class="cart-item row"></div>
 
@@ -127,7 +86,7 @@
 			<tbody><tr>
         
 				<td colspan="4">&nbsp;</td>
-				<td>FREE</td>
+				<td class="orange-text">FREE</td>
 			</tr>
 		</tbody></table>
 	</div>
@@ -151,11 +110,11 @@
      	<tbody>
      		<tr>
     			<td style="width: 45%;"><strong>Due Today*</strong></td>
-				<td><strong>$340.00</strong></td>
+				<td><strong>{{ '$' . number_format($dueAmount , 2, '.', '') }}</strong></td>
 			</tr>
 			<tr>
     			<td style="width: 45%;">Due Monthly</td>
-				<td>$75.00</td>
+				<td>{{ '$' . number_format($monthlydue , 2, '.', '') }}</td>
 			</tr>
 		</tbody>
 	</table>
