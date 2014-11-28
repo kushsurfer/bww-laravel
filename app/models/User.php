@@ -35,5 +35,6 @@ public function getReminderEmail()
 {
     return $this->email;
 }
+}
 
 ?>
