@@ -11,10 +11,6 @@
 |
 */
 
-// Route::get('/', function()
-// {
-// 	return View::make('hello');
-// });
 
 Route::get('/', array('uses' => 'ShopController@shop', 'as' => 'shoppage'));
 Route::get('/deviceDetail/{id}', array('uses' => 'ShopController@deviceDetail', 'as' => 'deviceDetail'));
@@ -24,8 +20,6 @@ Route::get('/causeDetail/{id}', array('uses' => 'ShopController@causeDetail', 'a
 Route::get('/byosdhandset', array('uses' => 'ShopController@getBYOSDhansets', 'as' => 'byosdhandset'));
 Route::get('/getDeviceList', array('uses' => 'ShopController@getDeviceList', 'as' => 'getDeviceList'));
 Route::get('/getPlanOption', array('uses' => 'ShopController@getPlanOption', 'as' => 'getPlanOption'));
-// Route::get('/selectplan/{id}/{price}', array('uses' => 'ShopController@selectplan', 'as' => 'selectplan'));
-// Route::get('/selectcause/{id}/{price}', array('uses' => 'ShopController@selectcause', 'as' => 'selectcause'));
 
 
 Route::get('/serviceplan', array('uses' => 'ShopController@serviceplan', 'as' => 'serviceplan'));
@@ -35,6 +29,7 @@ Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testur
 Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 Route::get('/orderSummary', array('uses' => 'ShopController@orderSummary', 'as' => 'orderSummary'));
 Route::get('/checkout', array('uses' => 'ShopController@checkout', 'as' => 'checkout'));
+Route::get('/facebooklogin', array('uses' => 'ShopController@facebooklogin', 'as' => 'facebooklogin'));
 
 // check for hackers
 // Route::group(array('before' => 'csrf'), function(){
@@ -52,21 +47,26 @@ Route::get('/demotest', array('uses' => 'SController@demo', 'as' => 'demo'));
 Route::get('/checkdevice', array('uses' => 'SController@checkdevice', 'as' => 'checkdevice'));
 Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'testcon'));
 
-// Route::group(array('prefix' => '/forum'), function(){
-// 	Route::get('/', array('uses' => 'ForumController@index', 'as' => 'forum-home'));
-// 	Route::get('/category/{id}', array('uses' => 'ForumController@category', 'as' => 'forum-category'));
-// 	Route::get('/thread/{id}', array('uses' => 'ForumController@thread', 'as' => 'forum-thread'));
-// });
+Route::get('facebook/authorize', function() {
+    return OAuth::authorize('facebook');
+});
 
-// // use if you are a guest user or not login
-// Route::group(array('before' => 'guest'), function(){
+use \AdamWathan\EloquentOAuth\ApplicationRejectedException;
+use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
 
-// 	Route::get('user/create', array('uses' => 'UserController@getCreate', 'as' => 'getCreate'));
-// 	Route::get('user/login', array('uses' => 'UserController@getLogin', 'as' => 'getLogin'));
+Route::get('facebook/login', function() {
+    try {
+        OAuth::login('facebook');
+    } catch (ApplicationRejectedException $e) {
+        // User rejected application
+    } catch (InvalidAuthorizationCodeException $e) {
+        // Authorization was attempted with invalid
+        // code,likely forgery attempt
+    }
 
+    // Current user is now available via Auth facade
+    $user = Auth::user();
 
+    return Redirect::intended();
+});
 
-// Route::group(array('before' => 'auth'), function(){
-// 	Route::get('/user/logout', array('uses' => 'UserController@getLogout', 'as' => 'getLogout'));
-
-// });

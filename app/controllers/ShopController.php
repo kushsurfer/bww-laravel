@@ -488,9 +488,12 @@ class ShopController extends BaseController
             var_dump($response);
             echo '<br/><br/><br/>';
 
-           
-
          
+    }
+
+
+    public function facebooklogin(){
+        echo 'adfa';
     }
 
 }
