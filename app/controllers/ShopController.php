@@ -493,7 +493,7 @@ class ShopController extends BaseController
 
 
     public function facebooklogin(){
-        echo 'adfa';
+       var_dump( Auth::user());
     }
 
 }
