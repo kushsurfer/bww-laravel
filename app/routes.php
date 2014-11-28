@@ -61,7 +61,7 @@ Route::get('facebook/login', function() {
 		    // $user->name = $details->firstName . ' ' . $details->lastName;
 		    // $user->profile_image = $details->imageUrl;
 		    // $user->save();
-       		var_dump($details)
+       		var_dump($details);
 		});
     } catch (ApplicationRejectedException $e) {
         // User rejected application
