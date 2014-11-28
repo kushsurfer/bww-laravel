@@ -515,6 +515,8 @@ class ShopController extends BaseController
         // $user = Auth::user();
         Session::put('users',  Auth::user());
         var_dump(Auth::user());
+
+        exit;
     }
 
 }
