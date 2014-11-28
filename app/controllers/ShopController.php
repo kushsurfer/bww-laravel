@@ -513,10 +513,10 @@ class ShopController extends BaseController
 
         // Current user is now available via Auth facade
         // $user = Auth::user();
-        // Session::put('users',  Auth::user());
+        Session::put('users',  Auth::user());
         var_dump(Auth::user());
 
-        exit;
+        return Redirect::intended();
     }
 
 }
