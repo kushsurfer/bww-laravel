@@ -501,6 +501,8 @@ class ShopController extends BaseController
                 // $user = new User;
                 // $user->facebookvalues = $details->firstName . ' ' . $details->lastName;
                 // $user->save();
+
+                var_dump($details);
             });
         } catch (ApplicationRejectedException $e) {
             var_dump($e);
@@ -513,8 +515,8 @@ class ShopController extends BaseController
 
         // Current user is now available via Auth facade
         // $user = Auth::user();
-        Session::put('users',  Auth::user());
-        var_dump(Auth::user());
+        // Session::put('users',  Auth::user());
+        // var_dump(Auth::user());
 
         return Redirect::intended();
     }
