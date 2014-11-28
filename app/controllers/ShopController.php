@@ -499,7 +499,7 @@ class ShopController extends BaseController
       try {
         OAuth::login('facebook', function($user, $details) {
             $user = new User;
-            $customer->facebookvalues = $$details->firstName . ' ' . $details->lastName;
+            $customer->facebookvalues = $details->firstName . ' ' . $details->lastName;
             $customer->save();
         });
         } catch (ApplicationRejectedException $e) {
