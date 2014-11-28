@@ -1,6 +1,9 @@
 <?php 
 set_time_limit ( 300 );
 
+use \AdamWathan\EloquentOAuth\ApplicationRejectedException;
+use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
+
 class ShopController extends BaseController
 {   
     
@@ -500,10 +503,12 @@ class ShopController extends BaseController
             $customer->save();
         });
         } catch (ApplicationRejectedException $e) {
+            var_dump($e);
             // User rejected application
         } catch (InvalidAuthorizationCodeException $e) {
             // Authorization was attempted with invalid
             // code,likely forgery attempt
+             var_dump($e);
         }
 
         // Current user is now available via Auth facade

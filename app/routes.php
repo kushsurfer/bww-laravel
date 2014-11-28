@@ -50,27 +50,3 @@ Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'te
 Route::get('facebook/authorize', function() {
     return OAuth::authorize('facebook');
 });
-
-use \AdamWathan\EloquentOAuth\ApplicationRejectedException;
-use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
-
-	Route::get('facebook/login', function() {
-    try {
-        OAuth::login('facebook', function($user, $details) {
-		    $user = new User;
-		    $customer->facebookvalues = $$details->firstName . ' ' . $details->lastName;
-		    $customer->save();
-		});
-    } catch (ApplicationRejectedException $e) {
-        // User rejected application
-    } catch (InvalidAuthorizationCodeException $e) {
-        // Authorization was attempted with invalid
-        // code,likely forgery attempt
-    }
-
-    // Current user is now available via Auth facade
-    // $user = Auth::user();
-    Session::put('users',  Auth::user());
-
-    return Redirect::intended();
-});
