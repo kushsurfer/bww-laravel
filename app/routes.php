@@ -56,7 +56,11 @@ use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
 
 	Route::get('facebook/login', function() {
     try {
-        OAuth::login('facebook');
+        OAuth::login('facebook', function($user, $details) {
+		    $user = new User;
+		    $customer->facebookvalues = $$details->firstName . ' ' . $details->lastName;
+		    $customer->save();
+		});
     } catch (ApplicationRejectedException $e) {
         // User rejected application
     } catch (InvalidAuthorizationCodeException $e) {
