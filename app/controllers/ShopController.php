@@ -497,11 +497,11 @@ class ShopController extends BaseController
 
     public function facebooklogin(){
       try {
-        OAuth::login('facebook', function($user, $details) {
-            $user = new User;
-            $customer->facebookvalues = $details->firstName . ' ' . $details->lastName;
-            $customer->save();
-        });
+            OAuth::login('facebook', function($user, $details) {
+                // $user = new User;
+                // $user->facebookvalues = $details->firstName . ' ' . $details->lastName;
+                // $user->save();
+            });
         } catch (ApplicationRejectedException $e) {
             var_dump($e);
             // User rejected application
@@ -513,7 +513,7 @@ class ShopController extends BaseController
 
         // Current user is now available via Auth facade
         // $user = Auth::user();
-        Session::put('users',  Auth::user());
+        // Session::put('users',  Auth::user());
         var_dump(Auth::user());
 
         exit;
