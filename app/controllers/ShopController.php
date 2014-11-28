@@ -493,7 +493,7 @@ class ShopController extends BaseController
 
 
     public function facebooklogin(){
-       var_dump( Auth::user());
+       var_dump( Session::get('users')); 
     }
 
 }

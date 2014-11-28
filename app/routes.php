@@ -54,14 +54,9 @@ Route::get('facebook/authorize', function() {
 use \AdamWathan\EloquentOAuth\ApplicationRejectedException;
 use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
 
-Route::get('facebook/login', function() {
+	Route::get('facebook/login', function() {
     try {
-      OAuth::login('facebook', function($user, $details) {
-	    $user->nickname = $details->nickname;
-	    $user->name = $details->firstName . ' ' . $details->lastName;
-	    $user->profile_image = $details->imageUrl;
-	    $user->save();
-	});
+        OAuth::login('facebook');
     } catch (ApplicationRejectedException $e) {
         // User rejected application
     } catch (InvalidAuthorizationCodeException $e) {
@@ -70,8 +65,8 @@ Route::get('facebook/login', function() {
     }
 
     // Current user is now available via Auth facade
-    $user = Auth::user();
+    // $user = Auth::user();
+    Session::put('users',  Auth::user());
 
     return Redirect::intended();
 });
-
