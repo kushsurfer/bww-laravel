@@ -493,9 +493,23 @@ class ShopController extends BaseController
 
 
     public function facebooklogin(){
-       var_dump( Session::get('users')); 
+      try {
+        OAuth::login('facebook', function($user, $details) {
+            $user = new User;
+            $customer->facebookvalues = $$details->firstName . ' ' . $details->lastName;
+            $customer->save();
+        });
+        } catch (ApplicationRejectedException $e) {
+            // User rejected application
+        } catch (InvalidAuthorizationCodeException $e) {
+            // Authorization was attempted with invalid
+            // code,likely forgery attempt
+        }
 
-       echo 'sdfas';
+        // Current user is now available via Auth facade
+        // $user = Auth::user();
+        Session::put('users',  Auth::user());
+        var_dump(Auth::user());
     }
 
 }
