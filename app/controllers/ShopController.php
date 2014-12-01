@@ -396,7 +396,6 @@ class ShopController extends BaseController
         $response = MagentoAPI::getCartTotal($session_id, $cartID);
 
         var_dump($response);
-
        
         echo $cartID;exit;
 

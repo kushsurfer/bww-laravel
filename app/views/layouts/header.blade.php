@@ -48,13 +48,13 @@
 			
 					<ul class="nav navbar-nav" role="navigation" id="topnav">
 							<li>
-							<a href="https://www.betterworldwireless.com/news/">News</a>
+							<a href="http://bww.gfdev.net/news/">News</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/aboutus/">About Us</a>
+							<a href="http://bww.gfdev.net/aboutus/">About Us</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/#support">Support</a>
+							<a href="http://bww.gfdev.net/#support">Support</a>
 						</li>
 						<li>
 							<a href="tel:8448461653">844-846-1653</a>
@@ -75,21 +75,21 @@
 							</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/symfony/web/en/selfcare/login">Sign In</a>
+							<a href="http://bww.gfdev.net/symfony/web/en/selfcare/login">Sign In</a>
 						</li>
 					</ul><br/>
 					<ul class="nav navbar-nav" role="navigation" id="menu-utility-menu">
 						<li>
-							<a href="https://www.betterworldwireless.com/#mission">Phone for Phone</a>
+							<a href="http://bww.gfdev.net/#mission">Phone for Phone</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/#devices-plans">Devices & Plans</a>
+							<a href="http://bww.gfdev.net/#devices-plans">Devices & Plans</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/#coverage">Coverage</a>
+							<a href="http://bww.gfdev.net/#coverage">Coverage</a>
 						</li>
 						<li>
-							<a href="https://www.betterworldwireless.com/#signup" title="sign up">Sign Up</a>
+							<a href="http://bww.gfdev.net/#signup" title="sign up">Sign Up</a>
 						</li>
 						
 					</ul>
