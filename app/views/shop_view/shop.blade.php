@@ -220,7 +220,7 @@
 
   document.getElementById('LoginWithAmazon').onclick = function() {
     options = { scope : 'profile' };
-    amazon.Login.authorize(options, 'http://bww-laravel.gfdev.net/amazon');
+    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
     return false;
   };
 
