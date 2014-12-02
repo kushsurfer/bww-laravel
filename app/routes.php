@@ -48,7 +48,7 @@ Route::get('/checkdevice', array('uses' => 'SController@checkdevice', 'as' => 'c
 Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'testcon'));
 
 Route::get('/privacy', array('uses' => 'SController@privacypage', 'as' => 'privacy'));
-Route::get('/amazon', array('uses' => 'SController@amazon', 'as' => 'amazon'));
+Route::get('/amazon', array('uses' => 'ShopController@amazon', 'as' => 'amazon'));
 
 Route::get('facebook/authorize', function() {
     return OAuth::authorize('facebook');
