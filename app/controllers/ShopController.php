@@ -340,7 +340,7 @@ class ShopController extends BaseController
 
             $cartdetails[] = array(
                 'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
-                'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['plan_price']),
+                'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
                 'deviceImage' => $deviceDetails['images'][0], 
                 'activationFee' => $planDetails['price'] 
             );
