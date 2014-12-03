@@ -527,8 +527,8 @@ class ShopController extends BaseController
 
                 Session::put('customerID', $customerID );
                 echo "<script>
-                    window.opener.testopener();
                     window.close();
+                    alert('asdfadsf');
                     open(location, '_self').close();
                     </script>";
 

@@ -384,10 +384,6 @@ $(document).ready(function(){
       });
 
 
-	function testopener(){
-		alert('adsfa');
-	}
-
  	$('#back-button').on('click', function(){
 
 
