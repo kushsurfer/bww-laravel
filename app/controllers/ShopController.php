@@ -526,11 +526,7 @@ class ShopController extends BaseController
                
 
                 Session::put('customerID', $customerID );
-                echo "<script>
-                    window.close();
-                    alert('Logged In');
-                    open(location, '_self').close();
-                    </script>";
+
 
             });
         } catch (ApplicationRejectedException $e) {
@@ -540,14 +536,11 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
-        // $user = Auth::user();
-
-        // var_dump($user);
-
-
-        // echo $user->get
-
-
+        echo "<script>
+            window.close();
+            alert('Logged In');
+            open(location, '_self').close();
+            </script>";
        
     }
 
