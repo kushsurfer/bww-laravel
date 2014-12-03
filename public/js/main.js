@@ -346,6 +346,7 @@ $(document).ready(function(){
             var winObj = window.open(baseurl+'/facebook/authorize','Login_by_facebook',features);
 	    	var loop = setInterval(function() {   
 			    if(winObj.closed) {  
+			    	alert('closed')
 			        clearInterval(loop);  
 			        $.get( "checkCustomerSession", function( data ) {
 						if(data == 'Created'){
