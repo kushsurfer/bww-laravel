@@ -500,6 +500,7 @@ class ShopController extends BaseController
 
                 $customerID = '';
 
+                var_dump($user);
                 $customer = new Customers;
 
                 $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
@@ -532,7 +533,9 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
-        var_dump(Auth::user());
+        $user = Auth::user();
+
+        echo $user->get
 
 
        
