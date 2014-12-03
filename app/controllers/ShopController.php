@@ -308,18 +308,18 @@ class ShopController extends BaseController
 
     public function setSessionOrderSets($ordersets){
 
-        if (Session::has('orderset')) {
+        if (Session::has('ordersets')) {
 
-                $sessionorders =  Session::get('orderset');
+                $sessionorders =  Session::get('ordersets');
                 $ordersets = array_merge($ordersets,  $sessionorders);
 
-                Session::forget('orderset'); // forget previous selected device
+                Session::forget('ordersets'); // forget previous selected device
                 
             }        
 
-            Session::set('orderset',  $ordersets);
+            Session::set('ordersets',  $ordersets);
 
-            var_dump(Session::get('orderset'));
+            var_dump(Session::get('ordersets'));
          
     }
 
@@ -328,9 +328,9 @@ class ShopController extends BaseController
 
         $cartdetails = array();
         
-        if (Session::has('orderset')) {
+        if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
-            $ordersets = Session::get('orderset');
+            $ordersets = Session::get('ordersets');
            
 
             foreach($ordersets as $cartProduct){
