@@ -1,4 +1,4 @@
-<h2>ORDER SUMMARY</h2>
+<h3 class="section-title">ORDER SUMMARY</h3>
 <p>Your items</p>
 <?php 
 	$dueAmount = 0;

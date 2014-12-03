@@ -14,6 +14,11 @@ class ShopController extends BaseController
     }
 
 
+    public function shop1(){
+
+        
+        return View::make('shop_view.shop1');
+    }
 
     public function getBYOSDhansets(){
 
@@ -325,31 +330,33 @@ class ShopController extends BaseController
 
 
     public function orderSummary(){
-        
-        $session_id = MagentoAPI::initialize();
-        $ordersets = Session::get('orderset');
+
         $cartdetails = array();
+        if (Session::has('orderset')) {
+            $session_id = MagentoAPI::initialize();
+            $ordersets = Session::get('orderset');
 
-        foreach($ordersets as $cartProduct){
-            $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
-            $planDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['planID']));
-           
-            $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
-            $planDetails = $planDetails[$cartProduct['planID']];
+            foreach($ordersets as $cartProduct){
+                $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
+                $planDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['planID']));
+               
+                $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
+                $planDetails = $planDetails[$cartProduct['planID']];
 
 
-            $cartdetails[] = array(
-                'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
-                'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
-                'deviceImage' => $deviceDetails['images'][0], 
-                'activationFee' => $planDetails['price'] 
-            );
-        }
+                $cartdetails[] = array(
+                    'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
+                    'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
+                    'deviceImage' => $deviceDetails['images'][0], 
+                    'activationFee' => $planDetails['price'] 
+                );
+            }
 
-        $cartID = Session::get('cartID'); 
+            $cartID = Session::get('cartID'); 
 
         // $cartSummary = MagentoAPI::getCartTotal($session_id, $cartID);
        
+        }
 
         return View::make('shop_view.shopping_cart')->with('cartdetails', $cartdetails);
         

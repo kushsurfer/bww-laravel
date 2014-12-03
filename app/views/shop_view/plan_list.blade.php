@@ -1,4 +1,4 @@
-<h2>PACKAGE</h2>
+<h3 class="section-title">PACKAGE</h3>
 <p>Prefer a fixed rate every month? Pick the package that is right for you.</p>
 <div class="table-responsive">
 	<table class="table table-hover table-condensed package-table ">
