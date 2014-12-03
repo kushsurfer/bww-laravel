@@ -497,21 +497,30 @@ class ShopController extends BaseController
     public function facebooklogin(){
       try {
             OAuth::login('facebook', function($user, $details) {
-                // $user->nickname = $details->nickname;
-                // $user->name = $details->firstName . ' ' . $details->lastName;
-                // $user->profile_image = $details->imageUrl;
-                // $user->save();\
-                // $customer = new Customers;
-                // // form values
-                // $customer->email_address = Input::get('email_address');
-                // $customer->password = Hash::make(Input::get('password'));
-                // $customer->subscription_date = date('Y-m-d H:i:s');
-                // $customer->customerStaatus = 'Pending';
-                // $customer->save();
 
-                // Session::put('customerID', $customer->id);
-                
-                var_dump($details);
+                $customerID = '';
+
+                $customer = new Customers;
+
+                $customer = $customer::where('fbUserID', '=', $details->userId)->first();
+                if($customer == null){
+                    // form values
+                    $customer->fbUserID = $details->userId;
+                    $customer->firstname = $details->firstName;
+                    $customer->lastname = $details->lastName;
+                    $customer->email_address = $details->email;
+                    $customer->customerStaatus = 'Pending';
+                    $customer->save();
+
+                     $customerID =  $customer->id;
+                }else{
+                    $customerID = $customer->customerID;
+                }
+               
+
+                Session::put('customerID', $customerID );
+                echo $customerID;
+
             });
         } catch (ApplicationRejectedException $e) {
             // User rejected application
@@ -522,6 +531,7 @@ class ShopController extends BaseController
 
        
     }
+
 
 
     public function amazon(){
