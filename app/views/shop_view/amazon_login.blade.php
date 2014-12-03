@@ -28,7 +28,11 @@
 
 $(document).ready(function(){
 
-	$('#LoginWithAmazon').trigger('click');
+	setTimeout(function(){ 
+		alert("Hello"); 
+		$('#LoginWithAmazon').trigger('click');
+}, 2000);
+	
 });
 
   document.getElementById('LoginWithAmazon').onclick = function() {
