@@ -502,9 +502,11 @@ class ShopController extends BaseController
 
                 $customer = new Customers;
 
-                $customer = $customer::where('fbUserID', '=', $details->userId)->first();
+                $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
+
                 echo $details->userId;
-                if($customer == null){
+
+                if($existcustomer == null){
                     // form values
                     $customer->fbUserID = $details->userId;
                     $customer->firstname = $details->firstName;
