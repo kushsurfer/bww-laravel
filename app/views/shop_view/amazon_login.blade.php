@@ -23,8 +23,13 @@
     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
     width="156" height="32" />
 </a>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+$(document).ready(function(){
+
+	$('#LoginWithAmazon').trigger('click');
+});
 
   document.getElementById('LoginWithAmazon').onclick = function() {
     options = { scope : 'profile' };
