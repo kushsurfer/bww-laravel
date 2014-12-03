@@ -29,18 +29,18 @@
 $(document).ready(function(){
 
 	setTimeout(function(){ 
-		alert("Hello"); 
+		// alert("Hello"); 
 		// $('#LoginWithAmazon').trigger('click');
 		options = { scope : 'profile' };
     	amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-	}, 2000);
+	}, 1000);
 	
 });
 
-  document.getElementById('LoginWithAmazon').onclick = function() {
-    options = { scope : 'profile' };
-    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-    return false;
-  };
+  // document.getElementById('LoginWithAmazon').onclick = function() {
+  //   options = { scope : 'profile' };
+  //   amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+  //   return false;
+  // };
 
 </script>
