@@ -199,7 +199,7 @@
 			</a>
 			<h2>Or</h2>
 			<br/><br/>
-			<a href="#" id="LoginWithAmazons">
+			<a href="#" id="LoginWithAmazon">
 				<img src="<?php echo url();?>/images/amazon_login.png">
 			</a>
 		</div>
@@ -209,19 +209,19 @@
 		<div class="loader"></div>
 		
 	</div>
-
+<!-- 
 <a href="#" id="LoginWithAmazon">
   <img border="0" alt="Login with Amazon"
     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
     width="156" height="32" />
-</a>
+</a> -->
 <script type="text/javascript">
 
-  document.getElementById('LoginWithAmazon').onclick = function() {
-    options = { scope : 'profile' };
-    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-    return false;
-  };
+  // document.getElementById('LoginWithAmazon').onclick = function() {
+  //   options = { scope : 'profile' };
+  //   amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+  //   return false;
+  // };
 
 </script>
 
