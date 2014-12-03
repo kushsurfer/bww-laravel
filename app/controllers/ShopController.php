@@ -582,6 +582,12 @@ class ShopController extends BaseController
             var_dump($d);
              
             echo sprintf('%s %s %s', $d->name, $d->email, $d->user_id);
+
+            echo "<script>
+            window.close();
+            alert('Logged In');
+            open(location, '_self').close();
+            </script>";
     }
 
     
