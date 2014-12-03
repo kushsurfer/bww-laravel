@@ -527,7 +527,9 @@ class ShopController extends BaseController
 
                 Session::put('customerID', $customerID );
                 echo "<script>
+                    window.opener.testopener();
                     window.close();
+                    // window.opener.location.reload();
                     </script>";
 
             });
