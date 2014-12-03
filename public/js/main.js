@@ -498,8 +498,43 @@ $(document).ready(function(){
  	}
 
 
+	     // See changes below
+	    $('#testfb').on('click', function(event) {
+	    	event.preventDefault();
+	    	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
+                 screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
+                 outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
+                 outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
+                 width    = 500,
+                 height   = 270,
+                 left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
+                 top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
+                 features = (
+                    'width=' + width +
+                    ',height=' + height +
+                    ',left=' + left +
+                    ',top=' + top
+                  );
+ 
+                var winObj = window.open(baseurl+'/facebook/authorize','Login_by_facebook',features);
+		    	var loop = setInterval(function() {   
+				    if(winObj.closed) {  
+				        clearInterval(loop);  
+				        alert('closed');  
+				        // check if customerID is set
+				    }  
+				}, 1000);
+
+      	 
+	           	if (window.focus) {
+	           		newwindow.focus()
+	           	}
+
+		    	
+	      });
 
 
+	
 
 
 });

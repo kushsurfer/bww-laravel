@@ -6,12 +6,12 @@
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	   	<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,600,700,800,900,500,100,300' rel='stylesheet' type='text/css'>
+	   	<link href='https://fonts.googleapis.com/css?family=Raleway:400,200,600,700,800,900,500,100,300' rel='stylesheet' type='text/css'>
 	   	<link id="divi-fonts-css" media="all" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800&subset=latin,latin-ext" rel="stylesheet">
 	    <!-- Bootstrap -->
 	    <link href="<?php echo url();?>/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 	    <link href="<?php echo url();?>/css/style.css" rel="stylesheet"/>
-	    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
   	
 
 	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -127,7 +127,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!--<script src="//code.jquery.com/jquery-1.10.2.js"></script>-->
-  	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  	<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo url();?>/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo url();?>/js/main.js"></script>

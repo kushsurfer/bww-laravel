@@ -500,7 +500,17 @@ class ShopController extends BaseController
                 // $user->nickname = $details->nickname;
                 // $user->name = $details->firstName . ' ' . $details->lastName;
                 // $user->profile_image = $details->imageUrl;
-                // $user->save();
+                // $user->save();\
+                // $customer = new Customers;
+                // // form values
+                // $customer->email_address = Input::get('email_address');
+                // $customer->password = Hash::make(Input::get('password'));
+                // $customer->subscription_date = date('Y-m-d H:i:s');
+                // $customer->customerStaatus = 'Pending';
+                // $customer->save();
+
+                // Session::put('customerID', $customer->id);
+                
                 var_dump($details);
             });
         } catch (ApplicationRejectedException $e) {
@@ -510,12 +520,8 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
-        // Current user is now available via Auth facade
-        $user = Auth::user();
-        var_dump($user);
-
-        // return Redirect::intended();
-        }
+       
+    }
 
 
     public function amazon(){
