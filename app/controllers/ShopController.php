@@ -535,7 +535,7 @@ class ShopController extends BaseController
 
         $user = Auth::user();
 
-        echo $user->get
+        // echo $user->get
 
 
        
