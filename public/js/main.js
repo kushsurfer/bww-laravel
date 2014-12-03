@@ -385,6 +385,9 @@ $(document).ready(function(){
 	    	
       });
 
+	     // See changes below
+    
+
 
  	$('#back-button').on('click', function(){
 

@@ -330,7 +330,7 @@ class ShopController extends BaseController
 
 
     public function orderSummary(){
-$cartdetails = array();
+        $cartdetails = array();
         
         if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
