@@ -349,6 +349,8 @@ $(document).ready(function(){
 			    	// alert('closed')
 			        clearInterval(loop);  
 			        $.get( "checkCustomerSession", function( data ) {
+			        	alert(data);
+			        	console.log(backorder);
 						if(data == 'Created'){
 							addbackHistory('create-account');
 
