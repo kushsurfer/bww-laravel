@@ -551,7 +551,7 @@ class ShopController extends BaseController
         if (Session::has('customerID')) {
             echo 'Created';
         }else{
-            echo 'Failed'
+            echo 'Failed';
         }
 
     }
