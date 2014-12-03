@@ -1,4 +1,4 @@
-	<h4>DEVICE</h4>
+	<h3 class="section-title">DEVICE</h3>
 	<p>Choose a device from us or from one of our authorized partners</p>
 	
 	<div class="handset-list row col-xs-12 col-sm-12 col-lg-12">

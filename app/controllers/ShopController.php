@@ -14,6 +14,11 @@ class ShopController extends BaseController
     }
 
 
+    public function shop1(){
+
+        
+        return View::make('shop_view.shop1');
+    }
 
     public function getBYOSDhansets(){
 
@@ -325,8 +330,7 @@ class ShopController extends BaseController
 
 
     public function orderSummary(){
-
-        $cartdetails = array();
+$cartdetails = array();
         
         if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
