@@ -504,7 +504,7 @@ class ShopController extends BaseController
 
                 $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
 
-                echo $details->userId;
+                var_dump($details);
 
                 if($existcustomer == null){
                     // form values
