@@ -547,17 +547,6 @@ class ShopController extends BaseController
        
     }
 
-    public function checkCustomerSession(){
-
-        if (Session::has('customerID')) {
-            return Response::json(['success'=>true]);
-        }else{
-            echo 'Failed';
-        }
-
-    }
-
-
     public function amazon(){
         // verify that the access token belongs to us
             $c = curl_init('https://api.amazon.com/auth/o2/tokeninfo?access_token=' . urlencode($_REQUEST['access_token']));
@@ -586,6 +575,19 @@ class ShopController extends BaseController
              
             echo sprintf('%s %s %s', $d->name, $d->email, $d->user_id);
     }
+
+    
+    public function checkCustomerSession(){
+
+        if (Session::has('customerID')) {
+            return Response::json(['success'=>true]);
+        }else{
+            echo 'Failed';
+        }
+
+    }
+
+
 
     public function privacypage(){
         echo 'privacy page';

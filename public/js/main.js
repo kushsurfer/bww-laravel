@@ -332,8 +332,8 @@ $(document).ready(function(){
              screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
              outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
              outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
-             width    = 700,
-             height   = 270,
+             width    = 900,
+             height   = 570,
              left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
              top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
              features = (
