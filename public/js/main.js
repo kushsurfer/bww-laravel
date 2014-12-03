@@ -162,7 +162,7 @@ $(document).ready(function(){
  	});
 
 
- 	$('.proceedcheckout').on('click', function(event){
+ 	$('#manualAccount').on('click', function(event){
 
  		var formData = $('#create-account-form').serialize();
 
@@ -322,6 +322,68 @@ $(document).ready(function(){
 		}
 
 	})
+
+
+
+	     // See changes below
+    $('#fblogin').on('click', function(event) {
+    	event.preventDefault();
+    	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
+             screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
+             outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
+             outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
+             width    = 900,
+             height   = 570,
+             left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
+             top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
+             features = (
+                'width=' + width +
+                ',height=' + height +
+                ',left=' + left +
+                ',top=' + top
+              );
+
+            var winObj = window.open(baseurl+'/facebook/authorize','Login_by_facebook',features);
+	    	var loop = setInterval(function() {   
+			    if(winObj.closed) {  
+			    	// alert('closed')
+			        clearInterval(loop);  
+			        $.get( "checkCustomerSession", function( resp ) {
+			        	
+			        	console.log(backorder);
+						if(resp.success){
+							addbackHistory('create-account');
+							displayPageSection('page-section', 'checkout-container');
+
+		            		$.get("checkout", function( data ) {
+								$('#checkout-container').html(data);
+
+								$('#submitAcctInfo').on('click', function(){
+
+									$('#acct-info').hide();
+									$('#ccvalidation').show();
+
+									addbackHistory('acct-info');
+
+									console.log(backorder);
+								});
+								
+							});
+						}
+						
+					});
+				 	
+			        // check if customerID is set
+			    }  
+			}, 1000);
+
+  	 
+           	if (window.focus) {
+           		winObj.focus()
+           	}
+
+	    	
+      });
 
 
  	$('#back-button').on('click', function(){
@@ -497,9 +559,7 @@ $(document).ready(function(){
     	},
  	}
 
-
-
-
+	
 
 
 });

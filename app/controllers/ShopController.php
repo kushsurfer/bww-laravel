@@ -313,28 +313,29 @@ class ShopController extends BaseController
 
     public function setSessionOrderSets($ordersets){
 
-        if (Session::has('orderset')) {
+        if (Session::has('ordersets')) {
 
-                $sessionorders =  Session::get('orderset');
+                $sessionorders =  Session::get('ordersets');
                 $ordersets = array_merge($ordersets,  $sessionorders);
 
-                Session::forget('orderset'); // forget previous selected device
+                Session::forget('ordersets'); // forget previous selected device
                 
             }        
 
-            Session::set('orderset',  $ordersets);
+            Session::set('ordersets',  $ordersets);
 
-            // var_dump(Session::get('orderset'));
+            var_dump(Session::get('ordersets'));
          
     }
 
 
     public function orderSummary(){
-
-        $cartdetails = array();
-        if (Session::has('orderset')) {
+$cartdetails = array();
+        
+        if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
-            $ordersets = Session::get('orderset');
+            $ordersets = Session::get('ordersets');
+           
 
             foreach($ordersets as $cartProduct){
                 $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
@@ -353,10 +354,9 @@ class ShopController extends BaseController
             }
 
             $cartID = Session::get('cartID'); 
-
+        }
         // $cartSummary = MagentoAPI::getCartTotal($session_id, $cartID);
        
-        }
 
         return View::make('shop_view.shopping_cart')->with('cartdetails', $cartdetails);
         
@@ -504,11 +504,37 @@ class ShopController extends BaseController
     public function facebooklogin(){
       try {
             OAuth::login('facebook', function($user, $details) {
-                // $user->nickname = $details->nickname;
-                // $user->name = $details->firstName . ' ' . $details->lastName;
-                // $user->profile_image = $details->imageUrl;
-                // $user->save();
-                var_dump($details);
+
+                $customerID = '';
+
+                $customer = new Customers;
+
+                $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
+
+                //  $url = 'https://graph.facebook.com/me?'.http_build_query(array(
+                //     'access_token' => $details->accessToken,
+                // ));
+
+                // var_dump(json_decode(file_get_contents($url)));
+
+                if($existcustomer == null){
+                    // form values
+                    $customer->fbUserID = $details->userId;
+                    $customer->firstname = $details->firstName;
+                    $customer->lastname = $details->lastName;
+                    $customer->email_address = $details->email;
+                    $customer->customerStaatus = 'Pending';
+                    $customer->save();
+
+                     $customerID =  $customer->id;
+                }else{
+                    $customerID = $existcustomer->customerID;
+                }
+               
+
+                Session::put('customerID', $customerID );
+
+
             });
         } catch (ApplicationRejectedException $e) {
             // User rejected application
@@ -517,13 +543,13 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
-        // Current user is now available via Auth facade
-        $user = Auth::user();
-        var_dump($user);
-
-        // return Redirect::intended();
-        }
-
+        echo "<script>
+            window.close();
+            alert('Logged In');
+            open(location, '_self').close();
+            </script>";
+       
+    }
 
     public function amazon(){
         // verify that the access token belongs to us
@@ -553,6 +579,19 @@ class ShopController extends BaseController
              
             echo sprintf('%s %s %s', $d->name, $d->email, $d->user_id);
     }
+
+    
+    public function checkCustomerSession(){
+
+        if (Session::has('customerID')) {
+            return Response::json(['success'=>true]);
+        }else{
+            echo 'Failed';
+        }
+
+    }
+
+
 
     public function privacypage(){
         echo 'privacy page';

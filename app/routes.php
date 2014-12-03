@@ -31,6 +31,7 @@ Route::get('/shop1', array('uses' => 'ShopController@shop1', 'as' => 'shop1'));
 Route::get('/orderSummary', array('uses' => 'ShopController@orderSummary', 'as' => 'orderSummary'));
 Route::get('/checkout', array('uses' => 'ShopController@checkout', 'as' => 'checkout'));
 Route::get('/facebooklogin', array('uses' => 'ShopController@facebooklogin', 'as' => 'facebooklogin'));
+Route::get('/checkCustomerSession', array('uses' => 'ShopController@checkCustomerSession', 'as' => 'checkCustomerSession'));
 
 // check for hackers
 // Route::group(array('before' => 'csrf'), function(){
@@ -40,7 +41,7 @@ Route::get('/facebooklogin', array('uses' => 'ShopController@facebooklogin', 'as
 	Route::post('/shopAddtoCart', array('uses' => 'ShopController@addToCart', 'as' => 'shopAddtoCart'));
 	Route::post('/createAccount', array('uses' => 'ShopController@createAccount', 'as' => 'createAccount'));
 	Route::get('/getCurrentCartInfo', array('uses' => 'ShopController@getCurrentCartInfo', 'as' => 'getCurrentCartInfo'));
-	Route::get('/addToCart', array('uses' => 'SController@addToCart', 'as' => 'addToCart'));
+	// Route::get('/addToCart', array('uses' => 'SController@addToCart', 'as' => 'addToCart'));
 // });
 
 

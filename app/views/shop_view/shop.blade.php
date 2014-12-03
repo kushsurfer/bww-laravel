@@ -188,13 +188,13 @@
 				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></a></label>
 				    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter Password">
 				</div>
-				  <button type="button" class="btn orange-button proceedcheckout" style="width:100%" >Submit</button>
+				  <button type="button" class="btn orange-button proceedcheckout" id="manualAccount" style="width:100%" >Submit</button>
 			</form>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-lg-6">
 			<h2>OR LOGIN USING....</h2>
 			<br/><br/><br/>
-			<a href="#" class="proceedcheckout">
+			<a href="#" id="fblogin">
 				<img src="<?php echo url();?>/images/facebook_login.png">
 			</a>
 			<h2>Or</h2>
@@ -210,7 +210,6 @@
 		
 	</div>
 
-
 <!-- <a href="#" id="LoginWithAmazon">
   <img border="0" alt="Login with Amazon"
     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
@@ -218,14 +217,13 @@
 </a> -->
 <script type="text/javascript">
 
-  document.getElementById('LoginWithAmazon').onclick = function() {
-    options = { scope : 'profile' };
-    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-    return false;
-  };
+//   document.getElementById('LoginWithAmazon').onclick = function() {
+//     options = { scope : 'profile' };
+//     amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+//     return false;
+//   };
 
-</script>
-
+// </script>
 
 @stop
 
