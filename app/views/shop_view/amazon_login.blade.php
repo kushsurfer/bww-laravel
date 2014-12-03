@@ -4,9 +4,8 @@
 	  window.onAmazonLoginReady = function() {
 	    amazon.Login.setClientId('amzn1.application-oa2-client.3032012dedb74c53bcf3e0d3e140e44e');
 
-	   	options = { scope : 'profile' };
-	    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-	    
+	   	
+
 	  };
 	  (function(d) {
 	    var a = d.createElement('script'); a.type = 'text/javascript';
@@ -17,4 +16,13 @@
 
 
 
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			options = { scope : 'profile' };
+	    	amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+
+		});
 	</script>
