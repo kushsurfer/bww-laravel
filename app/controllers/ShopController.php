@@ -503,6 +503,7 @@ class ShopController extends BaseController
                 $customer = new Customers;
 
                 $customer = $customer::where('fbUserID', '=', $details->userId)->first();
+                echo $details->userId;
                 if($customer == null){
                     // form values
                     $customer->fbUserID = $details->userId;
