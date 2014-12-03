@@ -29,7 +29,7 @@
 $(document).ready(function(){
 
 	setTimeout(function(){ 
-		// alert("Hello"); 
+		alert("Hello"); 
 		// $('#LoginWithAmazon').trigger('click');
 		options = { scope : 'profile' };
     	amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
@@ -37,10 +37,10 @@ $(document).ready(function(){
 	
 });
 
-  // document.getElementById('LoginWithAmazon').onclick = function() {
-  //   options = { scope : 'profile' };
-  //   amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-  //   return false;
-  // };
+  document.getElementById('LoginWithAmazon').onclick = function() {
+    options = { scope : 'profile' };
+    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+    return false;
+  };
 
 </script>
