@@ -30,8 +30,10 @@ $(document).ready(function(){
 
 	setTimeout(function(){ 
 		alert("Hello"); 
-		$('#LoginWithAmazon').trigger('click');
-}, 2000);
+		// $('#LoginWithAmazon').trigger('click');
+		options = { scope : 'profile' };
+    	amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+	}, 2000);
 	
 });
 
