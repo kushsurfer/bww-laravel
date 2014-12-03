@@ -532,6 +532,9 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
+        var_dump(Auth::user());
+
+
        
     }
 
