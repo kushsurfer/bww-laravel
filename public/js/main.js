@@ -387,14 +387,16 @@ $(document).ready(function(){
 
 	     // See changes below
          // See changes below
+    
+
     $('#LoginWithAmazon').on('click', function(event) {
     	event.preventDefault();
     	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
              screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
              outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
              outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
-             width    = 900,
-             height   = 570,
+             width    = 150,
+             height   = 150,
              left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
              top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
              features = (
