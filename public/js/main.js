@@ -348,16 +348,15 @@ $(document).ready(function(){
 			    if(winObj.closed) {  
 			    	// alert('closed')
 			        clearInterval(loop);  
-			        $.get( "checkCustomerSession", function( data ) {
-			        	alert(data);
+			        $.get( "checkCustomerSession", function( resp ) {
+			        	alert(resp);
 			        	console.log(backorder);
-						if(data == 'Created'){
+						if(data == 'resp'){
 							addbackHistory('create-account');
+							displayPageSection('page-section', 'checkout-container');
 
 		            		$.get("checkout", function( data ) {
 								$('#checkout-container').html(data);
-
-								displayPageSection('page-section', 'checkout-container');
 
 								$('#submitAcctInfo').on('click', function(){
 
