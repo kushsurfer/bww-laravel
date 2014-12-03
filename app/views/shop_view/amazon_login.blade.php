@@ -18,11 +18,17 @@
 
 	</script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			options = { scope : 'profile' };
-	    	amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
+<script type="text/javascript">
 
-		});
-	</script>
+  document.getElementById('LoginWithAmazon').onclick = function() {
+    options = { scope : 'profile' };
+    amazon.Login.authorize(options, 'https://www.example.com/handle_login.php');
+    return false;
+  };
+
+</script>
+<a href="#" id="LoginWithAmazon">
+  <img border="0" alt="Login with Amazon"
+    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
+    width="156" height="32" />
+</a>
