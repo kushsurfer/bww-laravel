@@ -522,7 +522,7 @@ class ShopController extends BaseController
                      $customerID =  $customer->id;
                 }else{
                     $customerID = $existcustomer->customerID;
-                    var_dump($existcustomer)
+                    var_dump($existcustomer);
                 }
                
 
