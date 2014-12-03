@@ -550,7 +550,7 @@ class ShopController extends BaseController
     public function checkCustomerSession(){
 
         if (Session::has('customerID')) {
-            echo 'Created';
+            return Response::json(['success'=>true]);
         }else{
             echo 'Failed';
         }

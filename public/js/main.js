@@ -332,7 +332,7 @@ $(document).ready(function(){
              screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
              outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
              outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
-             width    = 500,
+             width    = 700,
              height   = 270,
              left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
              top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
@@ -351,7 +351,7 @@ $(document).ready(function(){
 			        $.get( "checkCustomerSession", function( resp ) {
 			        	alert(resp);
 			        	console.log(backorder);
-						if(data == 'resp'){
+						if(resp.success){
 							addbackHistory('create-account');
 							displayPageSection('page-section', 'checkout-container');
 
