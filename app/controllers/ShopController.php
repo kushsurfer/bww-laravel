@@ -504,11 +504,11 @@ class ShopController extends BaseController
 
                 $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
 
-                 $url = 'https://graph.facebook.com/me?'.http_build_query(array(
-                    'access_token' => $details->accessToken,
-                ));
+                //  $url = 'https://graph.facebook.com/me?'.http_build_query(array(
+                //     'access_token' => $details->accessToken,
+                // ));
 
-                var_dump(json_decode(file_get_contents($url)));
+                // var_dump(json_decode(file_get_contents($url)));
 
                 if($existcustomer == null){
                     // form values
@@ -521,7 +521,8 @@ class ShopController extends BaseController
 
                      $customerID =  $customer->id;
                 }else{
-                    $customerID = $customer->customerID;
+                    $customerID = $existcustomer->customerID;
+                    var_dump($existcustomer)
                 }
                
 
@@ -538,6 +539,7 @@ class ShopController extends BaseController
 
         $user = Auth::user();
 
+        var_dump($user);
 
 
         // echo $user->get
