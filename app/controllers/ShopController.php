@@ -500,12 +500,15 @@ class ShopController extends BaseController
 
                 $customerID = '';
 
-                var_dump($user);
                 $customer = new Customers;
 
                 $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
 
-                var_dump($details);
+                 $url = 'https://graph.facebook.com/me?'.http_build_query(array(
+                    'access_token' => $details->accessToken,
+                ));
+
+                var_dump(json_decode(file_get_contents($url)));
 
                 if($existcustomer == null){
                     // form values
@@ -534,6 +537,8 @@ class ShopController extends BaseController
         }
 
         $user = Auth::user();
+
+
 
         // echo $user->get
 
