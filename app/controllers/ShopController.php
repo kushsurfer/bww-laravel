@@ -526,6 +526,10 @@ class ShopController extends BaseController
                
 
                 Session::put('customerID', $customerID );
+                echo "<script>
+                    window.close();
+                    window.opener.location.reload();
+                    </script>";
 
             });
         } catch (ApplicationRejectedException $e) {
