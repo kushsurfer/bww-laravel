@@ -14,6 +14,5 @@
 
 	   	options = { scope : 'profile' };
 	    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-	    return false;
 
 	</script>
