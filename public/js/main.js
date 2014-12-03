@@ -627,9 +627,6 @@ $(document).ready(function(){
 
 	
 
-
-});
-
 document.getElementById('LoginWithAmazon').onclick = function() {
 	 setTimeout(window.doLogin, 1);
  	return false;
@@ -657,3 +654,6 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
  });
 	 
 };
+
+
+});
