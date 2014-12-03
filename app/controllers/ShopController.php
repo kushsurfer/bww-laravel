@@ -551,6 +551,10 @@ class ShopController extends BaseController
        
     }
 
+    public function amazonlogin(){
+        return View::make('shop_view.amazon_login');
+    }
+
     public function amazon(){
         // verify that the access token belongs to us
             $c = curl_init('https://api.amazon.com/auth/o2/tokeninfo?access_token=' . urlencode($_REQUEST['access_token']));
