@@ -349,7 +349,7 @@ $(document).ready(function(){
 			    	// alert('closed')
 			        clearInterval(loop);  
 			        $.get( "checkCustomerSession", function( resp ) {
-			        	alert(resp);
+			        	
 			        	console.log(backorder);
 						if(resp.success){
 							addbackHistory('create-account');
