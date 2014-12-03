@@ -527,7 +527,7 @@ $(document).ready(function(){
 
       	 
 	           	if (window.focus) {
-	           		newwindow.focus()
+	           		winObj.focus()
 	           	}
 
 		    	
