@@ -30,6 +30,7 @@ Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
 Route::get('/orderSummary', array('uses' => 'ShopController@orderSummary', 'as' => 'orderSummary'));
 Route::get('/checkout', array('uses' => 'ShopController@checkout', 'as' => 'checkout'));
 Route::get('/facebooklogin', array('uses' => 'ShopController@facebooklogin', 'as' => 'facebooklogin'));
+Route::get('/checkCustomerSession', array('uses' => 'ShopController@checkCustomerSession', 'as' => 'checkCustomerSession'));
 
 // check for hackers
 // Route::group(array('before' => 'csrf'), function(){

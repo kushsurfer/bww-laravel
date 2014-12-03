@@ -188,7 +188,7 @@
 				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></a></label>
 				    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter Password">
 				</div>
-				  <button type="button" class="btn orange-button proceedcheckout" style="width:100%" >Submit</button>
+				  <button type="button" class="btn orange-button proceedcheckout" id="manualAccount" style="width:100%" >Submit</button>
 			</form>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-lg-6">

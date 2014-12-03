@@ -522,12 +522,10 @@ class ShopController extends BaseController
                      $customerID =  $customer->id;
                 }else{
                     $customerID = $existcustomer->customerID;
-                    var_dump($existcustomer);
                 }
                
 
                 Session::put('customerID', $customerID );
-                echo $customerID;
 
             });
         } catch (ApplicationRejectedException $e) {
@@ -537,9 +535,9 @@ class ShopController extends BaseController
             // code,likely forgery attempt
         }
 
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        var_dump($user);
+        // var_dump($user);
 
 
         // echo $user->get
@@ -548,6 +546,15 @@ class ShopController extends BaseController
        
     }
 
+    public function checkCustomerSession(){
+
+        if (Session::has('customerID')) {
+            echo 'Created';
+        }else{
+            echo 'Failed'
+        }
+
+    }
 
 
     public function amazon(){
