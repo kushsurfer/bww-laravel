@@ -651,6 +651,9 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
  	if ( window.console && window.console.log )
  		window.console.log(response);
  	});
+
+	addbackHistory('create-account');
+	displayPageSection('page-section', 'checkout-container');
  });
 	 
 };
