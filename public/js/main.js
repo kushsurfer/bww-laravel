@@ -389,7 +389,7 @@ $(document).ready(function(){
          // See changes below
     
 
-    $('#LoginWithAmazon').on('click', function(event) {
+    $('#LoginWithAmazons').on('click', function(event) {
     	event.preventDefault();
     	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
              screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,

@@ -210,11 +210,11 @@
 		
 	</div>
 
-<!-- <a href="#" id="LoginWithAmazon">
+<a href="#" id="LoginWithAmazon">
   <img border="0" alt="Login with Amazon"
     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
     width="156" height="32" />
-</a> -->
+</a>
 <script type="text/javascript">
 
   // document.getElementById('LoginWithAmazon').onclick = function() {
@@ -223,6 +223,35 @@
   //   return false;
   // };
 
+
+
+</script>
+
+<script type="text/javascript">
+	document.getElementById('LoginWithAmazon').onclick = function() {
+		 setTimeout(window.doLogin, 1);
+	 	return false;
+	};
+
+	window.doLogin = function() {
+		 options = {};
+		 options.scope = 'profile';
+		 amazon.Login.authorize(options, function(response) {
+		 if ( response.error ) {
+		 alert('oauth error ' + response.error);
+		 return;
+	}
+	
+	amazon.Login.retrieveProfile(response.access_token, function(response) {
+		alert('Hello, ' + response.profile.Name);
+	 	alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+	 	alert('Your unique ID is ' + response.profile.CustomerId);
+	 	if ( window.console && window.console.log )
+	 		window.console.log(response);
+	 	});
+	 });
+		 
+	};
 </script>
 
 @stop
