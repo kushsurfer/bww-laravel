@@ -529,7 +529,7 @@ class ShopController extends BaseController
                 echo "<script>
                     window.opener.testopener();
                     window.close();
-                    // window.opener.location.reload();
+                    window.open(location, '_self').close();
                     </script>";
 
             });
