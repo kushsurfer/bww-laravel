@@ -326,7 +326,7 @@ $(document).ready(function(){
 
 
 	     // See changes below
-    $('#testfb').on('click', function(event) {
+    $('#fblogin').on('click', function(event) {
     	event.preventDefault();
     	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
              screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
@@ -346,7 +346,7 @@ $(document).ready(function(){
             var winObj = window.open(baseurl+'/facebook/authorize','Login_by_facebook',features);
 	    	var loop = setInterval(function() {   
 			    if(winObj.closed) {  
-			    	alert('closed')
+			    	// alert('closed')
 			        clearInterval(loop);  
 			        $.get( "checkCustomerSession", function( data ) {
 						if(data == 'Created'){

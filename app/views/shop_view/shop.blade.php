@@ -194,7 +194,7 @@
 		<div class="col-xs-6 col-sm-6 col-lg-6">
 			<h2>OR LOGIN USING....</h2>
 			<br/><br/><br/>
-			<a href="#" class="proceedcheckout">
+			<a href="#" id="fblogin">
 				<img src="<?php echo url();?>/images/facebook_login.png">
 			</a>
 			<h2>Or</h2>
@@ -210,7 +210,6 @@
 		
 	</div>
 
-<a href="#" id="testfb">testfb</a>
 <!-- <a href="#" id="LoginWithAmazon">
   <img border="0" alt="Login with Amazon"
     src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
