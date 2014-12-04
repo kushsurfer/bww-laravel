@@ -82,25 +82,23 @@ $(document).ready(function(){
 						data.meid = cart[orderCnt]['meid'];
 					}
 
+					$('#cause-detail').html('<div class="loader"></div>');
+
 					$.ajax({
 						type: "POST",
 						url: baseurl + 'shopAddtoCart',
 						data : data,
 			            success  : function (resp) {
-			             	// load byosd list of devices in the background 
-						 // 	$.get("getCurrentCartInfo", function( data ) {
-							// 	console.log(data);
-								
-							// });	
+			             	displayPageSection('page-section', 'another-device');
+
+							addbackHistory('cause-detail');
+
+							console.log(cart);
 			             
 			            }
 					});
 
-					displayPageSection('page-section', 'another-device');
-
-					addbackHistory('cause-detail');
-
-					console.log(cart);
+					
 					
 				})
 				

@@ -261,14 +261,16 @@ class ShopController extends BaseController
             // get product ID for BYOD product
             if($deviceID == 'BYOD'){
                 $deviceID = MagentoAPI::getProductBySKU($session_id, $deviceID);
+                $deviceID = $deviceID['product_id'];
             }
 
             // get product ID for Just Plan
             if($planID == 'BWW_PAYG'){
                 $planID = MagentoAPI::getProductBySKU($session_id, $planID);
+                $planID = $planID['product_id'];
             }
 
-
+          
             $products = array();
                          
             $products[]= array(
@@ -315,16 +317,16 @@ class ShopController extends BaseController
 
         if (Session::has('ordersets')) {
 
-                $sessionorders =  Session::get('ordersets');
-                $ordersets = array_merge($ordersets,  $sessionorders);
+            $sessionorders =  Session::get('ordersets');
+            $ordersets = array_merge($ordersets,  $sessionorders);
 
-                Session::forget('ordersets'); // forget previous selected device
+            Session::forget('ordersets'); // forget previous selected device
                 
-            }        
+        }        
 
-            Session::set('ordersets',  $ordersets);
+        Session::set('ordersets',  $ordersets);
 
-            var_dump(Session::get('ordersets'));
+        var_dump(Session::get('ordersets'));
          
     }
 

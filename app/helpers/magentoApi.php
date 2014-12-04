@@ -116,7 +116,7 @@
 
 		public static function getProductBySKU($session, $sku){
 			
-			$result = self::$soap->call($session, 'catalog_product.info', 'setorder');
+			$result = self::$soap->call($session, 'catalog_product.info', $sku);
 			
 			// If you don't need the session anymore
 			//$client->endSession($session);
