@@ -575,9 +575,6 @@ window.doLogin = function() {
 }
 
 amazon.Login.retrieveProfile(response.access_token, function(response) {
-	// alert('Hello, ' + response.profile.Name);
- // 	alert('Your e-mail address is ' + response.profile.PrimaryEmail);
- // 	alert('Your unique ID is ' + response.profile.CustomerId);
 
  	var data = {'name' : response.profile.Name, 'email_address' : response.profile.PrimaryEmail, 'oauthID' : response.profile.CustomerId};
 

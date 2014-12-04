@@ -50,7 +50,6 @@ Route::get('/checkdevice', array('uses' => 'SController@checkdevice', 'as' => 'c
 Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'testcon'));
 
 Route::get('/privacy', array('uses' => 'SController@privacypage', 'as' => 'privacy'));
-Route::get('/amazonlogin', array('uses' => 'ShopController@amazonlogin', 'as' => 'amazonlogin'));
 Route::post('/createCustomerAmazon', array('uses' => 'ShopController@createCustomerAmazon', 'as' => 'createCustomerAmazon'));
 
 Route::get('facebook/authorize', function() {

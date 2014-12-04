@@ -552,10 +552,6 @@ class ShopController extends BaseController
        
     }
 
-    public function amazonlogin(){
-        return View::make('shop_view.amazon_login');
-    }
-
     public function createCustomerAmazon(){
         if(Input::has('oauthID')){
             $customer = new Customers;
