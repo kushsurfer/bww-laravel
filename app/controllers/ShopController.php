@@ -178,8 +178,6 @@ class ShopController extends BaseController
     }
 
 
-
-
     public function getDisplayProducts(){
 
         $session_id = MagentoAPI::initialize();
@@ -511,7 +509,7 @@ class ShopController extends BaseController
 
                 $customer = new Customers;
 
-                $existcustomer =  Customers::where('fbUserID', '=', $details->userId)->first();
+                $existcustomer =  Customers::where('oauthID', '=', $details->userId)->first();
 
                 //  $url = 'https://graph.facebook.com/me?'.http_build_query(array(
                 //     'access_token' => $details->accessToken,
@@ -521,7 +519,8 @@ class ShopController extends BaseController
 
                 if($existcustomer == null){
                     // form values
-                    $customer->fbUserID = $details->userId;
+                    $customer->oauthID = $details->userId;
+                    $customer->customer_source = 'FB';
                     $customer->firstname = $details->firstName;
                     $customer->lastname = $details->lastName;
                     $customer->email_address = $details->email;
@@ -557,7 +556,7 @@ class ShopController extends BaseController
         return View::make('shop_view.amazon_login');
     }
 
-    public function amazon(){
+    public function createCustomerAmazon(){
         // verify that the access token belongs to us
             $c = curl_init('https://api.amazon.com/auth/o2/tokeninfo?access_token=' . urlencode($_REQUEST['access_token']));
             curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
