@@ -1,9 +1,9 @@
+var backorder = []; // set history for page order view
+
 $(document).ready(function(){
 
 	var orderCnt = 0; // number of bundle order (device, plan & cause)
 	var cart = {}; // store cart product selection
-
-	var backorder = []; // set history for page order view
 
 	var selectedpackage = '';
 	var selectedbyosd = '';
@@ -286,8 +286,6 @@ $(document).ready(function(){
 			alert('Kindly enter IMEI number');
 		}
 		
-								
-		
 	})
 
 
@@ -471,29 +469,8 @@ $(document).ready(function(){
 	 		$('#back-button').hide();
 	 	}
 
-
  	});
 
-
- 	function displayPageSection(classname, id){
-
- 		$( "." + classname ).each(function() {
-		  $(this).hide();
-		});
-
- 		$('#' + id).show();
- 	
- 	}
-
- 	function checkSectionHistory(){
- 		// for back button display
- 	}
-
- 	function addbackHistory(container_id){
- 		$('#back-button').show();
-
- 		backorder.push(container_id);
- 	}
 
  	var BYOSDHandset = {
 
@@ -625,8 +602,26 @@ $(document).ready(function(){
 
 	
 
-
 });
+
+
+
+function displayPageSection(classname, id){
+
+	$( "." + classname ).each(function() {
+  $(this).hide();
+});
+
+	$('#' + id).show();
+
+}
+
+function addbackHistory(container_id){
+	$('#back-button').show();
+
+	backorder.push(container_id);
+}
+
 
 document.getElementById('LoginWithAmazon').onclick = function() {
 	 setTimeout(window.doLogin, 1);
