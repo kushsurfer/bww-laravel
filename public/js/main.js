@@ -575,36 +575,40 @@ window.doLogin = function() {
 }
 
 amazon.Login.retrieveProfile(response.access_token, function(response) {
-	alert('Hello, ' + response.profile.Name);
- 	alert('Your e-mail address is ' + response.profile.PrimaryEmail);
- 	alert('Your unique ID is ' + response.profile.CustomerId);
+	// alert('Hello, ' + response.profile.Name);
+ // 	alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+ // 	alert('Your unique ID is ' + response.profile.CustomerId);
 
- 	
+ 	var data = {'name' : response.profile.Name, 'email_address' : response.profile.PrimaryEmail, 'oauthID' : response.profile.CustomerId};
 
- // 	$.get( "checkCustomerSession", function( resp ) {
-			        	
- //    	console.log(backorder);
-	// 	if(resp.success){
-	// 		addbackHistory('create-account');
-	// 		displayPageSection('page-section', 'checkout-container');
+ 	$.ajax({
+		type: "POST",
+		url: baseurl + 'createCustomerAmazon',
+		data : data,
+        success  : function (resp) {
+         	if(resp.success){
+				addbackHistory('create-account');
+				displayPageSection('page-section', 'checkout-container');
 
- //    		$.get("checkout", function( data ) {
-	// 			$('#checkout-container').html(data);
+	    		$.get("checkout", function( data ) {
+					$('#checkout-container').html(data);
 
-	// 			$('#submitAcctInfo').on('click', function(){
+					$('#submitAcctInfo').on('click', function(){
 
-	// 				$('#acct-info').hide();
-	// 				$('#ccvalidation').show();
+						$('#acct-info').hide();
+						$('#ccvalidation').show();
 
-	// 				addbackHistory('acct-info');
+						addbackHistory('acct-info');
 
-	// 				console.log(backorder);
-	// 			});
-				
-	// 		});
-	// 	}
+						console.log(backorder);
+					});
+					
+				});
+			}
 		
-	// });
+         
+        }
+	});
 
  	if ( window.console && window.console.log )
  		window.console.log(response);

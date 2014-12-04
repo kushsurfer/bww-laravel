@@ -557,38 +557,26 @@ class ShopController extends BaseController
     }
 
     public function createCustomerAmazon(){
-        // verify that the access token belongs to us
-            $c = curl_init('https://api.amazon.com/auth/o2/tokeninfo?access_token=' . urlencode($_REQUEST['access_token']));
-            curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-             
-            $r = curl_exec($c);
-            curl_close($c);
-            $d = json_decode($r);
-             
-            if ($d->aud != 'amzn1.application-oa2-client.3032012dedb74c53bcf3e0d3e140e44e') {
-              // the access token does not belong to us
-              header('HTTP/1.1 404 Not Found');
-              echo 'Page not found';
-              exit;
-            }
-             
-            // exchange the access token for user profile
-            $c = curl_init('https://api.amazon.com/user/profile');
-            curl_setopt($c, CURLOPT_HTTPHEADER, array('Authorization: bearer ' . $_REQUEST['access_token']));
-            curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-             
-            $r = curl_exec($c);
-            curl_close($c);
-            $d = json_decode($r);
-            var_dump($d);
-             
-            echo sprintf('%s %s %s', $d->name, $d->email, $d->user_id);
+        if(Input::has('oauthID')){
+            $customer = new Customers;
+       
+            $name = explode(' ', Input::get('name')); 
 
-            // echo "<script>
-            // window.close();
-            // alert('Logged In');
-            // open(location, '_self').close();
-            // </script>";
+            $customer->firstname = isset($name[0]) ? $name[0] : '';
+            $customer->lastname = isset($name[1]) ? $name[1] : '';
+            $customer->email_address = Input::get('email_address');
+            $customer->oauthID = Input::get('oauthID');
+            $customer->customer_source = 'Amazon';
+            $customer->customerStaatus = 'Pending';
+            $customer->save();
+
+            Session::put('customerID', $customer->id);
+
+            return Response::json(['success'=>true]);
+        }else{
+            return Response::json(['success'=>false]);
+        }
+        
     }
 
     
