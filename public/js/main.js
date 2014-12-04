@@ -647,6 +647,7 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 
 	addbackHistory('create-account');
 	displayPageSection('page-section', 'checkout-container');
+	console.log(backorder);
  });
 	 
 };
