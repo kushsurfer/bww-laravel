@@ -10,6 +10,8 @@ $(document).ready(function(){
 
 	cart[orderCnt] = {};
 
+	// displayAcctInfoSection();
+
  	$('.navbar-toggle').on('click', function(){
  		$('#navbar').css('background-color', '#c9c9c9');
  	});
@@ -160,62 +162,6 @@ $(document).ready(function(){
  	});
 
 
- 	$('#manualAccount').on('click', function(event){
-
- 		var formData = $('#create-account-form').serialize();
-
- 		$.each($('.errormsg'), function(){
- 			$(this).text('');
- 		})
- 		$.each($('.form-group'), function(){
- 			$(this).removeClass('has-error');
- 		})
-
-		$.ajax({
-			type: "POST",
-			url: $('#create-account-form').attr('action'),
-			data : formData,
-            success  : function (data) {
-            	if(data.success){
-
-
-            		addbackHistory('create-account');
-
-            		$.get("checkout", function( data ) {
-						$('#checkout-container').html(data);
-
-						displayPageSection('page-section', 'checkout-container');
-
-						$('#submitAcctInfo').on('click', function(){
-
-							$('#acct-info').hide();
-							$('#ccvalidation').show();
-
-							addbackHistory('acct-info');
-
-							console.log(backorder);
-						});
-						
-					});
-
-
-            	}else{
-            		 	$.each(data.errors, function(index, error){
-
-               		$('#'+ index + 'Box').addClass('has-error');
-               		$('#'+ index + 'Error').text(error);
-				})
-            	}
-              
-            }
-		}); 	 	
-
- 		event.preventDefault();
- 	
-
- 	});
-
-
 
  	$('#gotoshoppingcart').on('click', function(){
 
@@ -321,6 +267,44 @@ $(document).ready(function(){
 
 
 
+
+ 	$('#manualAccount').on('click', function(event){
+
+ 		var formData = $('#create-account-form').serialize();
+
+ 		$.each($('.errormsg'), function(){
+ 			$(this).text('');
+ 		})
+ 		$.each($('.form-group'), function(){
+ 			$(this).removeClass('has-error');
+ 		})
+
+		$.ajax({
+			type: "POST",
+			url: $('#create-account-form').attr('action'),
+			data : formData,
+            success  : function (data) {
+            	if(data.success){
+
+					displayAcctInfoSection();
+
+            	}else{
+            		$.each(data.errors, function(index, error){
+
+               		$('#'+ index + 'Box').addClass('has-error');
+               		$('#'+ index + 'Error').text(error);
+				})
+            	}
+              
+            }
+		}); 	 	
+
+ 		event.preventDefault();
+ 	
+
+ 	});
+
+
 	     // See changes below
     $('#fblogin').on('click', function(event) {
     	event.preventDefault();
@@ -348,23 +332,7 @@ $(document).ready(function(){
 			        	
 			        	console.log(backorder);
 						if(resp.success){
-							addbackHistory('create-account');
-							displayPageSection('page-section', 'checkout-container');
-
-		            		$.get("checkout", function( data ) {
-								$('#checkout-container').html(data);
-
-								$('#submitAcctInfo').on('click', function(){
-
-									$('#acct-info').hide();
-									$('#ccvalidation').show();
-
-									addbackHistory('acct-info');
-
-									console.log(backorder);
-								});
-								
-							});
+							displayAcctInfoSection();
 						}
 						
 					});
@@ -380,6 +348,8 @@ $(document).ready(function(){
 
 	    	
       });
+
+
 
 	     // See changes below
          // See changes below
@@ -407,6 +377,7 @@ $(document).ready(function(){
 	 	}
 
  	});
+
 
 
  	var BYOSDHandset = {
@@ -560,6 +531,152 @@ function addbackHistory(container_id){
 }
 
 
+function displayAcctInfoSection(){
+	addbackHistory('create-account');
+	displayPageSection('page-section', 'checkout-container');
+
+	$.get("checkout", function( data ) {
+		$('#checkout-container').html(data);
+
+		$('.custom-checkbox').on('click', function(){
+			if($(this).text() == 'X'){
+				$(this).text('');
+				$('#'+$(this).attr('inputid')).val('0');
+			}else{
+				$(this).text('X');
+				$('#'+$(this).attr('inputid')).val(1);
+			}
+
+
+
+		})
+
+
+		$('#sameShipping').on('click', function(event){
+			
+			$( ".billing-element" ).each(function() {
+
+				var value = $(this).val();
+				var id = '#ship'+$(this).attr('id');
+
+				if($(this).attr('id') == 'state'){
+					$(id+' option[value="'+value+'"]').prop("selected", true);
+				}else{
+					$(id).val(value);
+				}
+				
+			});
+
+		});
+
+
+		$('#submitAcctInfo').on('click', function(event){
+
+			if($('#terms').val() == 0){
+				$('#termsError').text('Terms and Conditions is required.');
+
+			}else{
+				var formData = $('#account-information-form').serialize();
+
+				$.each($('.errormsg'), function(){
+		 			$(this).text('');
+		 		})
+		 		$.each($('.form-group'), function(){
+		 			$(this).removeClass('has-error');
+		 		})
+
+		 		$('#acct-info').hide();
+		 		$('#checkoutloader').show();
+
+		 		$.ajax({
+					type: "POST",
+					url: $('#account-information-form').attr('action'),
+					data : formData,
+		            success  : function (resp) {
+		            	$('#checkoutloader').hide();
+		            	if(resp.success){
+
+							$('#acct-info').hide();
+							$('#ccvalidation').show();
+							$('#checkoutloader').hide();
+
+							addbackHistory('acct-info');
+
+		            	}else{
+		            		$('#acct-info').show();
+		            		$.each(resp.errors, function(index, error){
+
+			               		$('#'+ index + 'Box').addClass('has-error');
+
+			            		if(index.search( 'ship') === -1)	{
+			            			$('#'+ index + 'Error').text(error);
+			            		}else{
+			            			var err =  error.toString();
+			            			
+			            			err = err.replace("ship", "");
+
+			            			$('#'+ index + 'Error').text(err);
+			            		}
+			               			
+							})
+		            	}
+		              
+		            }
+				}); 	 	
+
+			}
+
+			
+
+			event.preventDefault();
+
+			console.log(backorder);
+		});
+
+
+		$('#validateCCard').on('click', function(event){
+
+			var formData = $('#credit-card-form').serialize();
+
+			$.each($('.errormsg'), function(){
+	 			$(this).text('');
+	 		})
+	 		$.each($('.form-group'), function(){
+	 			$(this).removeClass('has-error');
+	 		})
+
+	 		$('#ccvalidation').hide();
+	 		$('#checkoutloader').show();
+
+	 		$.ajax({
+				type: "POST",
+				url: $('#credit-card-form').attr('action'),
+				data : formData,
+	            success  : function (resp) {
+	            	$('#checkoutloader').hide();
+	            	if(resp.success){
+	            		$('#checkoutloader').html('<h4>Order Complete!</h4>');
+						
+	            	}else{
+	            		$('#ccvalidation').show();
+	            		$.each(resp.errors, function(index, error){
+
+		               		$('#'+ index + 'Box').addClass('has-error');
+	            			$('#'+ index + 'Error').text(error);
+		               			
+						})
+	            	}
+	              
+	            }
+			}); 	 	
+
+	 		event.preventDefault();
+
+		});
+		
+	});
+}
+
 document.getElementById('LoginWithAmazon').onclick = function() {
 	 setTimeout(window.doLogin, 1);
  	return false;
@@ -584,23 +701,7 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 		data : data,
         success  : function (resp) {
          	if(resp.success){
-				addbackHistory('create-account');
-				displayPageSection('page-section', 'checkout-container');
-
-	    		$.get("checkout", function( data ) {
-					$('#checkout-container').html(data);
-
-					$('#submitAcctInfo').on('click', function(){
-
-						$('#acct-info').hide();
-						$('#ccvalidation').show();
-
-						addbackHistory('acct-info');
-
-						console.log(backorder);
-					});
-					
-				});
+				displayAcctInfoSection();
 			}
 		
          

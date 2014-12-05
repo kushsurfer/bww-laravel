@@ -241,6 +241,7 @@ class SController extends BaseController {
                 $signupCustomer->setOwnerID($response);
                 $signupCustomer->SetBillingGroup($response);
                 $signupCustomer->setUser($user);
+                
                 if (!$signupCustomer->isByosd()) {
                     $signupCustomer->calculateTax();
                 }

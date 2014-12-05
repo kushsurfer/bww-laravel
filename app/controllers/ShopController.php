@@ -69,18 +69,6 @@ class ShopController extends BaseController
     }
 
 
-    public function checkout(){
-        
-        // $session_id = MagentoAPI::initialize();
-
-        // $products = MagentoAPI::getProductDetailsByIDs($session_id, array($id));
-
-        return View::make('shop_view.checkout');
-        
-    }
-
-
-
     public function shop(){
 
         $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
@@ -124,7 +112,7 @@ class ShopController extends BaseController
         ]); 
 
        return Redirect::route('serviceplan');
-        
+       
         
     }
 
@@ -133,8 +121,6 @@ class ShopController extends BaseController
     	$products = self::getDisplayProductsByCatname('Service Plans');
        
     	return View::make('shop.service_plan')->with('products', $products);
-
-        
     	
     	
     }
@@ -330,7 +316,15 @@ class ShopController extends BaseController
 
 
     public function orderSummary(){
-        $cartdetails = array();
+        $cartdetails = self::getOrderDetails();
+
+        return View::make('shop_view.shopping_cart')->with('cartdetails', $cartdetails);
+        
+    }
+
+
+    public function getOrderDetails(){
+         $cartdetails = array();
         
         if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
@@ -353,43 +347,10 @@ class ShopController extends BaseController
                 );
             }
 
-            $cartID = Session::get('cartID'); 
         }
-        // $cartSummary = MagentoAPI::getCartTotal($session_id, $cartID);
-       
 
-        return View::make('shop_view.shopping_cart')->with('cartdetails', $cartdetails);
-        
-    }
+        return $cartdetails;
 
-    public function createAccount(){
-
-        $rules = array(
-            'email_address'    => 'required|email|unique:customers',    // required and must be unique in the ducks table
-            'password'         => 'required',
-            'password_confirm' => 'required|same:password'          // required and has to match the password field
-        );
-
-        // validate against the inputs from our form
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-
-           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
-
-        } else {
-            $customer = new Customers;
-            // form values
-            $customer->email_address = Input::get('email_address');
-            $customer->password = Hash::make(Input::get('password'));
-            $customer->subscription_date = date('Y-m-d H:i:s');
-            $customer->customerStaatus = 'Pending';
-            $customer->save();
-
-            Session::put('customerID', $customer->id);
-
-            return Response::json(['success'=>true]);
-        }
     }
 
 
@@ -501,13 +462,41 @@ class ShopController extends BaseController
     }
 
 
+    public function createAccount(){
+
+        $rules = array(
+            'email_address'    => 'required|email|unique:customers',    // required and must be unique in the ducks table
+            'password'         => 'required',
+            'password_confirm' => 'required|same:password'          // required and has to match the password field
+        );
+
+        // validate against the inputs from our form
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+
+           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+
+        } else {
+            $customer = new Customers;
+            // form values
+            $customer->email_address = Input::get('email_address');
+            $customer->password = Hash::make(Input::get('password'));
+            $customer->subscription_date = date('Y-m-d H:i:s');
+            $customer->customerStatus = 'Pending';
+            $customer->save();
+
+            Session::put('customerID', $customer->customerID);
+
+            return Response::json(['success'=>true]);
+        }
+    }
+
     public function facebooklogin(){
       try {
             OAuth::login('facebook', function($user, $details) {
 
                 $customerID = '';
-
-                $customer = new Customers;
 
                 $existcustomer =  Customers::where('oauthID', '=', $details->userId)->first();
 
@@ -519,17 +508,29 @@ class ShopController extends BaseController
 
                 if($existcustomer == null){
                     // form values
+                    $customer = new Customers;
+
                     $customer->oauthID = $details->userId;
                     $customer->customer_source = 'FB';
                     $customer->firstname = $details->firstName;
                     $customer->lastname = $details->lastName;
                     $customer->email_address = $details->email;
-                    $customer->customerStaatus = 'Pending';
+                    $customer->customerStatus = 'Pending';
                     $customer->save();
 
                      $customerID =  $customer->id;
                 }else{
                     $customerID = $existcustomer->customerID;
+
+                    $customer = Customers::find($customerID);
+
+                    $customer->oauthID = $details->userId;
+                    $customer->customer_source = 'FB';
+                    $customer->firstname = $details->firstName;
+                    $customer->lastname = $details->lastName;
+                    $customer->email_address = $details->email;
+                    $customer->customerStatus = 'Pending';
+                    $customer->save();
                 }
                
 
@@ -554,25 +555,49 @@ class ShopController extends BaseController
 
     public function createCustomerAmazon(){
         if(Input::has('oauthID')){
-            $customer = new Customers;
+           
        
-            $name = explode(' ', Input::get('name')); 
+            $existcustomer =  Customers::where('oauthID', '=', Input::get('oauthID'))->first();
+             $name = explode(' ', Input::get('name')); 
 
-            $customer->firstname = isset($name[0]) ? $name[0] : '';
-            $customer->lastname = isset($name[1]) ? $name[1] : '';
-            $customer->email_address = Input::get('email_address');
-            $customer->oauthID = Input::get('oauthID');
-            $customer->customer_source = 'Amazon';
-            $customer->customerStaatus = 'Pending';
-            $customer->save();
+            if($existcustomer == null){
+             
+                $customer = new Customers;
+               
+                $customer->firstname = isset($name[0]) ? $name[0] : '';
+                $customer->lastname = isset($name[1]) ? $name[1] : '';
+                $customer->email_address = Input::get('email_address');
+                $customer->oauthID = Input::get('oauthID');
+                $customer->customer_source = 'Amazon';
+                $customer->customerStatus = 'Pending';
+                $customer->save();
 
-            Session::put('customerID', $customer->id);
+                Session::put('customerID', $customer->id);
+            }else{
+                $customer = Customers::find($customerID);
+
+                $customer->firstname = isset($name[0]) ? $name[0] : '';
+                $customer->lastname = isset($name[1]) ? $name[1] : '';
+                $customer->email_address = Input::get('email_address');
+                $customer->oauthID = Input::get('oauthID');
+                $customer->customer_source = 'Amazon';
+                $customer->customerStatus = 'Pending';
+                $customer->save();
+            }
+            
+            Session::put('customerID', $customerID );
 
             return Response::json(['success'=>true]);
+
         }else{
             return Response::json(['success'=>false]);
         }
         
+    }
+
+
+    public function updateCustomerInfo($data){
+
     }
 
     
@@ -590,6 +615,247 @@ class ShopController extends BaseController
 
     public function privacypage(){
         echo 'privacy page';
+    }
+
+
+    public function checkout(){
+        
+        $customerID = Session::get('customerID');
+
+        $customer = Customers::find($customerID);
+
+        $regionList = Region::orderBy('default_name')->get();
+
+        $months = array(
+            '01' => 'January',
+            '02' => 'February',
+            '03' => 'March',
+            '04' => 'April',
+            '05' => 'May',
+            '06' => 'June',
+            '07' => 'July',
+            '08' => 'August',
+            '09' => 'September',
+            '10' => 'October',
+            '11' => 'November',
+            '12' => 'December'
+            );
+       
+        $cartdetails = self::getOrderDetails();
+        
+        return View::make('shop_view.checkout')->with('cartdetails', $cartdetails)->with('customer', $customer)->with('regionList', $regionList)->with('months', $months);
+        
+    }
+
+    public function updateAccountInformation(){
+
+         $rules = array(
+            'fname'             => 'required',
+            'lname'             => 'required',
+            'billingAddress'    => 'required',
+            'city'              => 'required',
+            'state'             => 'required',
+            'zipcode'           => 'required|numeric',
+            'phone'             => 'required',
+            'emailAddress'      => 'required|email',    // |unique:customers
+            'verifyEmail'       => 'required|same:emailAddress',  // required and has to match the email field
+            'shipfname'         => 'required',          
+            'shiplname'         => 'required',          
+            'shipbillingAddress'=> 'required',          
+            'shipcity'          => 'required',          
+            'shipstate'         => 'required',          
+            'shipzipcode'       => 'required|numeric',          
+            'shipphone'         => 'required'       
+        );
+
+        // validate against the inputs from our form
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+
+           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+
+        } else {
+
+            $customerID = Session::get('customerID', 3);
+
+            $customer = Customers::find($customerID);
+
+            $customer->firstname = Input::get('fname');
+            $customer->middleInitial = Input::get('minitial');
+            $customer->lastname = Input::get('lname');
+            $customer->street_address = Input::get('billingAddress').' '.Input::get('billingAddress2');
+            $customer->city = Input::get('city');
+            $customer->zipcode = Input::get('zipcode');
+            $customer->state = Input::get('state');
+            $customer->phone = Input::get('phone');
+            $customer->email_address = Input::get('emailAddress');
+
+
+            $customer->shipping_fname = Input::get('shipfname');
+            $customer->shipping_lname = Input::get('shiplname');
+            $customer->shipping_address = Input::get('shipbillingAddress');
+            $customer->shipping_city = Input::get('shipcity');
+            $customer->shipping_state = Input::get('shipstate');
+            $customer->shipping_zip = Input::get('shipzipcode');
+            $customer->shipping_phone = Input::get('shipphone');
+            
+            $customer->newsletter = Input::get('newsletter');
+            $customer->customerStatus = 'Pending';
+            $customer->save();
+
+            $response = true;
+            $response = self::addCustomerDataToCart($customer);
+
+
+            return Response::json(['success'=>$response]);
+        }
+    }
+
+    public function addCustomerDataToCart($customerDetails){
+       $cartID = Session::get('cartID');
+       // $resp = true;
+       $session_id = MagentoAPI::initialize();
+
+
+       $arrAddresses = array(
+                array(
+                    "mode" => "billing",
+                    "firstname" => $customerDetails->firstname,
+                    "lastname" => $customerDetails->lastname,
+                    "company" => '',
+                    "street" => $customerDetails->street_address,
+                    "city" => $customerDetails->city,
+                    "region" => $customerDetails->state,
+                    "postcode" => $customerDetails->zipcode,
+                    "country_id" => $customerDetails->country,
+                    "telephone" => $customerDetails->phone,
+                    "fax" => '',
+                    "is_default_shipping" => 0,
+                    "is_default_billing" => 0
+                ),
+                array(
+                    "mode" => "shipping",
+                    "firstname" => $customerDetails->shipping_fname,
+                    "lastname" => $customerDetails->shipping_lname,
+                    "company" => '',
+                    "street" => $customerDetails->shipping_address,
+                    "city" => $customerDetails->shipping_city,
+                    "region" => $customerDetails->shipping_state,
+                    "postcode" => $customerDetails->shipping_zip,
+                    "country_id" => $customerDetails->shipping_country,
+                    "telephone" => $customerDetails->shipping_phone,
+                    "is_default_shipping" => 0,
+                    "is_default_billing" => 0
+                )
+            );
+
+        // $arrAddresses = null;
+
+        $customerAsGuest = array(
+                        "firstname" => $customerDetails->firstname,
+                        "lastname" => $customerDetails->lastname,
+                        "email" => $customerDetails->email_address,
+                        "website_id" => "0",
+                        "store_id" => "0",
+                        "mode" => "guest"
+                    );
+
+        $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
+
+        // echo '<br/><br/><br/>';
+
+        $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
+        
+        // echo '<br/><br/><br/>';
+
+        $response = MagentoAPI::setShippingMethod($session_id, $cartID);
+       
+            // echo '<br/><br/><br/>';
+
+
+        return $response;
+    }
+
+
+    public function validateCCardInfo(){
+         $rules = array(
+            'ccard'             => 'required|numeric',
+            'ccname'            => 'required',
+            'mon'               => 'required',
+            'yr'                => 'required',
+            'cvv'               => 'required|numeric',
+        );
+
+        // validate against the inputs from our form
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+
+           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+
+        } else {
+            $response = true;
+
+            $paymentMethod = array(
+                        "po_number" => null,
+                        "method" => 'authorizenet_directpost',
+                        "cc_type" => 'DI',
+                        "cc_number" => Input::get('ccard'),
+                        "cc_exp_month" => Input::get('mon'),
+                        "cc_exp_year" => 2015,
+                        "cc_cid" => Input::get('cvv')     
+                    );
+
+            $response = self::addCCardInfoToCart($paymentMethod);
+
+            return Response::json(['success'=>$response]);
+
+        }
+
+
+
+    }
+
+    public function addCCardInfoToCart($paymentMethod){
+        
+        $cartID = Session::get('cartID');
+        $session_id = MagentoAPI::initialize();
+
+        $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
+                
+        $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
+
+
+        if($orderID != 0){
+
+            $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+            $transactionID =  $response['payment']['last_trans_id'];
+          
+            if($response['status'] == 'pending_payment'){
+                $invoiceID = MagentoAPI::createInvoice($session_id, $orderID);
+
+                $paid = MagentoAPI::captureInvoice($session_id, $invoiceID);
+               
+
+                $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+
+                $transactionID =  $response['payment']['last_trans_id'];
+
+                $shippingFee = $response['shipping_amount'];
+
+
+            }
+        }
+
+         if($paid){
+            $response = true;
+         }
+
+        return $response;
+
+
+
     }
 }
 

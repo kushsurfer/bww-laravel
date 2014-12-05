@@ -177,15 +177,15 @@
 			<h3>Fields marked with an <span class="orange-text">*</span> are required </h3>
 			<form role="form" class="create-account-form" id="create-account-form" action="{{ URL::route('createAccount') }}">
 				<div class="form-group" id="email_addressBox">
-				    <label for="email_address">Email address<span class="orange-text">*</span><span class="errormsg" id="email_addressError"></a></label>
+				    <label for="email_address">Email address<span class="orange-text">*</span><span class="errormsg" id="email_addressError"></span></label>
 				    <input type="email" class="form-control" id="email_address" name="email_address" placeholder="Enter email">
 				</div>
 				<div class="form-group" id="passwordBox">
-				    <label for="password">Password<span class="orange-text">*</span><span class="errormsg" id="passwordError"></a></label>
+				    <label for="password">Password<span class="orange-text">*</span><span class="errormsg" id="passwordError"></span></label>
 				    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
 				</div>
 				<div class="form-group" id="password_confirmBox">
-				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></a></label>
+				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></span></label>
 				    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter Password">
 				</div>
 				  <button type="button" class="btn orange-button proceedcheckout" id="manualAccount" style="width:100%" >Submit</button>
