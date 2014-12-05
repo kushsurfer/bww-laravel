@@ -50,7 +50,7 @@
 			<div class="site-logo col-xs-3 col-sm-3 col-lg-3">
 				<img src="/images/logo.png" width="200" height="80"/>
 			</div>			
-			<div class="col-xs-9 col-sm-9 col-lg-9" style="text-align:right">
+			<div class="nav-section col-xs-9 col-sm-9 col-lg-9" style="text-align:right">
 				<div class="navbar-header">
 					<button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button">
 						<span class="sr-only">Toggle navigation</span>

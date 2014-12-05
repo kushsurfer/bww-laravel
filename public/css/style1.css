@@ -29,6 +29,7 @@ margin-bottom: 50px;
     padding-bottom: 20px;
     background-color: #fff;
     border: none;
+    height: 130px;
 }
 
 .site-logo {
@@ -38,7 +39,7 @@ margin-bottom: 50px;
 #header-section.fixed,
 .orange-border.fixed {
     position: fixed;
-    z-index: 999;
+    z-index: 1;
     width: 100%;
 }
 #header-section.fixed {
@@ -50,10 +51,23 @@ margin-bottom: 50px;
 
 .header-container {
     /*max-width: 1070px;*/
+    position: relative;
+    z-index: 2;
 }
+
+.navbar-inverse .navbar-toggle {
+    background: #ccc;
+    border: 0 none;
+    border-radius: 0;
+}
+
 .navbar-collapse {
     max-height: 485px !important;
     overflow: hidden;
+}
+
+.nav-section {
+
 }
 
 h2 , h3 {
@@ -236,6 +250,10 @@ p.subheading {
     text-decoration: underline;
 }
 
+#plan-container {
+
+}
+
 #just-plan .plan-types {
     max-width: 840px;
     width: 100%;
@@ -310,9 +328,6 @@ p.subheading {
     display: block;
 }
 
-.search{
-    height: 42px;
-}
 /*
 .search-button {
     background-color: #fc8722;
@@ -325,15 +340,20 @@ p.subheading {
     width: 104px;
 }*/
 .orange-button,
-.orange-button:visited {
-    background-color: #fc8722;
+.orange-button:visited,
+.blue-button,
+.blue-button:visited {
     color: #fff;
-    display: block;
+    display: inline-block;
     font-weight: 700;
     min-height: 42px;
-    padding: 11px;
+    padding: 10px 40px;
     text-align: center;
-    width: 104px;
+}
+
+.orange-button,
+.orange-button:visited {
+    background-color: #fc8722;
 }
 
 .orange-button:hover,
@@ -348,13 +368,11 @@ p.subheading {
 .blue-button,
 .blue-button:visited {
     background-color: #69d2e7;
-    color: #fff;
-    display: block;
-    font-weight: 700;
-    min-height: 42px;
-    padding: 11px;
-    text-align: center;
-    width: 104px;
+}
+
+.orange-button.wide,
+.blue-button.wide {
+    padding: 10px 80px;
 }
 
 .blue-button:hover,
@@ -368,7 +386,7 @@ p.subheading {
 
 .device-list {
     border-top: 1px solid #d0d2d3;
-    margin-top: 40px;
+    margin-top: 20px;
     padding-top: 30px;
 }
 
@@ -404,6 +422,32 @@ p.subheading {
 #byosd-list #search-phone {
     overflow: auto;
     margin-bottom: 2em;
+}
+
+#bhandset {
+    height: 42px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+#bhandset:focus {
+    border: 2px solid #fc8722;
+    outline: none;
+}
+
+.ui-menu {
+    padding: 5px 10px !important;
+    margin: 0 1em !important;
+    border: 2px solid #ccc !important;
+    box-shadow: rgba(0,0,0,0.1) 0 2px 2px !important;
+}
+.ui-menu .ui-menu-item {
+    color: #666 !important;
+}
+.ui-menu .ui-state-focus {
+    background: none;
+    background: #99ccff !important;
+    border: 0 none !important;
 }
 
 #device-detail {
@@ -455,6 +499,7 @@ p.subheading {
 
 #search-handset{
     padding:8px;
+    width: 120px;
 }
 
 .package-table {
@@ -475,7 +520,7 @@ p.subheading {
     font-size: 25px
 }
 
-.package-table span{
+.package-table span {
     font-size: 13px;
     display: block;
 }
@@ -486,9 +531,8 @@ p.subheading {
     display: block;
     font-weight: 700;
     height: 42px;
-    padding: 11px;
+    padding: 10px 40px;
     text-align: center;
-    width: 20%;
     float:left;
     margin-right: 20px;
 }
@@ -714,7 +758,7 @@ label.css-label {
 }
 
 .price {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     margin-top: 6px;
     display: inline-block;
@@ -738,6 +782,58 @@ label.css-label {
     }
     .create-account-form {
         width: 100%;
+    }
+    p.subheading {
+        font-size: 16px;
+    }
+    .package-table > tbody > tr > td:first-child strong {
+        font-size: 18px;
+    }
+    .package-table > tbody > tr > td {
+        font-size: 14px;
+    }
+    .package-table > tbody > tr > td span {
+        font-size: 11px;
+    }
+    .cause-item {
+        font-size: 12px;
+    }
+    .orange-button, .orange-button:visited, 
+    .blue-button, .blue-button:visited {
+        padding: 10px 20px;
+    }
+    #navbar {
+        border: 0 none;
+        background-color: rgb(201, 201, 201) !important;
+        box-shadow: rgba(0,0,0,0.1) 0 5px 5px !important;
+    }
+    #navbar li a {        
+        font-size: 16px;
+        padding: 4px 40px 4px 20px;
+        text-align: left;
+        color: #245d9c;
+        font-weight: 500;
+        display: block;
+    }
+    #navbar li a[title="sign up"] {
+        margin-left: 0;
+        padding: 8px 20px;
+    }
+    #navbar li a.socialmedia {
+        display: none;
+    }
+    #navbar li a:hover {
+        background: #ddd !important;
+    }
+    #navbar li a[title="sign up"]:hover {
+        background: #ffaf69 !important;
+    }
+}
+
+@media (max-width: 992px) {
+
+    #navbar li a.socialmedia {
+        display: none;
     }
 }
 

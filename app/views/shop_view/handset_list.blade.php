@@ -4,8 +4,8 @@
 		<p class="subheading meid-res" style="display:none">Great! Your phone is compatible & eligible for Betterworld Wireless.</p>
 		<div id="search-phone" style="display:block" class="hsearch-main">
 			<h4 style="font-weight:200">Search for your current phone</h4>
-			<div class="col-xs-7 col-sm-7 col-lg-7" style="padding-left:0px" >
-				<input id="bhandset" class="search pull-left" type="text" style="width: 81%;" value="">
+			<div class="col-xs-12 col-sm-10 col-lg-8" style="padding-left:0px" >
+				<input id="bhandset" class="search pull-left" type="text" style="width: 60%;" value="">
 				<input type="hidden" name="selectbyosd" id="bhandset_hidden"  value="">
 
 				<a class="orange-button pull-left" href="#" id="search-handset"><img src="<?php echo url();?>/images/search_icon.png"></a>
@@ -46,7 +46,7 @@
 
 			@endif
 
-				<p class="col-xs-3 col-sm-3 col-lg-3 ">{{ $handset->name }}</p>
+				<p class="col-xs-6 col-sm-4 col-lg-3 ">{{ $handset->name }}</p>
 	
 			<?php
 

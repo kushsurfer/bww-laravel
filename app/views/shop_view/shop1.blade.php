@@ -147,7 +147,7 @@
 			<div style="text-align: center;">
 				<img style="" src="<?php echo url();?>/images/justplan_picture.jpg" class="plan-types">
 				<br>
-				<a class="orange-button select-justplan" href="#" style="margin:20px auto">SELECT</a>
+				<a class="orange-button wide select-justplan" href="#" style="margin:20px auto">SELECT</a>
 			</div>
 			<div class="disclaimer">
 				<h5>Internation Calling</h5>
@@ -180,8 +180,8 @@
 			<div class="add-device-action col-xs-10 col-sm-10 col-lg-10">
 				<p>You have added a plan to your device. </p>
 				<p>	Do you want to add another device to your Family Plan?</p>
-				<a id="addevice" class="orange-button" href="#" style="width: 35%;">Yes add another device</a>
-				<a id="gotoshoppingcart" class="blue-button" href="#" style="width: 35%;">No, continue to checkout</a>
+				<a id="addevice" class="orange-button" href="#">Yes add another device</a>
+				<a id="gotoshoppingcart" class="blue-button" href="#">No, continue to checkout</a>
 			</div>
 		</div>
 	</div>

@@ -29,7 +29,7 @@
 		</table>
 	</div>
 	<div style="text-align: center;">
-		<a class="orange-button select-package" href="#" style="width: 25%;margin:20px 40%" >SELECT</a>
+		<a class="orange-button wide select-package" href="#">SELECT</a>
 	</div>
 
 	<div class="disclaimer">
