@@ -1,5 +1,6 @@
+<div class="col-lg-12">
 <h3 class="section-title">ORDER SUMMARY</h3>
-<p>Your items</p>
+<p class="subheading">Your items</p>
 <?php 
 	$dueAmount = 0;
 	$monthlydue = 0;
@@ -121,4 +122,6 @@
 	<div class="clearfix"></div>
 	<a id="checkout" style="float: right; width: 45%;" href="#" class="orange-button">CHECKOUT</a>
 	<div class="clearfix"></div>
+</div>
+
 </div>

@@ -1,3 +1,4 @@
+<div class="col-lg-12">
 	<div class="cause-msg">
 		<div class="content-msg">
 			<span class="msg-header">What if you could help someone who sleeps on the streets find a home?</span>
@@ -35,3 +36,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 	{{ $cause['description'] }}
 	</div>
 	@endforeach
+
+</div>

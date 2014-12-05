@@ -1,10 +1,10 @@
-
-		<h3 class="option-text" >BRING YOUR OWN DEVICE</h3>
-		<h4 id="compatibility" class="hsearch-main">Check below. If your phone is compatible, you can select our monthly plan.</h4><br/>
-		<h4 class="meid-res" style="display:none">Great! Your phone is compatible & eligible for Betterworld Wireless.</h4><br/>
+<div class="col-lg-12">
+		<h3 class="section-title" >BRING YOUR OWN DEVICE</h3>
+		<p id="compatibility" class="subheading hsearch-main">Check below. If your phone is compatible, you can select our monthly plan.</p>
+		<p class="subheading meid-res" style="display:none">Great! Your phone is compatible & eligible for Betterworld Wireless.</p>
 		<div id="search-phone" style="display:block" class="hsearch-main">
-			<h5>Search for your current phone</h5>
-			<div class="col-xs-6 col-sm-6 col-lg-6 " style="padding-left:0px" >
+			<h4 style="font-weight:200">Search for your current phone</h4>
+			<div class="col-xs-7 col-sm-7 col-lg-7" style="padding-left:0px" >
 				<input id="bhandset" class="search pull-left" type="text" style="width: 81%;" value="">
 				<input type="hidden" name="selectbyosd" id="bhandset_hidden"  value="">
 
@@ -36,7 +36,7 @@
 			@endif
 			<div class="clearfix"></div>		
 			<div class="hmanufacturer">
-				<strong>{{ $handset->manufacturer }}</strong><br/>
+				<span class="name">{{ $handset->manufacturer }}</span><br/>
 
 			<?php 
 				$manufacturer = $handset->manufacturer; 
@@ -58,7 +58,7 @@
 
 
 		</div>
-
+</div>
 		
 	<?php #var_dump($byosdhansets[0]->manufacturer);?>
 

@@ -1,6 +1,6 @@
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
+<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
 			<h3 class="section-title">ACCOUNT INFORMATION</h3>
-			<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
+			<p class="subheading">Fields marked with an <span class="orange-text">*</span> are required </p>
 			<form role="form" class="create-account-form">
 				<div class="form-group">
 				    <label for="exampleInputEmail1">First Name<span class="orange-text">*</span></label>
@@ -48,9 +48,8 @@
 				<div class="shipping-address ">
 					<div class="form-group">
 						<h4>Shipping address</h4>
-					    <input type="checkbox" value="" class="hide">
-					    <span class="custom-checkbox">X</span>
-					    <label for="exampleInputEmail1">Same as billing address<span class="orange-text">*</span></label>
+					    <input type="checkbox" id="shipping-address" class="css-checkbox" checked="checked">
+					    <label for="shipping-address" class="css-label">Same as billing address<span class="orange-text">*</span></label>
 					</div>
 				</div>				
 				<div class="form-group">
@@ -59,23 +58,21 @@
 				</div>
 				<div class="form-group">
 					<h4>Newsletter</h4>
-				    <input type="checkbox" value="" class="hide">
-				    <span class="custom-checkbox"></span>
-				    <label for="exampleInputEmail1">Sign me up for Betterworld Wireless Newsletter</label>
+				    <input type="checkbox" id="subscribe-newsletter" class="css-checkbox">
+				    <label for="subscribe-newsletter" class="css-label">Sign me up for Betterworld Wireless Newsletter</label>
 				</div><br/>
 				<div class="form-group">
 					<h4>TERMS & CONDITIONS</h4>
-				    <input type="checkbox" value="" class="hide">
-				    <span class="custom-checkbox"></span>
-				    <label for="exampleInputEmail1" class="orange-text">I agree to Betterworld Wireless Terms & Conditions</label>
+				    <input type="checkbox" id="terms-conditions" class="css-checkbox">
+				    <label for="terms-conditions" class="css-label orange-text">I agree to Betterworld Wireless Terms & Conditions</label>
 				</div>
 				<br/><br/>
 				<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 			</form>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
+		<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
 			<h3 class="section-title">CREDIT CARD VALIDATION</h3>
-			<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
+			<p class="subheading">Fields marked with an <span class="orange-text">*</span> are required </p>
 			<form role="form" class="create-account-form">
 				<div class="form-group">
 				    <label for="exampleInputEmail1">Credit Card Number<span class="orange-text">*</span></label>
@@ -104,7 +101,7 @@
 				<button  class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 			</form>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-lg-6">
+		<div class="col-xs-12 col-sm-6 col-lg-6">
 			<h3 class="section-title">ORDER DETAILS</h3>
 			<table class="order-details table">
 				<tbody>
