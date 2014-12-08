@@ -27,7 +27,6 @@ Route::get('/causes', array('uses' => 'ShopController@causes', 'as' => 'causes')
 
 Route::get('/testurl', array('uses' => 'ShopController@testurl', 'as' => 'testurl'));
 Route::get('/shop', array('uses' => 'ShopController@index', 'as' => 'shop'));
-Route::get('/shop1', array('uses' => 'ShopController@shop1', 'as' => 'shop1'));
 Route::get('/orderSummary', array('uses' => 'ShopController@orderSummary', 'as' => 'orderSummary'));
 Route::get('/checkout', array('uses' => 'ShopController@checkout', 'as' => 'checkout'));
 Route::get('/facebooklogin', array('uses' => 'ShopController@facebooklogin', 'as' => 'facebooklogin'));

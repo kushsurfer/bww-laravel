@@ -38,7 +38,8 @@ $(document).ready(function(){
 
 		// intialize event functions
 		Devices.initialize();
-		
+		// scroll to device list section
+		$(document).scrollTo('#device-container', 800, {offset:-150});
 	});
 
 
@@ -49,7 +50,9 @@ $(document).ready(function(){
 		
 		// intialize event functions
 		Plans.initialize();
-		
+
+		// scroll to plan options
+		$(document).scrollTo('#plan-container', 800, {offset:-150});
 	});
 
 
@@ -101,9 +104,9 @@ $(document).ready(function(){
 					});
 
 					
-					
-				})
-				
+				});
+
+				$(document).scrollTo('#cause-detail', 800, {offset:-150});
 				
 			});
 
@@ -183,7 +186,7 @@ $(document).ready(function(){
 				
 				event.preventDefault();
 			})
-			
+			$(document).scrollTo('#shopping-cart', 800, {offset:-150});
 		});
 
  		displayPageSection('page-section', 'shopping-cart');
@@ -362,10 +365,11 @@ $(document).ready(function(){
 
  		if(containerID != 'acct-info'){
 	 		$( ".page-section" ).each(function() {
-			  $(this).hide();
+			  //$(this).hide();
 			});
 
-	 		$('#' + containerID).show();
+	 		//$('#' + containerID).show();
+	 		$(document).scrollTo('#' + containerID, 800, {offset:-150});
 	 	}else {
 	 		$('#' + containerID).show();
 	 		$('#ccvalidation').hide();
@@ -379,6 +383,37 @@ $(document).ready(function(){
  	});
 
 
+    /*$('.orange-border').waypoint(function(direction){
+        if (direction == 'down') {
+            $(this).addClass('fixed-bar');
+        }
+        else {
+            $(this).removeClass('fixed-bar');
+        }
+    });*/
+
+
+ 	function displayPageSection(classname, id){
+
+ 		$( "." + classname ).each(function() {
+		  //$(this).hide();
+		});
+
+ 		$('#' + id).show();
+
+ 		// scrolls to the newly opened section when user selects an option
+ 		$(document).scrollTo('#' + id, 800, {offset:-150});
+ 	}
+
+ 	function checkSectionHistory(){
+ 		// for back button display
+ 	}
+
+ 	function addbackHistory(container_id){
+ 		$('#back-button').show();
+
+ 		backorder.push(container_id);
+ 	}
 
  	var BYOSDHandset = {
 
@@ -441,7 +476,9 @@ $(document).ready(function(){
 
 						addbackHistory('device-detail');
 
-					})
+					});
+
+					$(document).scrollTo('#device-detail', 800, {offset:-150});
 					
 				});
 			})
