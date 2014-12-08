@@ -10,7 +10,7 @@
 		<div class="col-xs-12 col-sm-6 col-lg-6  select-device  select-section" cid="deviceselection">
 			<div class="select-content">
 				<div class="content">
-					<h3>DEVICES</h3>
+					<h3 class="underlined">DEVICES</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 				</div>
 			</div>
@@ -20,7 +20,7 @@
 		<div class="col-xs-12 col-sm-6 col-lg-6 select-plan  select-section" cid="planselection">
 			<div class="select-content">
 				<div class="content">
-					<h3>PLANS</h3>
+					<h3 class="underlined">PLANS</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 		<div class="col-xs-12 col-sm-6 col-lg-6  select-device  select-section" cid="device-container">
 			<div class="select-content">
 				<div class="content">
-					<h3>SELECT A DEVICE</h3>
+					<h3 class="underlined">SELECT A DEVICE</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 		<div class="col-xs-12 col-sm-6 col-lg-6 select-plan  select-section" cid="byosd-list">
 			<div class="select-content">
 				<div class="content">
-					<h3>BRING YOUR OWN DEVICE</h3>
+					<h3 class="underlined">BRING YOUR OWN DEVICE</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 		<div class="col-xs-12 col-sm-6 col-lg-6 select-device plan-section  select-section" cid="just-plan">
 			<div class="select-content">
 				<div class="content">
-					<h3>JUST PLAN</h3>
+					<h3 class="underlined">JUST PLAN</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 				</div>
 			</div>
@@ -124,7 +124,7 @@
 		<div class="col-xs-12 col-sm-3 col-lg-3 plan-package plan-section select-section" cid="plan-container" >
 			<div class="select-content">
 				<div class="content">
-					<h3>PACKAGE</h3>
+					<h3 class="underlined">PACKAGE</h3>
 					<p>Consectetur adipiscing elit, eiusmod tempor incididunt.</p>
 				</div>
 			</div>
@@ -132,7 +132,7 @@
 		<div class="col-xs-12 col-sm-3 col-lg-3 plan-package plan-section select-section" cid="plan-container">
 			<div class="select-content">
 				<div class="content">
-					<h3>DATA ONLY</h3>
+					<h3 class="underlined">DATA ONLY</h3>
 					<p>Consectetur adipiscing elit, eiusmod tempor incididunt.</p>
 				</div>
 			</div>

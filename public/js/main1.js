@@ -267,6 +267,17 @@ $(document).ready(function(){
 	})
 
 
+ 	$(document).on('click', '.cc-types a', function(e) {
+ 		e.preventDefault();
+
+ 		var selectedCard = $(this).attr('data-id');
+
+ 		$('.cc-types a').removeClass('selected');
+ 		$(this).addClass('selected');
+
+ 		//set input
+ 		$('#ccardtype').val(selectedCard);
+ 	});
 
 
  	$('#manualAccount').on('click', function(event){
@@ -285,9 +296,7 @@ $(document).ready(function(){
 			url: $('#create-account-form').attr('action'),
 			data : formData,
             success  : function (data) {
-
-            	//test for local only
-            	//data = JSON.parse(data);
+            	data = JSON.parse(data);
 
             	if (data.success){
 					displayAcctInfoSection();
@@ -304,8 +313,6 @@ $(document).ready(function(){
 		}); 	 	
 
  		event.preventDefault();
- 	
-
  	});
 
 
@@ -379,7 +386,6 @@ $(document).ready(function(){
 	 	}
 
  	});
-
 
     /*$('.orange-border').waypoint(function(direction){
         if (direction == 'down') {

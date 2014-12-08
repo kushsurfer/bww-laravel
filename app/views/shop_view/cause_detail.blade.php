@@ -3,7 +3,7 @@
 		<div class="content-msg">
 			<span class="msg-header">What if you could help someone who sleeps on the streets find a home?</span>
 			<div class="mobile-all">
-				<h2 style="text-decoration:underline">MOBILE<span style="color:#fe8700">4</span>ALL</h2>
+				<h2>MOBILE<span style="color:#fe8700">4</span>ALL</h2>
 				<p>
 					Mission: End homelessness<br/>
 					Where: U.S. <br/>
@@ -17,10 +17,8 @@
 	<div class="content-msg">
 		
 		<div class="mobile-all">
-			<h2 style="text-decoration:underline">{{ $cause['name'] }}</h2>
-			<p>
-				{{ $cause['short_description'] }}
-			</p>
+			<h2>{{ $cause['name'] }}</h2>
+			<p>{{ $cause['short_description'] }}</p>
 			<span class="cause-button">Goal 250</span>
 			<span class="cause-button">Sponsors:###</span>
 			<a href="#" class="cause-button orange-button" id="select-sponsor" style="color:#fff" cid="{{ $cause['product_id'] }}">SPONSOR</a>

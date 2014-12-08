@@ -8,8 +8,6 @@
 
 	$currentYear = date('Y');
 	$cardYear = $currentYear - 25;
-	
-
 ?>
 
 <div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
@@ -126,18 +124,20 @@
 		<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
-<<<<<<< HEAD
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:block">
-=======
-<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
->>>>>>> cf13a4b616f745eb531d392f4b57042e1415e3ba
+<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:block">
 	<h3 class="section-title">CREDIT CARD VALIDATION</h3>
 	<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
 	<form role="form" class="credit-card-form" id="credit-card-form" action="{{ URL::route('validateCCardInfo') }}" method="POST">
+		<input type="hidden" id="ccardtype" name="ccardtype" value="" />
 		<div class="form-group">
 		    <label for="ccard">Credit Card Number<span class="orange-text">*</span><span class="errormsg" id="fnameError"></span></label>
 		    <input type="text" class="form-control" id="ccard" name="ccard" >
-		    <img class="pull-left" src="<?php echo url();?>/images/cc_cards.jpg"><br/>
+		    <ul class="cc-types">
+		    	<li><a href="#" data-id="AE"><img src="<?php echo url();?>/images/cc_card_amex.png" /></a></li>
+		    	<li><a href="#" data-id="DI"><img src="<?php echo url();?>/images/cc_card_discover.png" /></a></li>
+		    	<li><a href="#" data-id="MC"><img src="<?php echo url();?>/images/cc_card_mastercard.png" /></a></li>
+		    	<li><a href="#" data-id="VI"><img src="<?php echo url();?>/images/cc_card_visa.png" /></a></li>		    	
+		    </ul>
 		</div>
 		<div class="form-group">
 		    <label for="ccname">Cardholder's Name<span class="orange-text">*</span><span class="errormsg" id="ccnameError"></span></label>

@@ -3,7 +3,7 @@
 		<div class="content-msg">
 			<span class="msg-header">What if you could help someone who sleeps on the streets find a home?</span>
 			<div class="mobile-all">
-				<h2 style="text-decoration:underline">MOBILE<span style="color:#fe8700">4</span>ALL</h2>
+				<h2>MOBILE<span style="color:#fe8700">4</span>ALL</h2>
 				<p>
 					Mission: End homelessness<br/>
 					Where: U.S. <br/>
@@ -23,7 +23,7 @@
 	<?php $cnt = 1; ?>
 	@foreach($causes as $cause)
 	<div class="cause{{$cnt}} cause-item">
-		<h2 class="cause-name" cid="{{ $cause['product_id'] }}">{{ $cause['name'] }}</h2>
+		<h3 class="cause-name underlined" cid="{{ $cause['product_id'] }}">{{ $cause['name'] }}</h3>
 		<p>
 			{{ $cause['short_description'] }}
 		</p>

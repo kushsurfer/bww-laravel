@@ -208,9 +208,14 @@ h2 , h3 {
 }
 
 .select-content h3{
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 
+h3.underlined {
+    display: inline-block;
+    border-bottom: 1px solid rgba(255,255,255,0.8);
+    padding-bottom: 2px;
+}
 
 .option-text {
     /*margin-top: -5px;*/
@@ -267,11 +272,9 @@ p.subheading {
     padding: 30px 40px;
 }
 
-
 .cause-msg .content-msg{
    text-align: left;
    color:#fff;
-   
 }
 
 .content-msg .msg-header{
@@ -282,6 +285,11 @@ p.subheading {
     font-size: 14px;
     font-weight: normal;
     padding-top: 25px;
+}
+.mobile-all h2 {
+    display: inline-block;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(255,255,255,0.8);
 }
 
 .cause-description {
@@ -780,6 +788,22 @@ label.css-label {
 
 .name {
     margin-bottom: 20px;
+}
+
+.cc-types {
+    display: inline-block;
+    padding-top: 8px;
+    padding-left: 8px;
+}
+
+.cc-types li {
+    display: inline;
+    list-style: none;
+    margin-right: 2px;
+}
+
+.cc-types li a.selected img {
+    border: 1px solid #fc8722;
 }
 
 @media (max-width: 768px) {
