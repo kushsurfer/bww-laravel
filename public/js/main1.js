@@ -631,12 +631,17 @@ function displayAcctInfoSection(){
 					url: $('#account-information-form').attr('action'),
 					data : formData,
 		            success  : function (resp) {
+
+		            	resp = JSON.parse(resp);
+
 		            	$('#checkoutloader').hide();
 		            	if(resp.success){
 
 							$('#acct-info').hide();
 							$('#ccvalidation').show();
 							$('#checkoutloader').hide();
+
+							$('#estimateTax').text(resp.estimatedTax);
 
 							addbackHistory('acct-info');
 
@@ -691,6 +696,7 @@ function displayAcctInfoSection(){
 				url: $('#credit-card-form').attr('action'),
 				data : formData,
 	            success  : function (resp) {
+	            	resp = JSON.parse(resp);
 	            	$('#checkoutloader').hide();
 	            	if(resp.success){
 	            		$('#checkoutloader').html('<h4>Order Complete!</h4>');

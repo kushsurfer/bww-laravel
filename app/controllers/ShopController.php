@@ -670,7 +670,8 @@ class ShopController extends BaseController
 
     public function updateAccountInformation(){
 
-         $rules = array(
+
+        $rules = array(
             'fname'             => 'required',
             'lname'             => 'required',
             'billingAddress'    => 'required',
@@ -697,41 +698,69 @@ class ShopController extends BaseController
            return json_encode(array('success'=>false, 'errors' => $validator->messages()));
 
         } else {
+            $signupCustomer = new SignupCustomerModel();
 
-            $customerID = Session::get('customerID');
+            $errorMsg = array();
 
-            $customer = Customers::find($customerID);
+            $promotionCode = Input::get('promotionCode');
+            if (!empty($promotionCode)) {
 
-            $customer->firstname = Input::get('fname');
-            $customer->middleInitial = Input::get('minitial');
-            $customer->lastname = Input::get('lname');
-            $customer->street_address = Input::get('billingAddress').' '.Input::get('billingAddress2');
-            $customer->city = Input::get('city');
-            $customer->zipcode = Input::get('zipcode');
-            $customer->state = Input::get('state');
-            $customer->phone = Input::get('phone');
-            $customer->email_address = Input::get('emailAddress');
+                $promotions = Promotions::where('promo_code', '=', $promotionCode)->get();
+                if(count($promotions) > 0){
+
+                    $errorMsg['promotionCode'] = 'Entered promotion code is not valid.';
+                } else {
+                    Session::put('promotionCode', $promotionCode);
+                  
+                }
+            }
+
+            if (!$signupCustomer->checkCoverage(Input::get('zipcode'))) {
+                 $errorMsg['zipcode'] = 'Zipcode error or BetterWorld Wireless coverage is not adequate for this area. Call us for more info at 844-846-1653.';
+            }
+
+            if(count($errorMsg) > 0){
+                return json_encode(array('success'=>false, 'errors' => $errorMsg));
+            }else{
+
+                $customerID = Session::get('customerID');
+
+                $customer = Customers::find($customerID);
+
+                $customer->firstname = Input::get('fname');
+                $customer->middleInitial = Input::get('minitial');
+                $customer->lastname = Input::get('lname');
+                $customer->street_address = Input::get('billingAddress').' '.Input::get('billingAddress2');
+                $customer->city = Input::get('city');
+                $customer->zipcode = Input::get('zipcode');
+                $customer->state = Input::get('state');
+                $customer->phone = Input::get('phone');
+                $customer->email_address = Input::get('emailAddress');
 
 
-            $customer->shipping_fname = Input::get('shipfname');
-            $customer->shipping_lname = Input::get('shiplname');
-            $customer->shipping_address = Input::get('shipbillingAddress');
-            $customer->shipping_city = Input::get('shipcity');
-            $customer->shipping_state = Input::get('shipstate');
-            $customer->shipping_zip = Input::get('shipzipcode');
-            $customer->shipping_phone = Input::get('shipphone');
+                $customer->shipping_fname = Input::get('shipfname');
+                $customer->shipping_lname = Input::get('shiplname');
+                $customer->shipping_address = Input::get('shipbillingAddress');
+                $customer->shipping_city = Input::get('shipcity');
+                $customer->shipping_state = Input::get('shipstate');
+                $customer->shipping_zip = Input::get('shipzipcode');
+                $customer->shipping_phone = Input::get('shipphone');
+                
+                $customer->newsletter = Input::get('newsletter');
+                $customer->customerStatus = 'Pending';
+                $customer->save();
+
+                $response = true;
+                $response = self::addCustomerDataToCart($customer);
+
+                $response = self::submitToCDrator();
+
+                $estimatedTax = number_format(Session::get('estimatedTax'), 2);
+
+                return json_encode(array('success'=>$response, 'estimatedTax' => '$'.$estimatedTax));
+            }
+
             
-            $customer->newsletter = Input::get('newsletter');
-            $customer->customerStatus = 'Pending';
-            $customer->save();
-
-            $response = true;
-            $response = self::addCustomerDataToCart($customer);
-
-            $response = self::submitToCDrator();
-
-
-            return json_encode(array('success'=>$response));
         }
     }
 
@@ -808,6 +837,11 @@ class ShopController extends BaseController
 
         $resp = true;
 
+        $session = new Session();
+
+        Session::put('estimatedTax', 0);
+
+
         if (Session::has('ordersets')) {
             $ordersets = Session::get('ordersets');
             
@@ -871,6 +905,11 @@ class ShopController extends BaseController
                     $user->Country = 'US';
                 }
 
+                if(Session::has('promotionCode')){
+                    $signupCustomer->PromotionCode = Session::pull('promotionCode', 'default');
+                }
+
+
                 $user->Company = '';
                 $user->FirstName = $customer->firstname;
                 $user->LastName = $customer->lastname;
@@ -891,7 +930,10 @@ class ShopController extends BaseController
                     $updateUser = new UpdateUser($signupCustomer->getUser(), $signupCustomer->getOwnerID());
                     $updateUserRequest->setUser($updateUser);
                     $response = $updateUserRequest->executeRequest();
-                    $signupCustomer->calculateTax();
+                    $estimateTax = Session::pull('estimatedTax', 'default');
+                    $estimateTax += $signupCustomer->calculateTax();
+
+                    Session::put('estimatedTax', $estimateTax);
                     
                     if ($response['errorCode'] != '0') {
                         $formResponse['response'] = $response;
@@ -919,7 +961,7 @@ class ShopController extends BaseController
                         // $formResponse['response'] = $response;
                         //WebService fails because of unique constraint
                         // $form->get('Username')->addError(new FormError($this->get('translator')->trans('signup.address_info.feedback.username_exists'))); //Username already taken, please choose another
-                        echo 'Username is already taken';
+                        // echo 'Username is already taken';
 
                         $resp = true;
 
@@ -946,7 +988,7 @@ class ShopController extends BaseController
                         SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
 
                            
-                        echo 'CDrator User successfully created';
+                        // echo 'CDrator User successfully created';
 
                         $resp = true;
 
@@ -986,10 +1028,10 @@ class ShopController extends BaseController
             $paymentMethod = array(
                         "po_number" => null,
                         "method" => 'authorizenet_directpost',
-                        "cc_type" => 'DI',
+                        "cc_type" => Input::get('ccardtype'),
                         "cc_number" => Input::get('ccard'),
                         "cc_exp_month" => Input::get('mon'),
-                        "cc_exp_year" => 2015,
+                        "cc_exp_year" => Input::get('yr'),
                         "cc_cid" => Input::get('cvv')     
                     );
 
@@ -1035,6 +1077,8 @@ class ShopController extends BaseController
 
                 $shippingFee = $response['shipping_amount'];
 
+                $grandtotal = $response['grand_total'];
+
 
             }
 
@@ -1044,7 +1088,7 @@ class ShopController extends BaseController
 
          if($paid){
 
-            echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+            // echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
 
             // save payment to CDRator API
             $savePaymentRequest = new SavePayment();
@@ -1105,7 +1149,7 @@ class ShopController extends BaseController
                 self::confirmationAction();
             }
 
-            echo 'Order is complete!';
+            // echo 'Order is complete!';
 
             $response = true;
          }
