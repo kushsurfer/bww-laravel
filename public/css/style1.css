@@ -669,6 +669,20 @@ label.css-label {
     user-select: none;
 }
 
+.custom-checkbox {
+    border: 1px solid #d9dadb;
+    display: block;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: -5px;
+    text-align: center;
+    width: 40px;
+    cursor: pointer;
+}
+
 .order-details {
     /*border-bottom: 3px solid gray;*/
     border-top: 3px solid gray;
