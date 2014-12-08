@@ -1,10 +1,9 @@
+var backorder = []; // set history for page order view
+
 $(document).ready(function(){
 
 	var orderCnt = 0; // number of bundle order (device, plan & cause)
 	var cart = {}; // store cart product selection
-
-	var backorder = []; // set history for page order view
-
 	var selectedpackage = '';
 	var selectedbyosd = '';
 
@@ -84,25 +83,21 @@ $(document).ready(function(){
 						data.meid = cart[orderCnt]['meid'];
 					}
 
+					$('#cause-detail').html('<div class="loader"></div>');
+
 					$.ajax({
 						type: "POST",
 						url: baseurl + 'shopAddtoCart',
 						data : data,
 			            success  : function (resp) {
-			             	// load byosd list of devices in the background 
-						 // 	$.get("getCurrentCartInfo", function( data ) {
-							// 	console.log(data);
-								
-							// });	
+			             	displayPageSection('page-section', 'another-device');
+
+							addbackHistory('cause-detail');
+
+							console.log(cart);
 			             
 			            }
 					});
-
-					displayPageSection('page-section', 'another-device');
-
-					addbackHistory('cause-detail');
-
-					console.log(cart);
 					
 				});
 
@@ -165,7 +160,7 @@ $(document).ready(function(){
  	});
 
 
- 	$('.proceedcheckout').on('click', function(event){
+ 	$('#manualAccount').on('click', function(event){
 
  		var formData = $('#create-account-form').serialize();
 
@@ -328,8 +323,71 @@ $(document).ready(function(){
 	})
 
 
- 	$('#back-button').on('click', function(){
+	// See changes below
+    $('#fblogin').on('click', function(event) {
+    	event.preventDefault();
+    	 var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
+             screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
+             outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,
+             outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22),
+             width    = 900,
+             height   = 570,
+             left     = parseInt(screenX + ((outerWidth - width) / 2), 10),
+             top      = parseInt(screenY + ((outerHeight - height) / 2.5), 10),
+             features = (
+                'width=' + width +
+                ',height=' + height +
+                ',left=' + left +
+                ',top=' + top
+              );
 
+            var winObj = window.open(baseurl+'/facebook/authorize','Login_by_facebook',features);
+	    	var loop = setInterval(function() {   
+			    if(winObj.closed) {  
+			    	// alert('closed')
+			        clearInterval(loop);  
+			        $.get( "checkCustomerSession", function( resp ) {
+			        	
+			        	console.log(backorder);
+						if(resp.success){
+							addbackHistory('create-account');
+							displayPageSection('page-section', 'checkout-container');
+
+		            		$.get("checkout", function( data ) {
+								$('#checkout-container').html(data);
+
+								$('#submitAcctInfo').on('click', function(){
+
+									$('#acct-info').hide();
+									$('#ccvalidation').show();
+
+									addbackHistory('acct-info');
+
+									console.log(backorder);
+								});
+								
+							});
+						}
+						
+					});
+				 	
+			        // check if customerID is set
+			    }  
+			}, 1000);
+
+  	 
+           	if (window.focus) {
+           		winObj.focus()
+           	}
+
+	    	
+      });
+
+	     // See changes below
+         // See changes below
+    
+
+ 	$('#back-button').on('click', function(){
 
  		var containerID = backorder.pop();
 
@@ -344,12 +402,10 @@ $(document).ready(function(){
 	 		$('#' + containerID).show();
 	 		$('#ccvalidation').hide();
 	 	}
-
  		
 	 	if(backorder.length == 0){
 	 		$('#back-button').hide();
 	 	}
-
 
  	});
 
@@ -514,10 +570,79 @@ $(document).ready(function(){
 
     	},
  	}
-
-
-
-
-
-
 });
+
+
+
+function displayPageSection(classname, id){
+
+	$( "." + classname ).each(function() {
+	  $(this).hide();
+	});
+
+	$('#' + id).show();
+}
+
+function addbackHistory(container_id){
+	$('#back-button').show();
+
+	backorder.push(container_id);
+}
+
+
+document.getElementById('LoginWithAmazon').onclick = function() {
+	 setTimeout(window.doLogin, 1);
+ 	return false;
+};
+
+window.doLogin = function() {
+	 options = {};
+	 options.scope = 'profile';
+	 amazon.Login.authorize(options, function(response) {
+	 if ( response.error ) {
+	 alert('oauth error ' + response.error);
+	 return;
+}
+
+amazon.Login.retrieveProfile(response.access_token, function(response) {
+
+ 	var data = {'name' : response.profile.Name, 'email_address' : response.profile.PrimaryEmail, 'oauthID' : response.profile.CustomerId};
+
+ 	$.ajax({
+		type: "POST",
+		url: baseurl + 'createCustomerAmazon',
+		data : data,
+        success  : function (resp) {
+         	if(resp.success){
+				addbackHistory('create-account');
+				displayPageSection('page-section', 'checkout-container');
+
+	    		$.get("checkout", function( data ) {
+					$('#checkout-container').html(data);
+
+					$('#submitAcctInfo').on('click', function(){
+
+						$('#acct-info').hide();
+						$('#ccvalidation').show();
+
+						addbackHistory('acct-info');
+
+						console.log(backorder);
+					});
+					
+				});
+			}
+		
+         
+        }
+	});
+
+ 	if ( window.console && window.console.log )
+ 		window.console.log(response);
+ 	});
+
+	addbackHistory('create-account');
+	displayPageSection('page-section', 'checkout-container');
+ });
+	 
+};

@@ -209,19 +209,19 @@
 				    <label for="password_confirm">Re-enter Password<span class="orange-text">*</span><span class="errormsg" id="password_confirmError"></a></label>
 				    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Re-enter Password">
 				</div>
-				  <button type="button" class="btn orange-button proceedcheckout" style="width:100%" >CREATE AN ACCOUNT</button>
+				  <button type="button" class="btn orange-button proceedcheckout" id="manualAccount" style="width:100%" >CREATE AN ACCOUNT</button>
 			</form>
 		</div>
 		<div class="col-xs-12 col-sm-6 col-lg-6">
 			<h3 class="section-title">OR LOGIN USING...</h3>
 			
-			<a href="#" class="proceedcheckout login-facebook">
+			<a href="#" id="fblogin" class="proceedcheckout login-facebook">
 				<img src="<?php echo url();?>/images/facebook_login.png">
 			</a>
 
 			<h2 style="font-weight:200">Or</h2>
 			
-			<a href="#" class="proceedcheckout login-amazon">
+			<a href="#" id="LoginWithAmazon" class="proceedcheckout login-amazon">
 				<img src="<?php echo url();?>/images/amazon_login.png">
 			</a>
 		</div>
@@ -230,25 +230,6 @@
 	<div class="clearfix"></div>
 	<div class="row  page-section" id="checkout-container" style="display:none">
 		<div class="loader"></div>
-		
 	</div>
-
-
-<!-- <a href="#" id="LoginWithAmazon">
-  <img border="0" alt="Login with Amazon"
-    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
-    width="156" height="32" />
-</a> -->
-<script type="text/javascript">
-
-  document.getElementById('LoginWithAmazon').onclick = function() {
-    options = { scope : 'profile' };
-    amazon.Login.authorize(options, 'https://bww-laravel.gfdev.net/amazon');
-    return false;
-  };
-
-</script>
-
-
 @stop
 

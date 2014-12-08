@@ -10,15 +10,9 @@ class ShopController extends BaseController
     public function index(){
 
     	
-        return View::make('shop_view.shop');
-    }
-
-
-    public function shop1(){
-
-        
         return View::make('shop_view.shop1');
     }
+
 
     public function getBYOSDhansets(){
 
