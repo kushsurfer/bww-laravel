@@ -1,17 +1,21 @@
 @foreach ($products as $prod)
-<div class="col-xs-6 col-sm-6 col-lg-6">
-	<img src="{{ $prod['images'][0] }}" style="width:100%">
+<div class="col-xs-12 col-sm-6 col-lg-6">
+	<div class="content">
+		<img src="{{ $prod['images'][0] }}" style="width:100%">
+	</div>
 </div>
-<div class="col-xs-6 col-sm-6 col-lg-6">
-	<h2>{{ $prod['name'] }}</h2>
-	<p>{{ $prod['short_description'] }}</p>
-	<span class="price">{{ '$' . number_format($prod['price'] , 2, '.', '') }}</span><br/><br/>
-	<a style="width: 50%;" href="#" class="orange-button" id="selectdevice" pid="{{ $prod['product_id'] }}">SELECT</a>
+<div class="col-xs-12 col-sm-6 col-lg-6">
+	<div class="content">
+		<h2>{{ $prod['name'] }}</h2>
+		<p>{{ $prod['short_description'] }}</p>
+		<span class="price">{{ '$' . number_format($prod['price'] , 2, '.', '') }}</span><br/><br/>
+		<a href="#" class="orange-button wide" id="selectdevice" pid="{{ $prod['product_id'] }}">SELECT</a>
+	</div>
 </div>
 
 <div class="clearfix"></div>
 
-<div class="device-list">
+<div class="col-xs-12 col-sm-12 col-lg-12 device-list">
 	<!-- <div class="col-xs-6 col-sm-6 col-lg-6">
 		<h4>Specifications</h4>
 		<br/>

@@ -25,9 +25,7 @@ $(document).ready(function(){
  	$.get( "byosdhandset", function( data ) {
 		$('#byosd-list').html(data);
 
-		BYOSDHandset.initialize();
-		
-		
+		BYOSDHandset.initialize();		
 	});
  	
 	// load byosd list of devices in the background 
