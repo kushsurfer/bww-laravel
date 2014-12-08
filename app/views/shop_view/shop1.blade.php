@@ -111,7 +111,7 @@
 	</div>
 	<!-- Plan Information Section -->
 
-	<div class="row  page-section plan-section" id="planselection"  style="display:none">
+	<div class="row  page-section" id="planselection"  style="display:none">
 		<h3 class="section-title col-lg-12">SELECT A PLAN</h3>
 		<div class="col-xs-12 col-sm-6 col-lg-6 select-device plan-section  select-section" cid="just-plan">
 			<div class="select-content">
@@ -137,8 +137,8 @@
 				</div>
 			</div>
 		</div>
-		
 	</div>
+
 	<div class="clearfix" />
 	<div class="row  page-section" id="just-plan" style="display:none">
 		<div class="col-lg-12">

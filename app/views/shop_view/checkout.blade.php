@@ -12,7 +12,7 @@
 
 ?>
 
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
+<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" style="display:block" id="acct-info">
 	<h3 class="section-title">ACCOUNT INFORMATION</h3>
 	<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
 	<form role="form" class="account-information-form" id="account-information-form" action="{{ URL::route('updateAccountInformation') }}" method="POST">
@@ -117,7 +117,7 @@
 		    <label for="exampleInputEmail1">Sign me up for Betterworld Wireless Newsletter</label>
 		</div><br/>
 		<div class="form-group">
-			<h4>TERMS & CONDITIONS<span class="errormsg" id="termsError"></span></h4>
+			<h4>TERMS &amp; CONDITIONS<span class="errormsg" id="termsError"></span></h4>
 		    <input type="text" value="0" class="hide" name="terms" id = "terms">
 		    <span class="custom-checkbox" inputid="terms"></span>
 		    <label for="exampleInputEmail1" class="orange-text">I agree to Betterworld Wireless Terms & Conditions</label>
@@ -126,7 +126,11 @@
 		<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
+<<<<<<< HEAD
 <div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:block">
+=======
+<div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
+>>>>>>> cf13a4b616f745eb531d392f4b57042e1415e3ba
 	<h3 class="section-title">CREDIT CARD VALIDATION</h3>
 	<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
 	<form role="form" class="credit-card-form" id="credit-card-form" action="{{ URL::route('validateCCardInfo') }}" method="POST">
@@ -165,7 +169,7 @@
 		<button  class="btn orange-button" style="width:100%" id="validateCCard">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
-<div class="col-xs-6 col-sm-6 col-lg-6" id="checkoutloader" style="display:none">
+<div class="col-xs-12 col-sm-6 col-lg-6" id="checkoutloader" style="display:none">
 	<div class="loader"></div>
 </div>
 <div class="col-xs-6 col-sm-6 col-lg-6">
