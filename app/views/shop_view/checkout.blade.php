@@ -8,6 +8,7 @@
 
 	$currentYear = date('Y');
 	$cardYear = $currentYear - 25;
+	$currentYear += 5; 
 	
 
 ?>
@@ -107,8 +108,8 @@
 			</div>		
 		</div>				
 		<div class="form-group">
-		    <h4>Promotion Code</h4>
-		    <input type="email" class="form-control" id="promotionCode" name="promotionCode">
+		    <h4>Promotion Code<span class="errormsg" id="promotionCodeError"></span></h4>
+		    <input type="text" class="form-control" id="promotionCode" name="promotionCode">
 		</div>
 		<div class="form-group">
 			<h4>Newsletter</h4>
@@ -126,11 +127,9 @@
 		<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
-<<<<<<< HEAD
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:block">
-=======
+
 <div class="col-xs-12 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
->>>>>>> cf13a4b616f745eb531d392f4b57042e1415e3ba
+
 	<h3 class="section-title">CREDIT CARD VALIDATION</h3>
 	<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
 	<form role="form" class="credit-card-form" id="credit-card-form" action="{{ URL::route('validateCCardInfo') }}" method="POST">
@@ -215,7 +214,7 @@
 		<tbody class="oder-total">
 			<tr>
 				<th><strong>Estimated Tax</strong></th>
-				<th colspan="2" style="text-align:right;font-weight:normal">$0.00</th>
+				<th colspan="2" style="text-align:right;font-weight:normal" id="estimateTax">$0.00</th>
 			</tr>
 			<tr>
 				<td class="product-name">Due Toady</td>
