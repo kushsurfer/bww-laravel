@@ -287,7 +287,7 @@ $(document).ready(function(){
             success  : function (data) {
 
             	//test for local only
-            	data = JSON.parse(data);
+            	//data = JSON.parse(data);
 
             	if (data.success){
 					displayAcctInfoSection();
