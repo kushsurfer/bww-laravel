@@ -4,6 +4,31 @@ set_time_limit ( 300 );
 use \AdamWathan\EloquentOAuth\ApplicationRejectedException;
 use \AdamWathan\EloquentOAuth\InvalidAuthorizationCodeException;
 
+
+use NomadicBits\CDRatorSoapClient\Type\requestDTO;
+use NomadicBits\CDRatorSoapClient\Type\valueDTO;
+use NomadicBits\CDRatorSoapClient\Type\stringValueDTO;
+use NomadicBits\CDRatorSoapClient\Type\complexValueDTO;
+use NomadicBits\CDRatorSoapClient\executeMethod;
+use NomadicBits\CDRatorSoapClient\executeMethodResponse;
+use NomadicBits\CDRatorSoapClient\Action\GetProductConfigs;
+use NomadicBits\DemoBundle\Manager\DeviceManager;
+use NomadicBits\DemoBundle\Model\UserManager;
+use NomadicBits\CDRatorSoapClient\Action\GetOptionsForRatePlan;
+
+use NomadicBits\DemoBundle\Model\SignupCustomerModel;
+use NomadicBits\CDRatorSoapClient\Action\SignupCustomer;
+use NomadicBits\CDRatorSoapClient\Object\User;
+use NomadicBits\CDRatorSoapClient\Object\UpdateUser;
+use NomadicBits\CDRatorSoapClient\Action\UpdateUser as UpdateUserRequest;
+use NomadicBits\CDRatorSoapClient\Action\ActivateSubscription;
+
+use NomadicBits\DemoBundle\Model\AuthorizeNet;
+use NomadicBits\CDRatorSoapClient\Action\SavePayment;
+use NomadicBits\CDRatorSoapClient\Action\AddCharge;
+use NomadicBits\CDRatorSoapClient\Action\ManageDevice;
+use NomadicBits\CDRatorSoapClient\Action\GetWebUserProfileInternal;
+
 class ShopController extends BaseController
 {   
     
@@ -288,6 +313,8 @@ class ShopController extends BaseController
 
             self::setSessionOrderSets($ordersets);
 
+            var_dump(Session::get('ordersets'));
+
             
     }
 
@@ -469,7 +496,7 @@ class ShopController extends BaseController
 
         if ($validator->fails()) {
 
-           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+           return json_encode(array('success'=>false, 'errors' => $validator->messages()));
 
         } else {
             $customer = new Customers;
@@ -482,7 +509,7 @@ class ShopController extends BaseController
 
             Session::put('customerID', $customer->customerID);
 
-            return Response::json(['success'=>true]);
+            return json_encode(array('success'=>true));
         }
     }
 
@@ -581,10 +608,10 @@ class ShopController extends BaseController
             
             Session::put('customerID', $customerID );
 
-            return Response::json(['success'=>true]);
+            return json_encode(array('success'=>true));
 
         }else{
-            return Response::json(['success'=>false]);
+            return json_encode(array('success'=>false));
         }
         
     }
@@ -598,7 +625,7 @@ class ShopController extends BaseController
     public function checkCustomerSession(){
 
         if (Session::has('customerID')) {
-            return Response::json(['success'=>true]);
+            return json_encode(array('success'=>true));
         }else{
             echo 'Failed';
         }
@@ -636,7 +663,7 @@ class ShopController extends BaseController
             );
        
         $cartdetails = self::getOrderDetails();
-        
+
         return View::make('shop_view.checkout')->with('cartdetails', $cartdetails)->with('customer', $customer)->with('regionList', $regionList)->with('months', $months);
         
     }
@@ -667,11 +694,11 @@ class ShopController extends BaseController
 
         if ($validator->fails()) {
 
-           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+           return json_encode(array('success'=>false, 'errors' => $validator->messages()));
 
         } else {
 
-            $customerID = Session::get('customerID', 3);
+            $customerID = Session::get('customerID');
 
             $customer = Customers::find($customerID);
 
@@ -701,8 +728,10 @@ class ShopController extends BaseController
             $response = true;
             $response = self::addCustomerDataToCart($customer);
 
+            $response = self::submitToCDrator();
 
-            return Response::json(['success'=>$response]);
+
+            return json_encode(array('success'=>$response));
         }
     }
 
@@ -772,6 +801,169 @@ class ShopController extends BaseController
     }
 
 
+    public function submitToCDrator(){
+        $customerID = Session::get('customerID');
+
+        $customer = Customers::find($customerID);
+
+        $resp = true;
+
+        if (Session::has('ordersets')) {
+            $ordersets = Session::get('ordersets');
+            
+            // if(!count($ordersets)){
+            //      $ordersets = array();
+
+            //     $ordersets[] = array(
+            //         'deviceID' => 2,
+            //         'planID' => 23,
+            //         'causeID' => 19,
+            //         'byodhanset' => '',
+            //         'meid' => ''
+            //     );
+            // }           
+
+
+            $session_id = MagentoAPI::initialize();
+           
+
+            foreach($ordersets as $cartProduct){
+                $device = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['deviceID']);
+                $plan = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['planID']);
+               
+                $productKey =  'BWW_PACKAGE_MINI';//$plan['sku']; // plan code ()
+                $handsetID = $device['sku'];
+                $meid = $cartProduct['meid']; // MEID number for BYOSD
+                
+
+
+                $signupCustomer = new SignupCustomerModel();
+
+                if ($productKey != null) {
+                    $productPlan = $signupCustomer->getPackageByKey($productKey);
+                    $signupCustomer->setProductPlan($productPlan);
+                }
+                
+                if ($handsetID != null && $cartProduct['byodhanset'] == '') {
+                    $signupCustomer->setHandset($handsetID);
+                }
+
+                if ($meid != '') {
+                    $byosdHandset = $user = ByosdHansets::find($handsetID);
+                    if ($byosdHandset) {
+                        $signupCustomer->setByosd($meid, $byosdHandset);
+                    } else {
+                        ///TODO: What should happen?
+                        $resp = false;
+                    }
+                }
+
+                if (is_null($signupCustomer->getProductPlan()) || (is_null($signupCustomer->getHandset()) && !$signupCustomer->isByosd())) {
+                    // return new RedirectResponse('/#products');
+                    // return to product list / shop page
+                    $resp = false;
+                }
+
+                if (is_object($signupCustomer->getUser())) {
+                    $user = $signupCustomer->getUser();
+                } else {
+                    $user = new User();
+                    $user->Country = 'US';
+                }
+
+                $user->Company = '';
+                $user->FirstName = $customer->firstname;
+                $user->LastName = $customer->lastname;
+                $user->FloorUnit = '';
+                $user->Address2 = $customer->street_address;
+                $user->Street = '';
+                $user->Zip = $customer->zipcode;
+                $user->City = $customer->city;
+                $user->State = $customer->state;
+                $user->Email = $customer->email_address;
+                $user->Username = $customer->email_address; //  check if username is null then set email address for FB and amazon
+
+
+                //If user is already created, just update information on the user
+                if ($signupCustomer->getOwnerID() != null) {
+                    $updateUserRequest = new UpdateUserRequest();
+                    $updateUserRequest->UserId = $signupCustomer->getOwnerID();
+                    $updateUser = new UpdateUser($signupCustomer->getUser(), $signupCustomer->getOwnerID());
+                    $updateUserRequest->setUser($updateUser);
+                    $response = $updateUserRequest->executeRequest();
+                    $signupCustomer->calculateTax();
+                    
+                    if ($response['errorCode'] != '0') {
+                        $formResponse['response'] = $response;
+                        //Generic error
+                        $resp =  'Generic error: '.$response['errorMessage'];
+                    } else {
+                        $resp = true;
+                    }
+                } else {
+
+                    $signupCustomerRequest = new SignupCustomer();
+                    $signupCustomerRequest->setUser($user);
+                    if (!empty($signupCustomer->PromotionCode)) {
+                        $signupCustomerRequest->ReferencedBy = $signupCustomer->PromotionCode;
+                    }
+
+                    if (!empty($user->Company)) {
+                        $signupCustomerRequest->AccountType = 1;
+                    }
+
+                            
+                    $response = $signupCustomerRequest->executeRequest(); //TODO: Handle real webservice errors, like timeouts and such
+                    
+                    if (strtolower($response['errorMessage']) == 'username is not unique') { //TODO: Think about possible error codes and messages, e.g. username too long, non unique
+                        // $formResponse['response'] = $response;
+                        //WebService fails because of unique constraint
+                        // $form->get('Username')->addError(new FormError($this->get('translator')->trans('signup.address_info.feedback.username_exists'))); //Username already taken, please choose another
+                        echo 'Username is already taken';
+
+                        $resp = true;
+
+                    } else if ($response['errorCode'] != '0') {
+                        // $formResponse['response'] = $response;
+                        //Generic error
+                        // $form->get('Username')->addError(new FormError('Generic error: '.$response['errorMessage']));
+
+                        $resp = 'Generic error: '.$response['errorMessage'];
+
+
+                    } else {
+                        $signupCustomer->setAccountID($response);
+                        $signupCustomer->setCustomerNumber($response);
+                        $signupCustomer->setOwnerID($response);
+                        $signupCustomer->SetBillingGroup($response);
+                        $signupCustomer->setUser($user);
+                        if (!$signupCustomer->isByosd()) {
+                            $signupCustomer->calculateTax();
+                        }
+
+                        $signupCustomer->AuthNetCustomerProfileID = null;
+                        // save customer data for next process and payment
+                        SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+
+                           
+                        echo 'CDrator User successfully created';
+
+                        $resp = true;
+
+                    }
+
+            
+                }
+
+            }
+
+        }
+
+
+        return $resp;
+
+    }
+
     public function validateCCardInfo(){
          $rules = array(
             'ccard'             => 'required|numeric',
@@ -786,7 +978,7 @@ class ShopController extends BaseController
 
         if ($validator->fails()) {
 
-           return Response::json(['success'=>false, 'errors' => $validator->messages()]);
+           return json_encode(array('success'=>false, 'errors' => $validator->messages()));
 
         } else {
             $response = true;
@@ -803,10 +995,9 @@ class ShopController extends BaseController
 
             $response = self::addCCardInfoToCart($paymentMethod);
 
-            return Response::json(['success'=>$response]);
+            return json_encode(array('success'=>$response));
 
         }
-
 
 
     }
@@ -815,15 +1006,21 @@ class ShopController extends BaseController
         
         $cartID = Session::get('cartID');
         $session_id = MagentoAPI::initialize();
+        $session = new Session();
 
         $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
                 
         $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
 
+        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+
 
         if($orderID != 0){
 
+            $signupCustomer->AuthNetCustomerProfileID = $orderID; // set orderID from magento 
+
             $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+            
             $transactionID =  $response['payment']['last_trans_id'];
           
             if($response['status'] == 'pending_payment'){
@@ -840,17 +1037,125 @@ class ShopController extends BaseController
 
 
             }
+
+            $signupCustomer->AuthNetPaymentProfileID = $transactionID; // set transaction ID as paymentProfile ID from Magento
+        
         }
 
          if($paid){
+
+            echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+
+            // save payment to CDRator API
+            $savePaymentRequest = new SavePayment();
+            $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+            $savePaymentRequest->Amount = $grandtotal; // symfony - included plan rate 
+            $savePaymentRequest->PaymentDate = date('YmD');
+            $savePaymentRequest->PaymentReference = $orderID; 
+            $savePaymentRequest->PaymentCaptured = true;
+            $savePaymentRequest->TransactionID = $transactionID;
+            $savePaymentRequest->executeRequest();
+
+            //TODO: Find out cost for Handset and what OrderID to use
+            $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $shippingFee : 6.25; //6.25 is the byosd "import" fee
+            $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
+
+
+            $signupCustomer->signupSubscription();
+            $signupCustomer->createRechargeTicket();
+            if (!$signupCustomer->isByosd()) {
+                $signupCustomer->orderHandset();
+            }
+
+            $addChargeRequest = new AddCharge();
+            $addChargeRequest->Amount = $handsetCost;
+            $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+            if ($signupCustomer->isByosd()) {
+                $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
+            } else {
+                $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
+            }
+
+            $addChargeRequest->setChargeItemID('201406141600076507');
+            $response = $addChargeRequest->executeRequest();
+
+            if (!is_null($signupCustomer->getHandset()) && $shippingFee > 0) {
+                $addChargeRequest = new AddCharge();
+                $addChargeRequest->Amount = $shippingFee;
+                $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                $addChargeRequest->Description = "Handset shipping fee";
+                $addChargeRequest->setChargeItemID('201406141600076507');
+                $response = $addChargeRequest->executeRequest();
+            }
+
+            if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
+                $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
+
+                $addChargeRequest = new AddCharge();
+                $addChargeRequest->Amount = 20;
+                $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+                $addChargeRequest->Description = $chargeDescription;
+                $addChargeRequest->setChargeItemID('201406141600076507');
+                $response = $addChargeRequest->executeRequest();
+            }
+
+            SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+
+            if ($signupCustomer->isByosd()){
+                self::confirmationAction();
+            }
+
+            echo 'Order is complete!';
+
             $response = true;
          }
 
         return $response;
 
-
-
     }
+
+    public function confirmationAction() {
+        $session = new Session();
+        
+        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+
+        $getWebUserRequest = new GetWebUserProfileInternal();
+        $getWebUserRequest->CustomerNumber = $signupCustomer->getCustomerNumber();
+        $response = $getWebUserRequest->executeRequest();
+        $userManager = null;
+
+        if ($response['errorCode'] == '0' && array_key_exists('ROLE', $response) && $response['ROLE'] != '') {
+            $userManager = new UserManager($response);
+
+            //If the signup is Byosd try and activate right away. Display confirmation / error and send email on error
+            if ($signupCustomer->isByosd() && !$signupCustomer->isActivated()) {
+                $activateRequest = new ActivateSubscription();
+                $activateRequest->SubscriptionID = $userManager->getCurrentSubscription()->getID();
+                $activateRequest->MEID = $signupCustomer->getMEID();
+                $activateResponse = $activateRequest->executeRequest();
+                echo "<pre>";
+                echo $activateRequest->getLastRequest();
+                print_r($activateResponse);
+                echo "</pre>";
+                if ($activateResponse['errorCode'] == '0') {
+                    $signupCustomer->setActivated();
+                    SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+                }
+            }
+
+
+            echo 'BYOSD subscription is created';
+            $response = true;
+        }else{
+            $response = false;
+        }
+      
+
+        return $response;
+    }
+
+
+
 }
 
 ?>  

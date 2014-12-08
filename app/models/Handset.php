@@ -44,15 +44,18 @@
             return $this->_shippingFee;
         }
 
-        public static function refreshList() {
+        public static function refreshList($sku) {
             $handsetList = null;
+            $session_id = MagentoAPI::initialize();
+            // $data = Handset::getDisplayProductsByCatname();
 
-            $data = Handset::getDisplayProductsByCatname();
+            $handset = MagentoAPI::getProductBySKU($session_id, $sku);
+            
+            // foreach($data as $handset) {
+            //     var_dump($handset);exit;
 
-                      
-            foreach($data as $handset) {
                 $handsetList[$handset['sku']] = new Handset($handset['sku'], $handset['name'], $handset['price'], $handset['ltecapable'], $handset['customer_care_only'], $handset['shipping_per_product']);
-           }
+           // }
 
             //apc_add(Handset::CACHE_KEY, $handsetList, 3600);
 			return $handsetList;
@@ -74,9 +77,9 @@
         /**
          * @return \NomadicBits\DemoBundle\Model\Handset[]
          */
-        public static function getHandsetList() {
+        public static function getHandsetList($identifier) {
             //if (!apc_exists(Handset::CACHE_KEY)) {
-                return Handset::refreshList();
+                return Handset::refreshList($identifier);
             //}
             //return apc_fetch(Handset::CACHE_KEY);
         }
@@ -85,7 +88,7 @@
          * @return \NomadicBits\DemoBundle\Model\Handset
          */
         public static function getHandsetFromID($identifier, $refresh = false) {
-            $handsetList = Handset::getHandsetList();
+            $handsetList = Handset::getHandsetList($identifier);
             
             if (array_key_exists($identifier, $handsetList)) {
                 return $handsetList[$identifier];

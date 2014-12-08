@@ -75,8 +75,8 @@ class SController extends BaseController {
         }
 
         if ($productKey != null) {
-            $productPlan = $signupCustomer->getPackageByKey($productKey);
-            $signupCustomer->setProductPlan($productPlan);
+            // $productPlan = $signupCustomer->getPackageByKey($productKey);
+            // $signupCustomer->setProductPlan($productPlan);
         }
 
 

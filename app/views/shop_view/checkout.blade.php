@@ -8,6 +8,7 @@
 
 	$currentYear = date('Y');
 	$cardYear = $currentYear - 25;
+	
 
 ?>
 
@@ -125,7 +126,7 @@
 		<button id="submitAcctInfo" class="btn orange-button" style="width:100%">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
-<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:none">
+<div class="col-xs-6 col-sm-6 col-lg-6 caccount-border" id="ccvalidation" style="display:block">
 	<h3 class="section-title">CREDIT CARD VALIDATION</h3>
 	<h4>Fields marked with an <span class="orange-text">*</span> are required </h4>
 	<form role="form" class="credit-card-form" id="credit-card-form" action="{{ URL::route('validateCCardInfo') }}" method="POST">
@@ -150,7 +151,7 @@
 			</select>
 			<select style="width:25%" class="pull-right form-control" name="yr" id="yr">
 				<option>Year</option>
-				<?php for($i=$currentYear; $i<=$cardYear;$i--): ?>			
+				<?php for($i = $currentYear; $i > $cardYear; $i--): ?>			
 					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
 				<?php endfor;?>
 

@@ -98,6 +98,15 @@
 
 		}
 
+		public static function getProductDetailsByID($session_id, $prodID){
+			$prodDetails = array();
+
+			$prodDetails = self::$soap->call($session_id, 'catalog_product.info', $prodID);
+
+
+			return $prodDetails;
+
+		}
 
 		public static function getImageProducts($session_id, $prodID){
 			
