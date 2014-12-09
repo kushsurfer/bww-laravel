@@ -191,7 +191,8 @@ $(document).ready(function(){
  	});
 
 
-	$('#check-meid').on('click', function(){
+	$('#check-meid').on('click', function(e){
+		e.preventDefault();
 
 		if($('#meid').val() != ''){
 

@@ -1,7 +1,7 @@
 <div class="col-lg-12">
 		<h3 class="section-title" >BRING YOUR OWN DEVICE</h3>
 		<p id="compatibility" class="subheading hsearch-main">Check below. If your phone is compatible, you can select our monthly plan.</p>
-		<p class="subheading meid-res" style="display:none">Great! Your phone is compatible & eligible for Betterworld Wireless.</p>
+		<p class="subheading meid-res" style="display:none">Great! Your phone is compatible &amp; eligible for Betterworld Wireless.</p>
 		<div id="search-phone" style="display:block" class="hsearch-main">
 			<h4 style="font-weight:200">Search for your current phone</h4>
 			<div class="col-xs-12 col-sm-10 col-lg-8" style="padding-left:0px" >

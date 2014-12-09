@@ -67,26 +67,26 @@
 
 	<div class="row  page-section" id="byosd-checkmeid" style="display:none">
 		<h3 class="section-title">BRING YOUR OWN DEVICE</h3>
-		<h4 class="meid-res">Great! Your phone is compatible & eligible for Betterworld Wireless.</h4><br/>
-		<div style="padding-left:0px;" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
-			<img class="pull-left" src="http://laravel.dev/images/sample_device.jpg">
-			<div class="pull-left" style="width:80%;margin-top:2%">
-				<div id="input-meid">
-					Dial *#06# to display your 15-digit IMEI number. Enter it below.<br/><br/>
-					<input type="hidden" id="checkmeid" name="checkmeid" value="{{ URL::route('checkMEID') }}">
-					<input type="text" value="" style="width: 76%;" class="search pull-left" id="meid" placeholder="Enter a 15 digit IMEI number">
-					<a href="#" class="orange-button pull-left" id="check-meid">CHECK</a>
-					<div class="clearfix"></div>
-					<div id="showloader"></div>
-				</div>
+		<p class="subheading">Great! Your phone is compatible &amp; eligible for Betterworld Wireless.</p>
+		<div class="col-xs-2 col-sm-2 col-lg-2 meid-res">
+			<img src="<?php echo url();?>/images/sample_device.jpg">
+		</div>
+		<div class="col-xs-10 col-sm-10 col-lg-10 meid-res" style="margin-top: 1em;">
+			<div id="input-meid">
+				<div style="font-size:16px; font-weight:300; margin-bottom:1em;">Dial *#06# to display your 15-digit IMEI number. Enter it below.</div>
+				<input type="hidden" id="checkmeid" name="checkmeid" value="{{ URL::route('checkMEID') }}">
+				<input type="text" value="" class="search pull-left col-xs-8 col-sm-6 col-lg-6" id="meid" placeholder="Enter a 15 digit IMEI number">
+				<a href="#" class="orange-button pull-left" id="check-meid">CHECK</a>
 			</div>
 		</div>
+		<div class="clearfix"></div>
+		<div id="showloader"></div>
 	</div>	
 	<div class="row  page-section" id="byosd-editmeid" style="display:none">
 		<h3 class="section-title">BRING YOUR OWN DEVICE</h3>
-		<h4 class="meid-res">Great! Your phone is compatible & eligible for Betterworld Wireless.</h4><br/>
+		<p class="subheading">Great! Your phone is compatible &amp; eligible for Betterworld Wireless.</p>
 		<div style="padding-left:0px;" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
-			<img class="pull-left" src="http://laravel.dev/images/sample_device.jpg">
+			<img class="pull-left" src="<?php echo url();?>/images/sample_device.jpg">
 			<div class="pull-left" style="width:80%;margin-top:2%">
 						
 				<div id="valid-meid">

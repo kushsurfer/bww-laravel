@@ -432,13 +432,14 @@ p.subheading {
     margin-bottom: 2em;
 }
 
-#bhandset {
+#bhandset, #meid {
     height: 42px;
     padding-left: 1em;
     padding-right: 1em;
 }
 
-#bhandset:focus {
+#bhandset:focus,
+#meid:focus {
     border: 2px solid #fc8722;
     outline: none;
 }
@@ -565,7 +566,7 @@ p.subheading {
 
 .cart-item{
     border-top: 2px solid #797979;
-    padding: 20px 0 20px 20px;
+    padding: 6px 0 0 20px;
 }
 
 .cart-item img {
@@ -600,7 +601,37 @@ p.subheading {
     border-bottom: 1px solid #e2e3e4;
     text-align: left;
 }
-
+.table-productinfo {
+    margin-bottom: 0 !important;
+}
+.table-productinfo > thead > tr > th {
+    text-align: left !important;
+    padding-left: 0 !important;
+    vertical-align: middle !important;
+}
+.table-productinfo > tbody > tr > td {
+    padding: 1.4em 0 !important;
+    font-weight: 200 !important;
+}
+.table-productinfo .cart-button {
+    border: 1px solid #ddd;
+    color: #5a5a5a;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 6px 40px;
+}
+.table-productinfo .item-name {
+    font-size: 22px;
+    font-weight: 500;
+}
+.table-productinfo .cart-price {
+    font-size: 18px;
+}
+.cart-summary h4 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 .spanspacer {
     width: 55px;
 }
