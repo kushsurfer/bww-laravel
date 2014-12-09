@@ -343,8 +343,7 @@ $(document).ready(function(){
 			        $.get( "checkCustomerSession", function( resp ) {
 			        	
 			        	console.log(backorder);
-			        	console.log(resp);
-						if(resp.success){
+						if(resp == 'Found'){
 							alert('a');
 							displayAcctInfoSection();
 						}else{
@@ -556,6 +555,49 @@ function addbackHistory(container_id){
 	backorder.push(container_id);
 }
 
+document.getElementById('LoginWithAmazon').onclick = function() {
+	 setTimeout(window.doLogin, 1);
+ 	return false;
+};
+
+window.doLogin = function() {
+	 options = {};
+	 options.scope = 'profile';
+	 amazon.Login.authorize(options, function(response) {
+	 if ( response.error ) {
+	 alert('oauth error ' + response.error);
+	 return;
+}
+
+amazon.Login.retrieveProfile(response.access_token, function(response) {
+
+ 	var data = {'name' : response.profile.Name, 'email_address' : response.profile.PrimaryEmail, 'oauthID' : response.profile.CustomerId};
+
+ 	$.ajax({
+		type: "POST",
+		url: baseurl + 'createCustomerAmazon',
+		data : data,
+        success  : function (resp) {
+        	alert(resp.success);
+         	if(resp == 'Success'){
+				displayAcctInfoSection();
+			}
+		
+         
+        }
+	});
+
+ 	if ( window.console && window.console.log )
+ 		window.console.log(response);
+ 	});
+
+	addbackHistory('create-account');
+	displayPageSection('page-section', 'checkout-container');
+ });
+	 
+};
+
+
 
 function displayAcctInfoSection(){
 	addbackHistory('create-account');
@@ -708,44 +750,3 @@ function displayAcctInfoSection(){
 		
 	});
 }
-
-document.getElementById('LoginWithAmazon').onclick = function() {
-	 setTimeout(window.doLogin, 1);
- 	return false;
-};
-
-window.doLogin = function() {
-	 options = {};
-	 options.scope = 'profile';
-	 amazon.Login.authorize(options, function(response) {
-	 if ( response.error ) {
-	 alert('oauth error ' + response.error);
-	 return;
-}
-
-amazon.Login.retrieveProfile(response.access_token, function(response) {
-
- 	var data = {'name' : response.profile.Name, 'email_address' : response.profile.PrimaryEmail, 'oauthID' : response.profile.CustomerId};
-
- 	$.ajax({
-		type: "POST",
-		url: baseurl + 'createCustomerAmazon',
-		data : data,
-        success  : function (resp) {
-         	if(resp.success){
-				displayAcctInfoSection();
-			}
-		
-         
-        }
-	});
-
- 	if ( window.console && window.console.log )
- 		window.console.log(response);
- 	});
-
-	addbackHistory('create-account');
-	displayPageSection('page-section', 'checkout-container');
- });
-	 
-};

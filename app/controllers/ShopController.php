@@ -611,10 +611,10 @@ class ShopController extends BaseController
             
             Session::put('customerID', $customerID );
 
-            return json_encode(array('success'=>true));
+            return 'Success';
 
         }else{
-            return json_encode(array('success'=>false));
+            return 'Failed';
         }
         
     }
@@ -628,9 +628,9 @@ class ShopController extends BaseController
     public function checkCustomerSession(){
 
         if (Session::has('customerID')) {
-            return json_encode(array('success'=>true));
+            return 'Found';
         }else{
-            return json_encode(array('success'=>false));
+            return 'Failed';
         }
 
     }
