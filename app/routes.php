@@ -49,7 +49,7 @@ Route::get('/demotest', array('uses' => 'SController@demo', 'as' => 'demo'));
 Route::get('/checkdevice', array('uses' => 'SController@checkdevice', 'as' => 'checkdevice'));
 Route::get('/testcon', array('uses' => 'SController@testconnection', 'as' => 'testcon'));
 
-Route::get('/privacy', array('uses' => 'SController@privacypage', 'as' => 'privacy'));
+Route::get('/privacy', array('uses' => 'ShopController@privacypage', 'as' => 'privacy'));
 Route::post('/createCustomerAmazon', array('uses' => 'ShopController@createCustomerAmazon', 'as' => 'createCustomerAmazon'));
 Route::post('/updateAccountInformation', array('uses' => 'ShopController@updateAccountInformation', 'as' => 'updateAccountInformation'));
 Route::post('/validateCCardInfo', array('uses' => 'ShopController@validateCCardInfo', 'as' => 'validateCCardInfo'));

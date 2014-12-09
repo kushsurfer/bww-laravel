@@ -639,6 +639,13 @@ class ShopController extends BaseController
 
     public function privacypage(){
         echo 'privacy page';
+
+       //  $cartID = Session::get('cartID');
+       //  echo $cartID;
+       // $resp = true;
+       //  $session_id = MagentoAPI::initialize();
+       //  var_dump(MagentoAPI::getCartInfo($session_id, $cartID));
+
     }
 
 
@@ -756,8 +763,6 @@ class ShopController extends BaseController
                 $response = true;
                 $response = self::addCustomerDataToCart($customer);
 
-                $response = self::submitToCDrator($customer);
-
                 $estimatedTax = number_format(Session::get('estimatedTax'), 2);
 
                 return json_encode(array('success'=>$response, 'estimatedTax' => '$'.$estimatedTax));
@@ -825,18 +830,116 @@ class ShopController extends BaseController
         // echo '<br/><br/><br/>';
 
         $response = MagentoAPI::setShippingMethod($session_id, $cartID);
-       
-            // echo '<br/><br/><br/>';
-
 
         return $response;
     }
 
 
-    public function submitToCDrator($customer){
-        // $customerID = Session::get('customerID');
 
-        // $customer = Customers::find($customerID);
+    public function validateCCardInfo(){
+         $rules = array(
+            'ccard'             => 'required|numeric',
+            'ccname'            => 'required',
+            'mon'               => 'required',
+            'yr'                => 'required',
+            'cvv'               => 'required|numeric',
+        );
+
+        // validate against the inputs from our form
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+
+           return json_encode(array('success'=>false, 'errors' => $validator->messages()));
+
+        } else {
+            $response = true;
+
+            $paymentMethod = array(
+                        "po_number" => null,
+                        "method" => 'authorizenet_directpost',
+                        "cc_type" => Input::get('ccardtype'),
+                        "cc_number" => Input::get('ccard'),
+                        "cc_exp_month" => Input::get('mon'),
+                        "cc_exp_year" => Input::get('yr'),
+                        "cc_cid" => Input::get('cvv')     
+                    );
+
+            $response = self::addCCardInfoToCart($paymentMethod);
+
+            $estimatedTax = number_format(Session::get('estimatedTax'), 2);
+
+            return json_encode(array('success'=>$response, 'estimatedTax' => '$'.$estimatedTax));
+
+        }
+
+
+    }
+
+    public function addCCardInfoToCart($paymentMethod){
+        
+        $cartID = Session::get('cartID');
+        $session_id = MagentoAPI::initialize();
+        $session = new Session();
+
+        $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
+                
+        $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
+
+
+        if($orderID != 0){
+
+           
+
+            $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+            
+            $transactionID =  $response['payment']['last_trans_id'];
+          
+            if($response['status'] == 'pending_payment'){
+                $invoiceID = MagentoAPI::createInvoice($session_id, $orderID);
+
+                $paid = MagentoAPI::captureInvoice($session_id, $invoiceID);
+               
+
+                $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+
+                $transactionID =  $response['payment']['last_trans_id'];
+
+                $shippingFee = $response['shipping_amount'];
+
+                $grandtotal = $response['grand_total'];
+
+                Session::put('transactionID', $transactionID);
+                Session::put('orderID', $orderID);
+                Session::put('shippingFee', $shippingFee);
+
+            }
+
+           
+        
+        }
+
+         if($paid){
+
+            // echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+
+            $response = self::submitToCDrator(); // call CDRator API
+
+            // echo 'Order is complete!';
+
+            Session::forget('ordersets');
+
+            $response = true;
+         }
+
+        return $response;
+
+    }
+
+    public function submitToCDrator(){
+        $customerID = Session::get('customerID');
+
+        $customer = Customers::find($customerID);
 
         $resp = true;
 
@@ -869,7 +972,7 @@ class ShopController extends BaseController
                 $device = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['deviceID']);
                 $plan = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['planID']);
                
-                $productKey =  'BWW_PACKAGE_MINI';//$plan['sku']; // plan code ()
+                $productKey =  $plan['sku']; // plan code ()
                 $handsetID = $device['sku'];
                 $meid = $cartProduct['meid']; // MEID number for BYOSD
                 
@@ -943,6 +1046,9 @@ class ShopController extends BaseController
                         $resp =  'Generic error: '.$response['errorMessage'];
                     } else {
                         $resp = true;
+
+                        self::addChargesToCDrator($signupCustomer);
+
                     }
                 } else {
 
@@ -994,6 +1100,8 @@ class ShopController extends BaseController
 
                         $resp = true;
 
+                        self::addChargesToCDrator($signupCustomer);
+
                     }
 
             
@@ -1008,162 +1116,79 @@ class ShopController extends BaseController
 
     }
 
-    public function validateCCardInfo(){
-         $rules = array(
-            'ccard'             => 'required|numeric',
-            'ccname'            => 'required',
-            'mon'               => 'required',
-            'yr'                => 'required',
-            'cvv'               => 'required|numeric',
-        );
 
-        // validate against the inputs from our form
-        $validator = Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-
-           return json_encode(array('success'=>false, 'errors' => $validator->messages()));
-
-        } else {
-            $response = true;
-
-            $paymentMethod = array(
-                        "po_number" => null,
-                        "method" => 'authorizenet_directpost',
-                        "cc_type" => Input::get('ccardtype'),
-                        "cc_number" => Input::get('ccard'),
-                        "cc_exp_month" => Input::get('mon'),
-                        "cc_exp_year" => Input::get('yr'),
-                        "cc_cid" => Input::get('cvv')     
-                    );
-
-            $response = self::addCCardInfoToCart($paymentMethod);
-
-            return json_encode(array('success'=>$response));
-
-        }
-
-
-    }
-
-    public function addCCardInfoToCart($paymentMethod){
-        
-        $cartID = Session::get('cartID');
-        $session_id = MagentoAPI::initialize();
+    public function addChargesToCDrator($signupCustomer){
         $session = new Session();
 
-        $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
-                
-        $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
+        $signupCustomer->AuthNetCustomerProfileID = Session::get('orderID'); // set orderID from magento 
+        $signupCustomer->AuthNetPaymentProfileID = Session::get('transactionID');// set transaction ID as paymentProfile ID from Magento
 
-        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+        //TODO: Find out cost for Handset and what OrderID to use
+        $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $signupCustomer->getHandset()->shippingFee() : 6.25; //6.25 is the byosd "import" fee
+        $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
 
-
-        if($orderID != 0){
-
-            $signupCustomer->AuthNetCustomerProfileID = $orderID; // set orderID from magento 
-
-            $response = MagentoAPI::getOrderInfo($session_id, $orderID);
-            
-            $transactionID =  $response['payment']['last_trans_id'];
-          
-            if($response['status'] == 'pending_payment'){
-                $invoiceID = MagentoAPI::createInvoice($session_id, $orderID);
-
-                $paid = MagentoAPI::captureInvoice($session_id, $invoiceID);
-               
-
-                $response = MagentoAPI::getOrderInfo($session_id, $orderID);
-
-                $transactionID =  $response['payment']['last_trans_id'];
-
-                $shippingFee = $response['shipping_amount'];
-
-                $grandtotal = $response['grand_total'];
+         // save payment to CDRator API
+        $savePaymentRequest = new SavePayment();
+        $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+        $savePaymentRequest->Amount = $handsetCost + $firstMonthCost; // symfony - included plan rate 
+        $savePaymentRequest->PaymentDate = date('YmD');
+        $savePaymentRequest->PaymentReference = Session::get('orderID'); 
+        $savePaymentRequest->PaymentCaptured = true;
+        $savePaymentRequest->TransactionID = Session::get('transactionID');
+        $savePaymentRequest->executeRequest();
 
 
-            }
-
-            $signupCustomer->AuthNetPaymentProfileID = $transactionID; // set transaction ID as paymentProfile ID from Magento
-        
+        $signupCustomer->signupSubscription();
+        $signupCustomer->createRechargeTicket();
+        if (!$signupCustomer->isByosd()) {
+            $signupCustomer->orderHandset();
         }
 
-         if($paid){
+        $addChargeRequest = new AddCharge();
+        $addChargeRequest->Amount = $handsetCost;
+        $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+        if ($signupCustomer->isByosd()) {
+            $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
+        } else {
+            $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
+        }
 
-            // echo '<br/> Order paid using test Credit Account in Sandbox Authorize.net';
+        $addChargeRequest->setChargeItemID('201406141600076507');
+        $response = $addChargeRequest->executeRequest();
 
-            // save payment to CDRator API
-            $savePaymentRequest = new SavePayment();
-            $savePaymentRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-            $savePaymentRequest->Amount = $grandtotal; // symfony - included plan rate 
-            $savePaymentRequest->PaymentDate = date('YmD');
-            $savePaymentRequest->PaymentReference = $orderID; 
-            $savePaymentRequest->PaymentCaptured = true;
-            $savePaymentRequest->TransactionID = $transactionID;
-            $savePaymentRequest->executeRequest();
-
-            //TODO: Find out cost for Handset and what OrderID to use
-            $handsetCost = !is_null($signupCustomer->getHandset()) ? $signupCustomer->getHandset()->getPrice() + $shippingFee : 6.25; //6.25 is the byosd "import" fee
-            $firstMonthCost = $signupCustomer->getProductPlan()->RecurrentPrice;
-
-
-            $signupCustomer->signupSubscription();
-            $signupCustomer->createRechargeTicket();
-            if (!$signupCustomer->isByosd()) {
-                $signupCustomer->orderHandset();
-            }
-
+        if (!is_null($signupCustomer->getHandset()) && $signupCustomer->getHandset()->shippingFee() > 0) {
             $addChargeRequest = new AddCharge();
-            $addChargeRequest->Amount = $handsetCost;
+            $addChargeRequest->Amount = $signupCustomer->getHandset()->shippingFee();
             $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-            if ($signupCustomer->isByosd()) {
-                $addChargeRequest->Description = sprintf('Byosd import fee', 'HandsetFee');
-            } else {
-                $addChargeRequest->Description = sprintf('Handset %s', $signupCustomer->getHandset()->getTitle(), 'HandsetFee');
-            }
-
+            $addChargeRequest->Description = "Handset shipping fee";
             $addChargeRequest->setChargeItemID('201406141600076507');
             $response = $addChargeRequest->executeRequest();
+        }
 
-            if (!is_null($signupCustomer->getHandset()) && $shippingFee > 0) {
-                $addChargeRequest = new AddCharge();
-                $addChargeRequest->Amount = $shippingFee;
-                $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                $addChargeRequest->Description = "Handset shipping fee";
-                $addChargeRequest->setChargeItemID('201406141600076507');
-                $response = $addChargeRequest->executeRequest();
-            }
+        if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
+            $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
 
-            if (stristr($signupCustomer->getProductPlan()->OptionKey, 'BWW_PAYG') !== false) {
-                $chargeDescription = $signupCustomer->getProductPlan()->OptionKey == 'BWW_PAYG' ? 'Just plan (1st month deposit)' : 'Data Only (1st month deposit)';
+            $addChargeRequest = new AddCharge();
+            $addChargeRequest->Amount = 20;
+            $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
+            $addChargeRequest->Description = $chargeDescription;
+            $addChargeRequest->setChargeItemID('201406141600076507');
+            $response = $addChargeRequest->executeRequest();
+        }
 
-                $addChargeRequest = new AddCharge();
-                $addChargeRequest->Amount = 20;
-                $addChargeRequest->BillingGroupID = $signupCustomer->getBillingGroupID();
-                $addChargeRequest->Description = $chargeDescription;
-                $addChargeRequest->setChargeItemID('201406141600076507');
-                $response = $addChargeRequest->executeRequest();
-            }
+        SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
 
-            SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);
+        if ($signupCustomer->isByosd()){
+            self::confirmationAction($signupCustomer);
+        }
 
-            if ($signupCustomer->isByosd()){
-                self::confirmationAction();
-            }
-
-            // echo 'Order is complete!';
-
-            $response = true;
-         }
-
-        return $response;
-
+        return true;
     }
 
-    public function confirmationAction() {
+    public function confirmationAction($signupCustomer) {
         $session = new Session();
         
-        $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
+        // $signupCustomer = SignupCustomerModel::getCurrentSignupCustomer($session);
 
         $getWebUserRequest = new GetWebUserProfileInternal();
         $getWebUserRequest->CustomerNumber = $signupCustomer->getCustomerNumber();
@@ -1179,10 +1204,10 @@ class ShopController extends BaseController
                 $activateRequest->SubscriptionID = $userManager->getCurrentSubscription()->getID();
                 $activateRequest->MEID = $signupCustomer->getMEID();
                 $activateResponse = $activateRequest->executeRequest();
-                echo "<pre>";
-                echo $activateRequest->getLastRequest();
-                print_r($activateResponse);
-                echo "</pre>";
+                // echo "<pre>";
+                // echo $activateRequest->getLastRequest();
+                // print_r($activateResponse);
+                // echo "</pre>";
                 if ($activateResponse['errorCode'] == '0') {
                     $signupCustomer->setActivated();
                     SignupCustomerModel::saveCurrentSignupCustomer($signupCustomer, $session);

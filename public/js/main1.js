@@ -726,11 +726,16 @@ function displayAcctInfoSection(){
 				data : formData,
 	            success  : function (resp) {
 	            	resp = JSON.parse(resp);
-	            	$('#checkoutloader').hide();
+	            	
 	            	if(resp.success){
 	            		$('#checkoutloader').html('<h4>Order Complete!</h4>');
+	            		$('#estimateTax').text(resp.estimatedTax);
+	            		// reset order cart
+	            		orderCnt = 0;
+	            		cart[orderCnt] = {};
 						
 	            	}else{
+	            		$('#checkoutloader').hide();
 	            		$('#ccvalidation').show();
 	            		$.each(resp.errors, function(index, error){
 
