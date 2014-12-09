@@ -578,8 +578,7 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 		url: baseurl + 'createCustomerAmazon',
 		data : data,
         success  : function (resp) {
-        	alert(resp.success);
-         	if(resp == 'Success'){
+        	if(resp == 'Success'){
 				displayAcctInfoSection();
 			}
 		
