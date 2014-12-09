@@ -80,25 +80,8 @@
 			</div>
 		</div>
 		<div class="clearfix"></div>
-		<div id="showloader"></div>
-	</div>	
-	<div class="row  page-section" id="byosd-editmeid" style="display:none">
-		<h3 class="section-title">BRING YOUR OWN DEVICE</h3>
-		<p class="subheading">Great! Your phone is compatible &amp; eligible for Betterworld Wireless.</p>
-		<div style="padding-left:0px;" class="col-xs-6 col-sm-6 col-lg-6 meid-res">
-			<img class="pull-left" src="<?php echo url();?>/images/sample_device.jpg">
-			<div class="pull-left" style="width:80%;margin-top:2%">
-						
-				<div id="valid-meid">
-  					<h4>Your IMEI number: <span id="validmeid"></span> <a class="orange-link" href="#" id="editBYOSD">Edit</a></h4><br/>
-					<a style="width: 68%;" href="#" class="orange-button" id="selectplan">Next To Choose a Plan</a>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-6 col-sm-6 col-lg-6 "></div>
-		<div class="clearfix"></div>
 		<div class="device-list meid-res" id="compatible">
-			<strong>FAQ</strong>
+			<h4>FAQ</h4>
 			<p>
 				You need an unlocked GSM phone to use the BetterWorld Wireless Network.<br/>
 				<a href="#">How can I tell if it's unlocked?</a><br/>
@@ -107,7 +90,21 @@
 				<a href="#">What is an IMEI number?</a>
 			</p>
 		</div>
-		
+		<div id="showloader"></div>
+	</div>	
+	<div class="row  page-section" id="byosd-editmeid" style="display:none">
+		<h3 class="section-title">BRING YOUR OWN DEVICE</h3>
+		<p class="subheading">Great! Your phone is compatible &amp; eligible for Betterworld Wireless.</p>
+		<div class="col-xs-2 col-sm-2 col-lg-2 meid-res">
+			<img src="<?php echo url();?>/images/sample_device.jpg">
+		</div>
+		<div class="col-xs-10 col-sm-10 col-lg-10 meid-res" style="margin-top: 1em;">
+			<div id="valid-meid">
+					<h4 style="display:inline-block; margin-bottom: 1em">Your IMEI number: <span id="validmeid"></span></h4> &nbsp;<a class="orange-link" href="#" id="editBYOSD">Edit</a><br/>
+				<a href="#" class="orange-button" id="selectplan">Next To Choose a Plan</a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
 	</div>
 	<!-- Plan Information Section -->
 
