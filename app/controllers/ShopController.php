@@ -34,7 +34,7 @@ class ShopController extends BaseController
     
     public function index(){
 
-    	
+    	Session::forget('ordersets');
         return View::make('shop_view.shop1');
     }
 
