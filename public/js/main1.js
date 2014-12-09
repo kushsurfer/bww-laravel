@@ -343,8 +343,12 @@ $(document).ready(function(){
 			        $.get( "checkCustomerSession", function( resp ) {
 			        	
 			        	console.log(backorder);
+			        	console.log(resp);
 						if(resp.success){
+							alert('a');
 							displayAcctInfoSection();
+						}else{
+							alert('b');
 						}
 						
 					});

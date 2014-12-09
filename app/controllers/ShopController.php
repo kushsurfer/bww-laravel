@@ -579,7 +579,7 @@ class ShopController extends BaseController
            
        
             $existcustomer =  Customers::where('oauthID', '=', Input::get('oauthID'))->first();
-             $name = explode(' ', Input::get('name')); 
+            $name = explode(' ', Input::get('name')); 
 
             if($existcustomer == null){
              
@@ -595,7 +595,8 @@ class ShopController extends BaseController
 
                 Session::put('customerID', $customer->id);
             }else{
-                $customer = Customers::find($customerID);
+
+                $customer = Customers::find($existcustomer->customerID);
 
                 $customer->firstname = isset($name[0]) ? $name[0] : '';
                 $customer->lastname = isset($name[1]) ? $name[1] : '';
@@ -627,7 +628,7 @@ class ShopController extends BaseController
         if (Session::has('customerID')) {
             return json_encode(array('success'=>true));
         }else{
-            echo 'Failed';
+            return json_encode(array('success'=>false));
         }
 
     }
