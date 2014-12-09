@@ -602,7 +602,6 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 function displayAcctInfoSection(){
 	addbackHistory('create-account');
 	displayPageSection('page-section', 'checkout-container');
-	alert('sdfasf');
 
 	$.get("checkout", function( data ) {
 		$('#checkout-container').html(data);
