@@ -596,7 +596,9 @@ class ShopController extends BaseController
                 Session::put('customerID', $customer->id);
             }else{
 
-                $customer = Customers::find($existcustomer->customerID);
+                $customerID = $existcustomer->customerID;
+
+                $customer = Customers::find($customerID);
 
                 $customer->firstname = isset($name[0]) ? $name[0] : '';
                 $customer->lastname = isset($name[1]) ? $name[1] : '';
