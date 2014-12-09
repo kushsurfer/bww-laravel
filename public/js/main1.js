@@ -343,6 +343,7 @@ $(document).ready(function(){
 			        $.get( "checkCustomerSession", function( resp ) {
 			        	
 			        	console.log(backorder);
+			        	alert(resp);
 						if(resp == 'Found'){
 							alert('a');
 							displayAcctInfoSection();
@@ -578,8 +579,11 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 		url: baseurl + 'createCustomerAmazon',
 		data : data,
         success  : function (resp) {
+        	
         	if(resp == 'Success'){
 				displayAcctInfoSection();
+			}else{
+				alert(resp);
 			}
 		
          
