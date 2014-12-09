@@ -388,27 +388,7 @@ $(document).ready(function(){
 
  	});
 
-    /*$('.orange-border').waypoint(function(direction){
-        if (direction == 'down') {
-            $(this).addClass('fixed-bar');
-        }
-        else {
-            $(this).removeClass('fixed-bar');
-        }
-    });*/
-
-
- 	function displayPageSection(classname, id){
-
- 		$( "." + classname ).each(function() {
-		  //$(this).hide();
-		});
-
- 		$('#' + id).show();
-
- 		// scrolls to the newly opened section when user selects an option
- 		$(document).scrollTo('#' + id, 800, {offset:-150});
- 	}
+     	
 
  	function checkSectionHistory(){
  		// for back button display
@@ -556,10 +536,13 @@ $(document).ready(function(){
 function displayPageSection(classname, id){
 
 	$( "." + classname ).each(function() {
-	  $(this).hide();
+  	//$(this).hide();
 	});
 
 	$('#' + id).show();
+
+	// scrolls to the newly opened section when user selects an option
+	$(document).scrollTo('#' + id, 800, {offset:-150});
 }
 
 function addbackHistory(container_id){

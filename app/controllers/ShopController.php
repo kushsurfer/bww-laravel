@@ -375,112 +375,112 @@ class ShopController extends BaseController
     }
 
 
-    public function getCurrentCartInfo(){
+    // public function getCurrentCartInfo(){
 
                   
-        $session_id = MagentoAPI::initialize();
+    //     $session_id = MagentoAPI::initialize();
 
-        $cartID = Session::get('cartID', 93); 
+    //     $cartID = Session::get('cartID', 93); 
 
-        $response = MagentoAPI::getCartTotal($session_id, $cartID);
+    //     $response = MagentoAPI::getCartTotal($session_id, $cartID);
 
-        var_dump($response);
+    //     var_dump($response);
        
-        echo $cartID;exit;
+    //     echo $cartID;exit;
 
-        $arrAddresses = array(
-                    array(
-                        "mode" => "shipping",
-                        "firstname" => 'Retchel',
-                        "lastname" => 'Tapayan',
-                        "company" => 'Retchel BWW',
-                        "street" => '10th Avenue',
-                        "city" => 'San Francisco',
-                        "region" => 'CA',
-                        "postcode" => '94118',
-                        "country_id" => 'US',
-                        "telephone" => '0123456789',
-                        "fax" => '0123456789',
-                        "is_default_shipping" => 0,
-                        "is_default_billing" => 0
-                    ),
-                    array(
-                        "mode" => "billing",
-                        "firstname" => 'Retchel',
-                        "lastname" => 'Tapayan',
-                        "company" => 'Retchel BWW',
-                        "street" => '10th Avenue',
-                        "city" => 'San Francisco',
-                        "region" => 'CA',
-                        "postcode" => '94118',
-                        "country_id" => 'US',
-                        "telephone" => '0123456789',
-                        // "fax" => "0123456789",
-                        "is_default_shipping" => 0,
-                        "is_default_billing" => 0
-                    )
-                );
+    //     $arrAddresses = array(
+    //                 array(
+    //                     "mode" => "shipping",
+    //                     "firstname" => 'Retchel',
+    //                     "lastname" => 'Tapayan',
+    //                     "company" => 'Retchel BWW',
+    //                     "street" => '10th Avenue',
+    //                     "city" => 'San Francisco',
+    //                     "region" => 'CA',
+    //                     "postcode" => '94118',
+    //                     "country_id" => 'US',
+    //                     "telephone" => '0123456789',
+    //                     "fax" => '0123456789',
+    //                     "is_default_shipping" => 0,
+    //                     "is_default_billing" => 0
+    //                 ),
+    //                 array(
+    //                     "mode" => "billing",
+    //                     "firstname" => 'Retchel',
+    //                     "lastname" => 'Tapayan',
+    //                     "company" => 'Retchel BWW',
+    //                     "street" => '10th Avenue',
+    //                     "city" => 'San Francisco',
+    //                     "region" => 'CA',
+    //                     "postcode" => '94118',
+    //                     "country_id" => 'US',
+    //                     "telephone" => '0123456789',
+    //                     // "fax" => "0123456789",
+    //                     "is_default_shipping" => 0,
+    //                     "is_default_billing" => 0
+    //                 )
+    //             );
 
-            // $arrAddresses = null;
+    //         // $arrAddresses = null;
 
-            $customerAsGuest = array(
-                            "firstname" => 'Retchel',
-                            "lastname" => 'Tapayan',
-                            "email" => 'rtapayan@global-fusion.net',
-                            "website_id" => "0",
-                            "store_id" => "0",
-                            "mode" => "guest"
-                        );
+    //         $customerAsGuest = array(
+    //                         "firstname" => 'Retchel',
+    //                         "lastname" => 'Tapayan',
+    //                         "email" => 'rtapayan@global-fusion.net',
+    //                         "website_id" => "0",
+    //                         "store_id" => "0",
+    //                         "mode" => "guest"
+    //                     );
 
-            $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
-            var_dump($response);
-            echo '<br/><br/><br/>';
+    //         $response = MagentoAPI::addCustomerToCart($session_id, $cartID, $customerAsGuest);
+    //         var_dump($response);
+    //         echo '<br/><br/><br/>';
 
 
-            $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
+    //         $response = MagentoAPI::addCustomerInfoToCart($session_id, $cartID, $arrAddresses);
       
            
 
-            // $response = MagentoAPI::getPaymentList($session_id, $cartID);
-            var_dump($response);
-            echo '<br/><br/><br/>';
+    //         // $response = MagentoAPI::getPaymentList($session_id, $cartID);
+    //         var_dump($response);
+    //         echo '<br/><br/><br/>';
 
 
-            // $response = MagentoAPI::getShippingMethod($session_id, $cartID);
-            // var_dump($response);
-            // echo '<br/><br/><br/>';
+    //         // $response = MagentoAPI::getShippingMethod($session_id, $cartID);
+    //         // var_dump($response);
+    //         // echo '<br/><br/><br/>';
 
-            $response = MagentoAPI::setShippingMethod($session_id, $cartID);
-            var_dump($response);
-            echo '<br/><br/><br/>';
+    //         $response = MagentoAPI::setShippingMethod($session_id, $cartID);
+    //         var_dump($response);
+    //         echo '<br/><br/><br/>';
             
 
-           $paymentMethod = array(
-                            "po_number" => null,
-                            "method" => 'authorizenet_directpost',
-                            "cc_type" => 'DI',
-                            "cc_number" =>'6011000000000012',
-                            "cc_exp_month" => 12,
-                            "cc_exp_year" => 2014,
-                            "cc_cid" => 123     
-                        );
+    //        $paymentMethod = array(
+    //                         "po_number" => null,
+    //                         "method" => 'authorizenet_directpost',
+    //                         "cc_type" => 'DI',
+    //                         "cc_number" =>'6011000000000012',
+    //                         "cc_exp_month" => 12,
+    //                         "cc_exp_year" => 2014,
+    //                         "cc_cid" => 123     
+    //                     );
 
-            $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
-            var_dump($response);
-            echo '<br/><br/><br/>';
+    //         $response = MagentoAPI::addCartPaymentMethod($session_id, $cartID, $paymentMethod);
+    //         var_dump($response);
+    //         echo '<br/><br/><br/>';
 
             
 
-            $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
-            // var_dump($orderID);
-            // exit;
-            $response = MagentoAPI::getOrderInfo($session_id, $orderID);
+    //         $orderID = MagentoAPI::createOrderFromCart($session_id, $cartID);
+    //         // var_dump($orderID);
+    //         // exit;
+    //         $response = MagentoAPI::getOrderInfo($session_id, $orderID);
 
-            var_dump($response);
-            echo '<br/><br/><br/>';
+    //         var_dump($response);
+    //         echo '<br/><br/><br/>';
 
          
-    }
+    // }
 
 
     public function createAccount(){
@@ -753,7 +753,7 @@ class ShopController extends BaseController
                 $response = true;
                 $response = self::addCustomerDataToCart($customer);
 
-                $response = self::submitToCDrator();
+                $response = self::submitToCDrator($customer);
 
                 $estimatedTax = number_format(Session::get('estimatedTax'), 2);
 
@@ -830,10 +830,10 @@ class ShopController extends BaseController
     }
 
 
-    public function submitToCDrator(){
-        $customerID = Session::get('customerID');
+    public function submitToCDrator($customer){
+        // $customerID = Session::get('customerID');
 
-        $customer = Customers::find($customerID);
+        // $customer = Customers::find($customerID);
 
         $resp = true;
 
@@ -859,8 +859,9 @@ class ShopController extends BaseController
 
 
             $session_id = MagentoAPI::initialize();
-           
 
+            $signupCustomer = new SignupCustomerModel();
+           
             foreach($ordersets as $cartProduct){
                 $device = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['deviceID']);
                 $plan = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['planID']);
@@ -869,9 +870,7 @@ class ShopController extends BaseController
                 $handsetID = $device['sku'];
                 $meid = $cartProduct['meid']; // MEID number for BYOSD
                 
-
-
-                $signupCustomer = new SignupCustomerModel();
+             
 
                 if ($productKey != null) {
                     $productPlan = $signupCustomer->getPackageByKey($productKey);
@@ -963,7 +962,7 @@ class ShopController extends BaseController
                         // $form->get('Username')->addError(new FormError($this->get('translator')->trans('signup.address_info.feedback.username_exists'))); //Username already taken, please choose another
                         // echo 'Username is already taken';
 
-                        $resp = true;
+                        $resp = false;
 
                     } else if ($response['errorCode'] != '0') {
                         // $formResponse['response'] = $response;
@@ -1188,7 +1187,7 @@ class ShopController extends BaseController
             }
 
 
-            echo 'BYOSD subscription is created';
+            // echo 'BYOSD subscription is created';
             $response = true;
         }else{
             $response = false;
