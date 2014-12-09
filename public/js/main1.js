@@ -344,12 +344,12 @@ $(document).ready(function(){
 			        	
 			        	console.log(backorder);
 			        	alert(resp);
-						if(resp == 'Found'){
-							alert('a');
+						// if(resp == 'Found'){
+						// 	alert('a');
 							displayAcctInfoSection();
-						}else{
-							alert('b');
-						}
+						// }else{
+						// 	alert('b');
+						// }
 						
 					});
 				 	
@@ -580,11 +580,11 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 		data : data,
         success  : function (resp) {
         	
-        	if(resp == 'Success'){
+        	// if(resp == 'Success'){
 				displayAcctInfoSection();
-			}else{
-				alert(resp);
-			}
+			// }else{
+			// 	alert(resp);
+			// }
 		
          
         }
