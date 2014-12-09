@@ -343,13 +343,10 @@ $(document).ready(function(){
 			        $.get( "checkCustomerSession", function( resp ) {
 			        	
 			        	console.log(backorder);
-			        	alert(resp);
-						// if(resp == 'Found'){
-						// 	alert('a');
+			        	if(resp.search('Found') !== -1){
 							displayAcctInfoSection();
-						// }else{
-						// 	alert('b');
-						// }
+						}else{
+						}
 						
 					});
 				 	
@@ -580,11 +577,11 @@ amazon.Login.retrieveProfile(response.access_token, function(response) {
 		data : data,
         success  : function (resp) {
         	
-        	// if(resp == 'Success'){
+        	if(resp.search('Success') !== -1){
 				displayAcctInfoSection();
-			// }else{
-			// 	alert(resp);
-			// }
+			}else{
+				
+			}
 		
          
         }
