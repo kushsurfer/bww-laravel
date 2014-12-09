@@ -556,6 +556,7 @@ function addbackHistory(container_id){
 function displayAcctInfoSection(){
 	addbackHistory('create-account');
 	displayPageSection('page-section', 'checkout-container');
+	alert('sdfasf');
 
 	$.get("checkout", function( data ) {
 		$('#checkout-container').html(data);
@@ -568,7 +569,6 @@ function displayAcctInfoSection(){
 				$(this).text('X');
 				$('#'+$(this).attr('inputid')).val(1);
 			}
-
 
 
 		})
