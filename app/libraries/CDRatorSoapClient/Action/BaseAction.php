@@ -93,10 +93,11 @@ abstract class BaseAction
 			//return $response->return;
 			return $this->convertResponse($this->_SoapResponse->return);
 		} catch (\SoapFault $excp) {
-			echo 'Request : <br/><xmp>',
-                $this->_service->__getLastRequest(),
-			  '</xmp><br/><br/> Error Message : <br/>', 
-			  $excp->getMessage(); 
+			// echo 'Request : <br/><xmp>',
+   //              $this->_service->__getLastRequest(),
+			//   '</xmp><br/><br/> Error Message : <br/>', 
+			 return array('errorCode' => $excp->getMessage()); 
+
 		}
 	}
 
