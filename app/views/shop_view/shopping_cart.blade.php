@@ -33,7 +33,7 @@
 						<span class="small">New from BetterWorld Wireless</span>
 					</td>
 					<td>
-						<a href="#" class="cart-button" cid="{{ $key }}">Edit</a>
+						<a href="#" class="cart-button edit-device" cid="{{ $key }}">Edit</a>
 						<div class="clearfix"></div>
 					</td>
 					<td>
@@ -50,7 +50,7 @@
 						<!-- 1200 minutes, unlimited messages, 750 MB data -->
 					</td>
 					<td>
-						<a href="#" class="cart-button">Edit</a>
+						<a href="#" class="cart-button edit-plan" cid="{{ $key }}" >Edit</a>
 						<div class="clearfix"></div>
 					</td>
 					<td class="cart-price">

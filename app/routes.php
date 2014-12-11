@@ -39,6 +39,7 @@ Route::get('/checkCustomerSession', array('uses' => 'ShopController@checkCustome
 	Route::post('/checkMEID', array('uses' => 'SController@checkMEID', 'as' => 'checkMEID'));
 	Route::post('/shopAddtoCart', array('uses' => 'ShopController@addToCart', 'as' => 'shopAddtoCart'));
 	Route::post('/createAccount', array('uses' => 'ShopController@createAccount', 'as' => 'createAccount'));
+	Route::post('/updateCartItems', array('uses' => 'ShopController@updateCartItems', 'as' => 'updateCartItems'));
 	Route::get('/getCurrentCartInfo', array('uses' => 'ShopController@getCurrentCartInfo', 'as' => 'getCurrentCartInfo'));
 	Route::get('/addToCart', array('uses' => 'SController@addToCart', 'as' => 'addToCart'));
 	Route::get('/submitToCDrator', array('uses' => 'ShopController@submitToCDrator', 'as' => 'submitToCDrator'));

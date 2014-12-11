@@ -237,15 +237,6 @@ class ShopController extends BaseController
 
     public function addToCart(){
 
-                  
-            $session_id = MagentoAPI::initialize();
-            
-            $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
-            $prodID = $bundleProd['product_id'];
-
-            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID='.$prodID);
-            $options = json_decode($homepage);
-
             $deviceID = Input::get('deviceID');
             $planID = Input::get('planID');
             $causeID = Input::get('causeID');
@@ -260,46 +251,18 @@ class ShopController extends BaseController
                 $meid = Input::has('meid');
             }
 
-     
-            // get product ID for BYOD product
-            if($deviceID == 'BYOD'){
-                $deviceID = MagentoAPI::getProductBySKU($session_id, $deviceID);
-                $deviceID = $deviceID['product_id'];
-            }
 
-            // get product ID for Just Plan
-            if($planID == 'BWW_PAYG'){
-                $planID = MagentoAPI::getProductBySKU($session_id, $planID);
-                $planID = $planID['product_id'];
-            }
-
-          
-            $products = array();
-                         
-            $products[]= array(
-                "product_id"    =>  $prodID,
-                "qty"           => "1",
-                "bundle_option" => array(
-                                $options->Device->option_id => $options->Device->prodIDs->$deviceID, 
-                                $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$planID, 
-                                $options->Causes->option_id => $options->Causes->prodIDs->$causeID, 
-
-                                )
+            $itemdetails = array(
+                'deviceID' => $deviceID,
+                'planID' => $planID,
+                'causeID' => $causeID,
+                'byodhanset' => $byodhanset,
+                'meid' => $meid
             );
-          
-            if (Session::has('cartID'))
-            {
-               $cartID = Session::get('cartID');
-            }else{
-                
-                $cartID = MagentoAPI::createEmptyCart($session_id);
-                Session::put('cartID', $cartID);
-            }
-                        
-            $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
 
+            $resp = self::setProductsToCart($itemdetails);
 
-
+           
             // Store order items in a session
             $ordersets = array();
 
@@ -317,7 +280,6 @@ class ShopController extends BaseController
 
             
     }
-
     public function setSessionOrderSets($ordersets){
 
         if (Session::has('ordersets')) {
@@ -335,6 +297,121 @@ class ShopController extends BaseController
          
     }
 
+
+
+    public function setProductsToCart($itemdetails){
+
+        $session_id = MagentoAPI::initialize();
+        
+        $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
+        $prodID = $bundleProd['product_id'];
+
+        $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID='.$prodID);
+        $options = json_decode($homepage);
+
+        $deviceID = $itemdetails['deviceID'];
+        $planID = $itemdetails['planID'];
+        $causeID = $itemdetails['causeID'];
+        $byodhanset = $itemdetails['byodhanset'];
+        $meid = $itemdetails['meid'];
+
+         
+        // get product ID for BYOD product
+        if($deviceID == 'BYOD'){
+            $deviceID = MagentoAPI::getProductBySKU($session_id, $deviceID);
+            $deviceID = $deviceID['product_id'];
+        }
+
+        // get product ID for Just Plan
+        if($planID == 'BWW_PAYG'){
+            $planID = MagentoAPI::getProductBySKU($session_id, $planID);
+            $planID = $planID['product_id'];
+        }
+
+      
+        $products = array();
+                     
+        $products[]= array(
+            "product_id"    =>  $prodID,
+            "qty"           => "1",
+            "bundle_option" => array(
+                            $options->Device->option_id => $options->Device->prodIDs->$deviceID, 
+                            $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$planID, 
+                            $options->Causes->option_id => $options->Causes->prodIDs->$causeID, 
+
+                            )
+        );
+      
+        if (Session::has('cartID'))
+        {
+           $cartID = Session::get('cartID');
+        }else{
+            
+            $cartID = MagentoAPI::createEmptyCart($session_id);
+            Session::put('cartID', $cartID);
+        }
+                    
+        $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
+
+    }
+
+
+    public function updateCartItems(){
+
+
+        $ordersets = Session::get('ordersets');
+
+        $itemSet =  Input::get('setID');
+        $deviceID = Input::get('deviceID');
+        $planID = Input::get('planID');
+        $causeID = Input::get('causeID');
+        $byodhanset = '';
+        $meid = '';
+
+        if (Input::has('byoshandset')){
+            $byodhanset = Input::has('byoshandset');
+        }
+
+        if (Input::has('meid')){
+            $meid = Input::has('meid');
+        }
+
+        $ordersets[$itemSet] = array(
+            'deviceID' => $deviceID,
+            'planID' => $planID,
+            'causeID' => $causeID,
+            'byodhanset' => $byodhanset,
+            'meid' => $meid
+        );
+
+        // reset orderset sessions
+
+        Session::forget('ordersets');
+
+        Session::set('ordersets',  $ordersets); 
+
+
+        // recreate cart and add product to new cart 
+        Session::forget('cartID'); // forget old cart
+
+        // loop to add products
+        foreach($ordersets as $set){
+            $itemdetails = array(
+                'deviceID' => $set['deviceID'],
+                'planID' => $set['planID'],
+                'causeID' => $set['causeID'],
+                'byodhanset' => $set['byodhanset'],
+                'meid' => $set['meid']
+            );
+
+            self::setProductsToCart($itemdetails);
+
+        }
+
+        echo 'Success';
+
+
+    }
 
     public function orderSummary(){
         $cartdetails = self::getOrderDetails();
