@@ -606,6 +606,9 @@ function displayAcctInfoSection(){
 	$.get("checkout", function( data ) {
 		$('#checkout-container').html(data);
 
+		//scroll to the account info container
+		$(document).scrollTo('#checkout-container', 800, {offset:-150});
+
 		$('.custom-checkbox').on('click', function(){
 			if($(this).text() == 'X'){
 				$(this).text('');

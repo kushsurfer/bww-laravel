@@ -621,6 +621,14 @@ p.subheading {
     font-weight: 500;
     padding: 6px 40px;
 }
+.table-productinfo .cart-button:hover {
+    /*background: rgba(252,135,34,0.1);*/
+    border: 1px solid #fc8722;
+    text-decoration: none;
+    color: #fc8722;
+
+    transition: border 0.5s, color 0.5s;
+}
 .table-productinfo .item-name {
     font-size: 22px;
     font-weight: 500;
