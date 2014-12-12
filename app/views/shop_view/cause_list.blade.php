@@ -22,13 +22,21 @@
 
 	<?php $cnt = 1; ?>
 	@foreach($causes as $cause)
+
+	@if (empty($cause['cause_sponsors']) || ($cause['cause_sponsors'] < $cause['cause_goal']))
+
 	<div class="cause{{$cnt}} cause-item">
-		<h3 class="cause-name underlined" cid="{{ $cause['product_id'] }}">{{ $cause['name'] }}</h3>
-		<p>
-			{{ $cause['short_description'] }}
-		</p>
+		<h3 class="cause-name underlined" cid="{{ $cause['product_id'] }}">{{ strtoupper($cause['cause_program']) }}</h3>
+			<p>MISSION: {{ $cause['cause_mission'] }}<br/>
+				WHERE: {{ $cause['cause_where'] }}<br/>
+				HOW: {{ $cause['cause_how'] }}<br/>
+				DEVICE TYPE: {{ $cause['device_type'] }}<br/>
+				METRICS: {{ $cause['cause_metrics'] }}
+			</p>
 	</div>
-	<?php $cnt++; ?>
+	@endif
+
+	<?php $cnt = ($cnt >= 3) ? 1 : $cnt+1; ?>
 	@endforeach
 
 </div>

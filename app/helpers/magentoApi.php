@@ -3,7 +3,7 @@
 	Class MagentoAPI{
 		
 
-		protected static $mage_url = 'http://bww-magento.gfdev.net/api/soap/?wsdl'; 
+		protected static $mage_url = 'http://bww-test.gfdev.net/api/soap/?wsdl'; 
 		
 		protected static $mage_user = 'bwwmagento'; 
 		protected static $mage_api_key = '8iKNZoW5Ju'; 

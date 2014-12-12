@@ -231,7 +231,7 @@ class ShopController extends BaseController
         
         Session::set('orderset',  $ordersets);
 
-        var_dump(Session::get('orderset'));
+        /*var_dump(Session::get('orderset'));*/
         
     }
 
@@ -240,10 +240,10 @@ class ShopController extends BaseController
                   
             $session_id = MagentoAPI::initialize();
             
-            $bundleProd = MagentoAPI::getProductBySKU($session_id, 'setorder');
+            $bundleProd = MagentoAPI::getProductBySKU($session_id, 'SETORDER');
             $prodID = $bundleProd['product_id'];
 
-            $homepage = file_get_contents('http://bww-magento.gfdev.net/index.php/bundleids?prodID='.$prodID);
+            $homepage = file_get_contents('http://bww-test.gfdev.net/index.php/bundleids?prodID='.$prodID);
             $options = json_decode($homepage);
 
             $deviceID = Input::get('deviceID');
@@ -273,6 +273,9 @@ class ShopController extends BaseController
                 $planID = $planID['product_id'];
             }
 
+            $activationFee = MagentoAPI::getProductBySKU($session_id, 'OTAF');
+            $activationFee = $activationFee['product_id'];
+
           
             $products = array();
                          
@@ -283,7 +286,7 @@ class ShopController extends BaseController
                                 $options->Device->option_id => $options->Device->prodIDs->$deviceID, 
                                 $options->Service_Plan->option_id => $options->Service_Plan->prodIDs->$planID, 
                                 $options->Causes->option_id => $options->Causes->prodIDs->$causeID, 
-
+                                $options->Activation_Fee->option_id => $options->Activation_Fee->prodIDs->$activationFee, 
                                 )
             );
           
@@ -295,10 +298,8 @@ class ShopController extends BaseController
                 $cartID = MagentoAPI::createEmptyCart($session_id);
                 Session::put('cartID', $cartID);
             }
-                        
+            
             $response = MagentoAPI::addProductToCart($session_id, $cartID, $products);
-
-
 
             // Store order items in a session
             $ordersets = array();
@@ -313,7 +314,7 @@ class ShopController extends BaseController
 
             self::setSessionOrderSets($ordersets);
 
-            var_dump(Session::get('ordersets'));
+            // var_dump(Session::get('ordersets'));
 
             
     }
@@ -331,7 +332,7 @@ class ShopController extends BaseController
 
         Session::set('ordersets',  $ordersets);
 
-        var_dump(Session::get('ordersets'));
+        // var_dump(Session::get('ordersets'));
          
     }
 
@@ -347,28 +348,31 @@ class ShopController extends BaseController
     public function getOrderDetails(){
          $cartdetails = array();
         
-        if (Session::has('ordersets')) {
+         if (Session::has('ordersets')) {
             $session_id = MagentoAPI::initialize();
             $ordersets = Session::get('ordersets');
-           
 
+
+            $activationFee = MagentoAPI::getProductBySKU($session_id, 'OTAF');
+            
             foreach($ordersets as $cartProduct){
                 $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
                 $planDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['planID']));
                
                 $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
                 $planDetails = $planDetails[$cartProduct['planID']];
+                $activationFee = $activationFee['price'];
 
 
                 $cartdetails[] = array(
                     'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
                     'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
                     'deviceImage' => $deviceDetails['images'][0], 
-                    'activationFee' => $planDetails['price'] 
+                    'activationFee' => $activationFee
                 );
             }
 
-        }
+         }
 
         return $cartdetails;
 
@@ -726,7 +730,7 @@ class ShopController extends BaseController
             }
 
             if (!$signupCustomer->checkCoverage(Input::get('zipcode'))) {
-                 $errorMsg['zipcode'] = 'Zipcode error or BetterWorld Wireless coverage is not adequate for this area. Call us for more info at 844-846-1653.';
+                $errorMsg['zipcode'] = 'Zipcode error or BetterWorld Wireless coverage is not adequate for this area. Call us for more info at 844-846-1653.';
             }
 
             if(count($errorMsg) > 0){
