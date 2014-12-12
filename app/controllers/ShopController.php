@@ -728,12 +728,14 @@ class ShopController extends BaseController
 
     public function privacypage(){
         echo 'privacy page';
+      
+        $session_id = MagentoAPI::initialize();
 
-       //  $cartID = Session::get('cartID');
-       //  echo $cartID;
-       // $resp = true;
-       //  $session_id = MagentoAPI::initialize();
-       //  var_dump(MagentoAPI::getCartInfo($session_id, $cartID));
+        // $causeAttributes = array('cause_sponsors' => 3);
+
+        // var_dump(MagentoAPI::updateProductBySku($session_id, 'BGC', $causeAttributes));
+        // $resp = MagentoAPI::getProductDetailsByID($session_id, 8);
+        // echo $resp['sku'];
 
     }
 
@@ -1065,7 +1067,9 @@ class ShopController extends BaseController
                 $handsetID = $device['sku'];
                 $meid = $cartProduct['meid']; // MEID number for BYOSD
                 
-             
+                // update Cause sponsor count
+                $resp = self::updateCauseSponsorCnt($cartProduct['causeID']);            
+
 
                 if ($productKey != null) {
                     $productPlan = $signupCustomer->getPackageByKey($productKey);
@@ -1205,6 +1209,27 @@ class ShopController extends BaseController
 
     }
 
+
+    public function updateCauseSponsorCnt($causeID){
+
+        $session_id = MagentoAPI::initialize();
+
+        $causedetail = MagentoAPI::getProductDetailsByID($session_id, $causeID);
+
+        $sponsors = 0;
+        
+        if($causedetail['cause_sponsors'] == ''){
+            $sponsors = 1;
+        }else{
+            $sponsors += int($causedetail['cause_sponsors']);
+        }
+
+        $causeAttributes = array('cause_sponsors' => $sponsors);
+
+        $response = MagentoAPI::updateProductBySku($session_id, $causedetail['sku'], $causeAttributes);
+
+        return $response;
+    }
 
     public function addChargesToCDrator($signupCustomer){
         $session = new Session();

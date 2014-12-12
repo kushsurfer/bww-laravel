@@ -135,6 +135,20 @@
 		}
 
 
+
+
+		public static function updateProductBySku($session, $sku, $prodAttributes){
+			
+			$result = self::$soap->call($session, 'catalog_product.update', array($sku, $prodAttributes));
+			
+			// If you don't need the session anymore
+			//$client->endSession($session);
+
+			return $result;
+
+		}
+
+
 		public static function getBundle($session){
 			$result = self::$soap->call($session, 'bundleapi.listitems', array());
 			var_dump ($result);
