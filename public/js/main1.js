@@ -6,6 +6,8 @@ $(document).ready(function(){
 	var cart = {}; // store cart product selection
 	var selectedpackage = '';
 	var selectedbyosd = '';
+	var editCart = false;
+	var editCartset = null;
 
 	cart[orderCnt] = {};
 
@@ -62,6 +64,7 @@ $(document).ready(function(){
 
 
 			displayPageSection('page-section', 'cause-detail');
+			$('#cause-detail').html('<div class="loader"></div>');
 
 			//load byosd list of devices in the background 
 		 	$.get( baseurl + "causeDetail/" + $(this).attr('cid'), function( data ) {
@@ -178,9 +181,28 @@ $(document).ready(function(){
 				addbackHistory('shopping-cart');
 
 				console.log(backorder);
+
 				
 				event.preventDefault();
 			});
+
+			$('.edit-device, .edit-plan').on('click', function(){
+
+				if($(this).hasClass('edit-device')){
+					displayPageSection('page-section', 'deviceselection');
+				}else{
+					displayPageSection('page-section', 'planselection');
+				}
+					
+
+ 				addbackHistory('shopping-cart');
+
+ 				editCartset = $(this).attr('cid');
+ 				editCart = true;
+
+ 				console.log(cart[orderCnt]);
+			})
+
 
 			$(document).scrollTo('#shopping-cart', 800, {offset:-150});
 		});
@@ -210,14 +232,28 @@ $(document).ready(function(){
 
 	            		$('#validmeid').text($('#meid').val());
 
-	            		cart[orderCnt]['deviceID'] = 'BYOD';
-	            		cart[orderCnt]['byoshandset'] = selectedbyosd;
-	            		cart[orderCnt]['meid'] = $('#meid').val();
+	            		if( editCart && editCartset != null ){
+							cart[editCartset]['deviceID'] = 'BYOD';
+							cart[editCartset]['byoshandset'] = selectedbyosd;
+		            		cart[editCartset]['meid'] = $('#meid').val();
 
 
-	            		displayPageSection('page-section', 'byosd-editmeid');
+		            		editCartItems(); // submit edit cart items		            		
+		            		
 
-						addbackHistory('byosd-checkmeid');
+		            		console.log(cart[editCartset]);
+
+						}else{
+
+		            		cart[orderCnt]['deviceID'] = 'BYOD';
+		            		cart[orderCnt]['byoshandset'] = selectedbyosd;
+		            		cart[orderCnt]['meid'] = $('#meid').val();
+
+
+		            		displayPageSection('page-section', 'byosd-editmeid');
+
+							addbackHistory('byosd-checkmeid');
+						}
 
 	            	}else {
 
@@ -231,8 +267,7 @@ $(document).ready(function(){
 		}else{
 			alert('Kindly enter IMEI number');
 		}
-		
-								
+										
 		
 	})
 
@@ -240,10 +275,6 @@ $(document).ready(function(){
 
 	$('#editBYOSD').on('click', function(){
 		displayPageSection('page-section', 'byosd-list');
-
-		// addbackHistory('byosd-editmeid');
-
-		// console.log(backorder);
 	})
 
 
@@ -402,6 +433,40 @@ $(document).ready(function(){
  		backorder.push(container_id);
  	}
 
+
+ 	function editCartItems(){
+
+ 		if( editCart && editCartset != null ){
+	 		var data = {'deviceID' : cart[editCartset]['deviceID'], 'planID' : cart[editCartset]['planID'], 'causeID' : cart[editCartset]['causeID'], 'setID' : editCartset }
+
+	 		if(cart[editCartset]['deviceID'] == 'BYOD'){
+				data.byoshandset = cart[editCartset]['byoshandset'];
+				data.meid = cart[editCartset]['meid'];
+			}
+
+
+			$.ajax({
+				type: "POST",
+				url: baseurl + 'updateCartItems',
+				data : data,
+		        success  : function (resp) {
+		        	console.log(resp);
+		        	if(resp.search('Success') !== -1){
+						$('#gotoshoppingcart').trigger('click');
+					}else{
+						
+					}															
+		         
+		        }
+			});
+
+
+			editCart = false;
+			editCartset = null;
+		}
+ 	}
+
+
  	var BYOSDHandset = {
 
  		initialize: function () {
@@ -447,21 +512,36 @@ $(document).ready(function(){
 					
 					$('#selectdevice').on('click', function(){
 
-						cart[orderCnt]['deviceID'] = $(this).attr('pid'); // set selected device per order set
+						// check if edit cart has been selected
+						if( editCart && editCartset != null ){
+							cart[editCartset]['deviceID'] = $(this).attr('pid');
+							// reset byosdhandset if device is selected
+							cart[editCartset]['byoshandset'] = '';
+		            		cart[editCartset]['meid'] = '';
 
-						// reset byosdhandset if device is selected
-						cart[orderCnt]['byoshandset'] = '';
-	            		cart[orderCnt]['meid'] = '';
+		            		editCartItems(); // submit edit cart items		            		
+		            		
 
-						if(cart[orderCnt]['planID'] === undefined ){
-							displayPageSection('page-section', 'planselection');
+		            		console.log(cart[editCartset]);
+
 						}else{
-							displayPageSection('page-section', 'causeselection');
+							cart[orderCnt]['deviceID'] = $(this).attr('pid'); // set selected device per order set
+
+							// reset byosdhandset if device is selected
+							cart[orderCnt]['byoshandset'] = '';
+		            		cart[orderCnt]['meid'] = '';
+
+							if(cart[orderCnt]['planID'] === undefined ){
+								displayPageSection('page-section', 'planselection');
+							}else{
+								displayPageSection('page-section', 'causeselection');
+							}
+
+							
+
+							addbackHistory('device-detail');
 						}
-
 						
-
-						addbackHistory('device-detail');
 
 					});
 
@@ -479,15 +559,27 @@ $(document).ready(function(){
        		// load byosdhandset event functions
 			$('.select-justplan').on('click', function(event){
 
-				cart[orderCnt]['planID'] = 'BWW_PAYG';
+				// check if edit cart has been selected
+				if( editCart && editCartset != null ){
+					cart[editCartset]['planID'] = 'BWW_PAYG';
 
-				if(cart[orderCnt]['deviceID'] === undefined ){
-					displayPageSection('page-section', 'deviceselection');
+            		editCartItems(); // submit edit cart items		            		
+            		
+
+            		console.log(cart[editCartset]);
+
 				}else{
-					displayPageSection('page-section', 'causeselection');
-				}
 
-				addbackHistory('just-plan');
+					cart[orderCnt]['planID'] = 'BWW_PAYG';
+
+					if(cart[orderCnt]['deviceID'] === undefined ){
+						displayPageSection('page-section', 'deviceselection');
+					}else{
+						displayPageSection('page-section', 'causeselection');
+					}
+
+					addbackHistory('just-plan');
+				}
 
 				console.log(backorder);
 			})
@@ -498,15 +590,25 @@ $(document).ready(function(){
 
 				if(selectedpackage != ''){
 
-					cart[orderCnt]['planID'] = selectedpackage; // set selected device per order set
+					if( editCart && editCartset != null ){
+						cart[editCartset]['planID'] = selectedpackage;
+						
+	            		editCartItems(); // submit edit cart items		            		
+	            		
 
-					if(cart[orderCnt]['deviceID'] === undefined ){
-						displayPageSection('page-section', 'deviceselection');
+	            		console.log(cart[editCartset]);
+
 					}else{
-						displayPageSection('page-section', 'causeselection');
-					}
+						cart[orderCnt]['planID'] = selectedpackage; // set selected device per order set
 
-					addbackHistory('plan-container');
+						if(cart[orderCnt]['deviceID'] === undefined ){
+							displayPageSection('page-section', 'deviceselection');
+						}else{
+							displayPageSection('page-section', 'causeselection');
+						}
+
+						addbackHistory('plan-container');
+					}
 
 				}else{
 					alert('Kindly select a plan package first.')
