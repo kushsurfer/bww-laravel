@@ -85,7 +85,7 @@ $(document).ready(function(){
 						data.meid = cart[orderCnt]['meid'];
 					}
 
-					$('#cause-detail').append('<div class="loader"></div>');
+					$('#cause-detail').append('<div class="loader" style="overflow:auto;"></div>');
 					$(document).scrollTo('#cause-detail .loader', 800, {offset:-150});
 
 					$.ajax({
