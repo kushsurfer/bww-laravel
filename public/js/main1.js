@@ -27,7 +27,9 @@ $(document).ready(function(){
 		$('#byosd-list').html(data);
 
 		BYOSDHandset.initialize();		
-	});
+	}).fail(function() {
+	    alert("Currently can't load BYOD handset list. Sorry for the inconvience, kindly refresh page");
+	});;
  	
 	// load byosd list of devices in the background 
  	$.get("getDeviceList", function( data ) {
@@ -38,6 +40,10 @@ $(document).ready(function(){
 
 		// scroll to device list section
 		$(document).scrollTo('#device-container', 800, {offset:-150});
+	}).fail(function() {
+	    // alert("Currently can't load device list. Sorry for the inconvience, kindly refresh page");
+
+	   location.reload();
 	});
 
 
@@ -51,6 +57,9 @@ $(document).ready(function(){
 
 		// scroll to plan options
 		$(document).scrollTo('#plan-container', 800, {offset:-150});
+	}).fail(function() {
+	    // alert("Currently can't load Service plan list. Sorry for the inconvience, kindly refresh page");
+	    location.reload();
 	});
 
 
@@ -113,6 +122,9 @@ $(document).ready(function(){
 
 	 	});
 		
+	}).fail(function() {
+	    // alert("Currently can't load Cause list. Sorry for the inconvience, kindly refresh page");
+	    location.reload();
 	});
 
 
