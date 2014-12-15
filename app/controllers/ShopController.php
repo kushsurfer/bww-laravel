@@ -90,11 +90,13 @@ class ShopController extends BaseController
 
     public function shop(){
 
-        $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
+        // $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
 
-        $products = self::getDisplayProductsByCatname();
+        // $products = self::getDisplayProductsByCatname();
              
-        return View::make('shop.shop_page')->with('products', $products)->with('byosdhansets', $handsets);
+        // return View::make('shop.shop_page')->with('products', $products)->with('byosdhansets', $handsets);
+
+        return Redirect::route('shop');
     }
 
 
@@ -290,7 +292,10 @@ class ShopController extends BaseController
         if (Session::has('ordersets')) {
 
             $sessionorders =  Session::get('ordersets');
-            $ordersets = array_merge($ordersets,  $sessionorders);
+            $orderCnt = count($sessionorders);
+            $sessionorders[$orderCnt] = $ordersets[0];
+
+            $ordersets = $sessionorders;
 
             Session::forget('ordersets'); // forget previous selected device
                 
@@ -367,33 +372,8 @@ class ShopController extends BaseController
 
     public function updateCartItems(){
 
+        $ordersets = Input::all();
 
-        $ordersets = Session::get('ordersets');
-
-        $itemSet =  Input::get('setID');
-        $deviceID = Input::get('deviceID');
-        $planID = Input::get('planID');
-        $causeID = Input::get('causeID');
-        $byodhanset = '';
-        $meid = '';
-
-        if (Input::has('byoshandset')){
-            $byodhanset = Input::has('byoshandset');
-        }
-
-        if (Input::has('meid')){
-            $meid = Input::has('meid');
-        }
-
-        $ordersets[$itemSet] = array(
-            'deviceID' => $deviceID,
-            'planID' => $planID,
-            'causeID' => $causeID,
-            'byodhanset' => $byodhanset,
-            'meid' => $meid
-        );
-
-        // reset orderset sessions
 
         Session::forget('ordersets');
 
@@ -439,14 +419,14 @@ class ShopController extends BaseController
 
 
             $activationFee = MagentoAPI::getProductBySKU($session_id, 'OTAF');
+            $activationFee = $activationFee['price'];
             
             foreach($ordersets as $cartProduct){
                 $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
-                $planDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['planID']));
-               
+                $planDetails = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['planID']);
+                
                 $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
-                $planDetails = $planDetails[$cartProduct['planID']];
-                $activationFee = $activationFee['price'];
+                
 
 
                 $cartdetails[] = array(
