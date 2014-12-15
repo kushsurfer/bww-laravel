@@ -16,6 +16,10 @@ body{
   fieldset { display: table-cell; }
 }
 
+a, img {
+    outline: none !important;
+}
+
 .hide {
     display: none;
 }
@@ -360,6 +364,7 @@ p.subheading {
     min-height: 42px;
     padding: 10px 40px;
     text-align: center;
+    text-decoration: none;
 }
 
 .orange-button,
