@@ -425,7 +425,7 @@ $(document).ready(function(){
 
  	//Validates the credit card
  	//uses the library http://jquerycreditcardvalidator.com/
- 	$(document).on('keyup', '#ccard', function() {
+ 	$(document).on('keyup', '#ccard', function(e) {
 		$('#ccard').validateCreditCard(function(result) {
 			if (result.card_type.name && result.length_valid && result.luhn_valid) {
 				$(document).find('#ccvalidation #validateCCard').removeClass('disabled');
@@ -435,7 +435,17 @@ $(document).ready(function(){
 			}
 		});
  	});
-     	
+
+ 	//Validation for number-only fields
+	$(document).on('keypress', '#zipcode, #shipzipcode, #phone, #shipphone', function(e) {
+
+		//if the letter is not digit then display error and don't type anything
+		if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				//display error message
+				//$("#errmsg").html("Digits Only").show().fadeOut("slow");
+				return false;
+			}
+	});     	
 
  	function checkSectionHistory(){
  		// for back button display
