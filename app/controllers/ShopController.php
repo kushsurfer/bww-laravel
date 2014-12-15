@@ -292,7 +292,10 @@ class ShopController extends BaseController
         if (Session::has('ordersets')) {
 
             $sessionorders =  Session::get('ordersets');
-            $ordersets = array_merge($ordersets,  $sessionorders);
+            $orderCnt = count($sessionorders);
+            $sessionorders[$orderCnt] = $ordersets[0];
+
+            $ordersets = $sessionorders;
 
             Session::forget('ordersets'); // forget previous selected device
                 
@@ -369,33 +372,8 @@ class ShopController extends BaseController
 
     public function updateCartItems(){
 
+        $ordersets = Input::all();
 
-        $ordersets = Session::get('ordersets');
-
-        $itemSet =  Input::get('setID');
-        $deviceID = Input::get('deviceID');
-        $planID = Input::get('planID');
-        $causeID = Input::get('causeID');
-        $byodhanset = '';
-        $meid = '';
-
-        if (Input::has('byoshandset')){
-            $byodhanset = Input::has('byoshandset');
-        }
-
-        if (Input::has('meid')){
-            $meid = Input::has('meid');
-        }
-
-        $ordersets[$itemSet] = array(
-            'deviceID' => $deviceID,
-            'planID' => $planID,
-            'causeID' => $causeID,
-            'byodhanset' => $byodhanset,
-            'meid' => $meid
-        );
-
-        // reset orderset sessions
 
         Session::forget('ordersets');
 

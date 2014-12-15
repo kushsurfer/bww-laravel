@@ -81,7 +81,7 @@ $(document).ready(function(){
 					var data = {'deviceID' : cart[orderCnt]['deviceID'], 'planID' : cart[orderCnt]['planID'], 'causeID' : cart[orderCnt]['causeID']}
 
 					if(cart[orderCnt]['deviceID'] == 'BYOD'){
-						data.byoshandset = cart[orderCnt]['byoshandset'];
+						data.byoshandset = cart[orderCnt]['byodhanset'];
 						data.meid = cart[orderCnt]['meid'];
 					}
 
@@ -234,7 +234,7 @@ $(document).ready(function(){
 
 	            		if( editCart && editCartset != null ){
 							cart[editCartset]['deviceID'] = 'BYOD';
-							cart[editCartset]['byoshandset'] = selectedbyosd;
+							cart[editCartset]['byodhanset'] = selectedbyosd;
 		            		cart[editCartset]['meid'] = $('#meid').val();
 
 
@@ -246,7 +246,7 @@ $(document).ready(function(){
 						}else{
 
 		            		cart[orderCnt]['deviceID'] = 'BYOD';
-		            		cart[orderCnt]['byoshandset'] = selectedbyosd;
+		            		cart[orderCnt]['byodhanset'] = selectedbyosd;
 		            		cart[orderCnt]['meid'] = $('#meid').val();
 
 
@@ -282,7 +282,7 @@ $(document).ready(function(){
 	$('#selectplan').on('click', function(){
 
 		
-		if(cart[orderCnt]['byoshandset'] !== undefined){
+		if(cart[orderCnt]['byodhanset'] !== undefined){
 
 			if(cart[orderCnt]['planID'] === undefined ){
 				displayPageSection('page-section', 'planselection');
@@ -435,15 +435,14 @@ $(document).ready(function(){
 
 
  	function editCartItems(){
+ 		console.log(cart);
+ 		console.log(editCartset);
 
  		if( editCart && editCartset != null ){
-	 		var data = {'deviceID' : cart[editCartset]['deviceID'], 'planID' : cart[editCartset]['planID'], 'causeID' : cart[editCartset]['causeID'], 'setID' : editCartset }
-
-	 		if(cart[editCartset]['deviceID'] == 'BYOD'){
-				data.byoshandset = cart[editCartset]['byoshandset'];
-				data.meid = cart[editCartset]['meid'];
-			}
-
+	 		var data = jQuery.param(cart);
+	 	
+			$('#shopping-cart').html('<div class="loader"></div>');
+			displayPageSection('page-section', 'shopping-cart');
 
 			$.ajax({
 				type: "POST",
@@ -516,7 +515,7 @@ $(document).ready(function(){
 						if( editCart && editCartset != null ){
 							cart[editCartset]['deviceID'] = $(this).attr('pid');
 							// reset byosdhandset if device is selected
-							cart[editCartset]['byoshandset'] = '';
+							cart[editCartset]['byodhanset'] = '';
 		            		cart[editCartset]['meid'] = '';
 
 		            		editCartItems(); // submit edit cart items		            		
@@ -528,7 +527,7 @@ $(document).ready(function(){
 							cart[orderCnt]['deviceID'] = $(this).attr('pid'); // set selected device per order set
 
 							// reset byosdhandset if device is selected
-							cart[orderCnt]['byoshandset'] = '';
+							cart[orderCnt]['byodhanset'] = '';
 		            		cart[orderCnt]['meid'] = '';
 
 							if(cart[orderCnt]['planID'] === undefined ){
