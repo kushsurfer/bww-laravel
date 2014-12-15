@@ -155,6 +155,8 @@ $(document).ready(function(){
  		selectedbyosd = '';
  		cart[orderCnt] = {};
 
+ 		//clear package table
+ 		$(document).find('.package-table tr').removeClass('selectedplan');
 
  		displayPageSection('page-section', 'deviceselection');
 
@@ -420,6 +422,19 @@ $(document).ready(function(){
 
  	});
 
+
+ 	//Validates the credit card
+ 	//uses the library http://jquerycreditcardvalidator.com/
+ 	$(document).on('keyup', '#ccard', function() {
+		$('#ccard').validateCreditCard(function(result) {
+			if (result.card_type.name && result.length_valid && result.luhn_valid) {
+				$(document).find('#ccvalidation #validateCCard').removeClass('disabled');
+			}
+			else {
+				$(document).find('#ccvalidation #validateCCard').removeClass('disabled').addClass('disabled');
+			}
+		});
+ 	});
      	
 
  	function checkSectionHistory(){

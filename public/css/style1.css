@@ -146,8 +146,11 @@ h2 , h3 {
     font-weight: 500;
 }
 
-#menu-utility-menu li a[title="sign up"] {
-    background-color: #fc8722;
+#menu-utility-menu li a[title="sign up"],
+#menu-utility-menu li #btn-signup,
+#menu-utility-menu li #btn-signup:hover,
+#menu-utility-menu li #btn-signup:visited {
+    background-color: #fc8722 !important;
     color: #fff;
     font-weight: 700;
     padding: 8px;

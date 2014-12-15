@@ -105,7 +105,7 @@
 							<a href="http://bww.gfdev.net/#coverage">Coverage</a>
 						</li>
 						<li>
-							<a href="http://bww.gfdev.net/#signup" title="sign up">Sign Up</a>
+							<a href="http://bww.gfdev.net/#signup" title="sign up" class="btn-signup">Sign Up</a>
 						</li>						
 					</ul>
 				</div>
@@ -133,6 +133,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo url();?>/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo url();?>/js/jquery.scrollTo.min.js"></script>
+    <script src="<?php echo url();?>/js/jquery.creditCardValidator.js"></script>
     <script src="<?php echo url();?>/js/waypoints.min.js"></script>
     <script src="<?php echo url();?>/js/main1.js"></script>
   </body>

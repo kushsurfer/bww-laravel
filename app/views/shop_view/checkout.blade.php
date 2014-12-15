@@ -48,12 +48,12 @@
 				<option></option>
 				{{ $option }}
 			</select>
-			<input type="text" style="width: 75%;" placeholder="Enter zipcode" class="form-control pull-right billing-element" id="zipcode" name="zipcode">
+			<input type="number" style="width: 75%;" placeholder="Enter zipcode" class="form-control pull-right billing-element" id="zipcode" name="zipcode">
 			<div class="clearfix"></div>
 		</div>
 		<div class="form-group">
 		    <label for="phone">Primary Phone Number<span class="orange-text">*</span><span class="errormsg" id="phoneError"></span></label>
-		    <input type="phone" class="form-control billing-element" id="phone" name="phone">
+		    <input type="number" class="form-control billing-element" id="phone" name="phone">
 		</div>
 		<div class="form-group">
 		    <label for="emailAddress">Email Address<span class="orange-text">*</span><span class="errormsg" id="emailAddressError"></span></label>
@@ -97,12 +97,12 @@
 					<option></option>
 					{{ $option }}
 				</select>
-				<input type="text" style="width: 75%;" placeholder="Enter zipcode" class="form-control pull-right" id="shipzipcode" name="shipzipcode">
+				<input type="number" style="width: 75%;" placeholder="Enter zipcode" class="form-control pull-right" id="shipzipcode" name="shipzipcode">
 				<div class="clearfix"></div>
 			</div>
 			<div class="form-group">
 			    <label for="shipphone">Primary Phone Number<span class="orange-text">*</span><span class="errormsg" id="shipphoneError"></span></label>
-			    <input type="shipphone" class="form-control" id="shipphone" name="shipphone">
+			    <input type="number" class="form-control" id="shipphone" name="shipphone">
 			</div>		
 		</div>				
 		<div class="form-group">
@@ -132,7 +132,7 @@
 		<input type="hidden" id="ccardtype" name="ccardtype" value="" />
 		<div class="form-group">
 		    <label for="ccard">Credit Card Number<span class="orange-text">*</span><span class="errormsg" id="fnameError"></span></label>
-		    <input type="text" class="form-control" id="ccard" name="ccard" >
+		    <input type="text" class="form-control" id="ccard" name="ccard" maxlength="20" />
 		    <ul class="cc-types">
 		    	<li><a href="#" data-id="AE"><img src="<?php echo url();?>/images/cc_card_amex.png" /></a></li>
 		    	<li><a href="#" data-id="DI"><img src="<?php echo url();?>/images/cc_card_discover.png" /></a></li>
@@ -167,7 +167,7 @@
 		    <label for="cvv">CVV Number<span class="orange-text">*</span><span class="errormsg" id="cvvError"></span></label>
 		    <input type="text" class="form-control" id="cvv" name="cvv" >
 		</div>
-		<button  class="btn orange-button" style="width:100%" id="validateCCard">PROCEED TO VALIDATE CREDIT CARD</button>
+		<button  class="btn orange-button disabled" style="width:100%" id="validateCCard">PROCEED TO VALIDATE CREDIT CARD</button>
 	</form>
 </div>
 <div class="col-xs-12 col-sm-6 col-lg-6" id="checkoutloader" style="display:none">
