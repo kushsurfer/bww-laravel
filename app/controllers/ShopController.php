@@ -90,11 +90,13 @@ class ShopController extends BaseController
 
     public function shop(){
 
-        $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
+        // $handsets = ByosdHansets::orderBy('manufacturer', 'asc')->orderBy('name', 'asc')->get();
 
-        $products = self::getDisplayProductsByCatname();
+        // $products = self::getDisplayProductsByCatname();
              
-        return View::make('shop.shop_page')->with('products', $products)->with('byosdhansets', $handsets);
+        // return View::make('shop.shop_page')->with('products', $products)->with('byosdhansets', $handsets);
+
+        return Redirect::route('shop');
     }
 
 
@@ -439,14 +441,14 @@ class ShopController extends BaseController
 
 
             $activationFee = MagentoAPI::getProductBySKU($session_id, 'OTAF');
+            $activationFee = $activationFee['price'];
             
             foreach($ordersets as $cartProduct){
                 $deviceDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['deviceID']));
-                $planDetails = MagentoAPI::getProductDetailsByIDs($session_id, array($cartProduct['planID']));
-               
+                $planDetails = MagentoAPI::getProductDetailsByID($session_id, $cartProduct['planID']);
+                
                 $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
-                $planDetails = $planDetails[$cartProduct['planID']];
-                $activationFee = $activationFee['price'];
+                
 
 
                 $cartdetails[] = array(
