@@ -1200,7 +1200,8 @@ class ShopController extends BaseController
         if($causedetail['cause_sponsors'] == ''){
             $sponsors = 1;
         }else{
-            $sponsors += (int) $causedetail['cause_sponsors'];
+            $current = (int) $causedetail['cause_sponsors'];
+            $sponsors += $current;
         }
 
         $causeAttributes = array('cause_sponsors' => $sponsors);
