@@ -62,16 +62,15 @@ $(document).ready(function(){
 
 	 	$('.cause-name').on('click', function(){
 
-
 			displayPageSection('page-section', 'cause-detail');
 			$('#cause-detail').html('<div class="loader"></div>');
 
 			//load byosd list of devices in the background 
 		 	$.get( baseurl + "causeDetail/" + $(this).attr('cid'), function( data ) {
+
 				$('#cause-detail').html(data);
-
-		 		addbackHistory('causeselection');
-
+				addbackHistory('causeselection');
+				displayPageSection('page-section', 'cause-detail');
 
 				$('#select-sponsor').on('click', function(event){
 					event.preventDefault();
@@ -420,6 +419,7 @@ $(document).ready(function(){
 	 		$('#back-button').hide();
 	 	}
 
+	 	toggleCartButton(containerID);
  	});
 
 
@@ -474,7 +474,7 @@ $(document).ready(function(){
 		}
 	}
 	preload("../images/device_bg.jpg", "../images/package_bg.jpg");
-	
+
 
  	function checkSectionHistory(){
  		// for back button display
@@ -536,8 +536,6 @@ $(document).ready(function(){
 				}else{
 					alert('Kindly provide your current phone.');
 				}
-
-				
 			})
     	},
  	}
@@ -691,14 +689,25 @@ $(document).ready(function(){
 
 function displayPageSection(classname, id){
 
-	$( "." + classname ).each(function() {
+	$( "." + classname).each(function() {
   	//$(this).hide();
 	});
 
 	$('#' + id).show();
 
+	toggleCartButton(id);
+
 	// scrolls to the newly opened section when user selects an option
 	$(document).scrollTo('#' + id, 800, {offset:-150});
+}
+
+//hide cart button if currently viewed section is on causes
+function toggleCartButton(view) {
+	
+	var no_cart = ['causeselection', 'cause-detail'];
+
+	if ($.inArray(view, no_cart) !== -1) $('#cart-button').fadeOut();
+	else $('#cart-button').fadeIn();
 }
 
 function addbackHistory(container_id){
