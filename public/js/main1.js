@@ -912,7 +912,7 @@ function displayAcctInfoSection(){
 	            		$('#estimateTax').text(resp.estimatedTax);
 	            		// reset order cart
 	            		orderCnt = 0;
-	            		cart[orderCnt] = {};
+	            		cart = {};
 						
 	            	}else{
 	            		$('#checkoutloader').hide();
