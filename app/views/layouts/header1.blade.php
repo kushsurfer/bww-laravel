@@ -133,7 +133,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php echo url();?>/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo url();?>/js/jquery.scrollTo.min.js"></script>
-    <script src="<?php echo url();?>/js/jquery.creditCardValidator.js"></script>
+    <script src="<?php echo url();?>/js/jquery.validate.min.js"></script>
+    <script src="<?php echo url();?>/js/additional-methods.min.js"></script>
     <script src="<?php echo url();?>/js/waypoints.min.js"></script>
     <script src="<?php echo url();?>/js/main1.js"></script>
   </body>
