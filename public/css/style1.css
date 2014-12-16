@@ -16,6 +16,10 @@ body{
   fieldset { display: table-cell; }
 }
 
+a, img {
+    outline: none !important;
+}
+
 .hide {
     display: none;
 }
@@ -74,10 +78,11 @@ h2 , h3 {
     font-weight: bold;
 }
 
-.errormsg {
+label.error, .errormsg {
+    font-size: 11px;
     color : red;
     margin-left: 5px;
-    font-size: 11px;
+    margin-bottom: 0;
 }
 
 .header .nav > li > a {
@@ -360,6 +365,7 @@ p.subheading {
     min-height: 42px;
     padding: 10px 40px;
     text-align: center;
+    text-decoration: none;
 }
 
 .orange-button,

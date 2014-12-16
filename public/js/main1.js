@@ -437,17 +437,56 @@ $(document).ready(function(){
 
  	//Validates the credit card
  	//uses the library http://jquerycreditcardvalidator.com/
- 	$(document).on('keyup', '#ccard', function() {
-		$('#ccard').validateCreditCard(function(result) {
-			if (result.card_type.name && result.length_valid && result.luhn_valid) {
-				$(document).find('#ccvalidation #validateCCard').removeClass('disabled');
-			}
-			else {
-				$(document).find('#ccvalidation #validateCCard').removeClass('disabled').addClass('disabled');
-			}
+ 	$(document).on('keyup', '#ccard', function(e) {
+		var res = $('#credit-card-form').validate({
+		  rules: {
+		    ccard: {
+		      required: true,
+		      creditcard: true
+		    }
+		  },
+		  messages: {
+		    ccard: {
+		      required: "Please provide your Credit Card number",
+		      creditcard: "The card number seems to be incorrect format"
+		    }
+		  },
+		  errorPlacement: function(error, element) {
+		    error.appendTo(element.parent('.form-group').find('label'));
+		  },
+		  showErrors: function(errorMap, errorList) {
+		  	if (this.numberOfInvalids() == 0) $('#validateCCard').removeClass('disabled');
+		  	else $('#validateCCard').removeClass('disabled').addClass('disabled');
+
+		  	this.defaultShowErrors();
+		  },
+		  success: function(label) {
+		  	console.log(label);
+		  }
 		});
  	});
-     	
+
+ 	//Validation for number-only fields
+	$(document).on('keypress', '#zipcode, #shipzipcode, #phone, #shipphone', function(e) {
+
+		//if the letter is not digit then display error and don't type anything
+		if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				//display error message
+				//$("#errmsg").html("Digits Only").show().fadeOut("slow");
+				return false;
+			}
+	});
+
+	//Pre-load some of the images
+	function preload() {
+		var images = new Array();
+		for (var i = 0; i < preload.arguments.length; i++) {
+			images[i] = new Image();
+			images[i].src = preload.arguments[i];
+		}
+	}
+	preload("../images/device_bg.jpg", "../images/package_bg.jpg");
+	
 
  	function checkSectionHistory(){
  		// for back button display
