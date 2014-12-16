@@ -28,7 +28,8 @@ $(document).ready(function(){
 
 		BYOSDHandset.initialize();		
 	}).fail(function() {
-	    alert("Currently can't load BYOD handset list. Sorry for the inconvience, kindly refresh page");
+	    // alert("Currently can't load BYOD handset list. Sorry for the inconvience, kindly refresh page");
+	    location.reload();
 	});;
  	
 	// load byosd list of devices in the background 

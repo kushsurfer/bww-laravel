@@ -33,7 +33,6 @@ class ShopController extends BaseController
 {   
     
     public function index(){
-
     	Session::forget('ordersets');
         return View::make('shop_view.shop1');
     }
@@ -1201,7 +1200,7 @@ class ShopController extends BaseController
         if($causedetail['cause_sponsors'] == ''){
             $sponsors = 1;
         }else{
-            $sponsors += int($causedetail['cause_sponsors']);
+            $sponsors += (int) $causedetail['cause_sponsors'];
         }
 
         $causeAttributes = array('cause_sponsors' => $sponsors);
