@@ -710,13 +710,7 @@ class ShopController extends BaseController
     public function privacypage(){
         echo 'privacy page';
       
-        $session_id = MagentoAPI::initialize();
-
-        // $causeAttributes = array('cause_sponsors' => 3);
-
-        // var_dump(MagentoAPI::updateProductBySku($session_id, 'BGC', $causeAttributes));
-        // $resp = MagentoAPI::getProductDetailsByID($session_id, 8);
-        // echo $resp['sku'];
+        // var_dump(self::updateCauseSponsorCnt(7));
 
     }
 
@@ -1202,8 +1196,8 @@ class ShopController extends BaseController
         if($causedetail['cause_sponsors'] == ''){
             $sponsors = 1;
         }else{
-            $current = (int) $causedetail['cause_sponsors'];
-            $sponsors += $current;
+            $sponsors = (int) $causedetail['cause_sponsors'];
+            $sponsors += 1;
         }
 
         $causeAttributes = array('cause_sponsors' => $sponsors);
