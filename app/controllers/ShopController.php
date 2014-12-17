@@ -428,11 +428,16 @@ class ShopController extends BaseController
                 
                 $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
                 
-
+                if($planDetails['sku'] == 'BWW_PAYG'){
+                    $packageDetails = "Just pay for what you use. That's it";
+                }else{
+                    $packageDetails = $planDetails['plan_minutes'].' minutes, '.$planDetails['plan_messages'].' messages, '.$planDetails['plan_data'].' data';
+                }
+                
 
                 $cartdetails[] = array(
                     'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
-                    'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
+                    'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month'], 'details' => $packageDetails),
                     'deviceImage' => $deviceDetails['images'][0], 
                     'activationFee' => $activationFee
                 );
