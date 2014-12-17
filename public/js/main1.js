@@ -559,7 +559,7 @@ $(document).ready(function(){
        		// load byosdhandset event functions
 			$('#search-handset').on('click', function(){
 
-				if($( "#bhandset_hidden" ).val() != ''){
+				if($("#bhandset_hidden").val() != ''){
 
 					addbackHistory('byosd-list');
 					selectedbyosd = $( "#bhandset_hidden" ).val();

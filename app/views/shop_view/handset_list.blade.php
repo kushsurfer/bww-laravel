@@ -66,10 +66,29 @@
 <script>
 $( "#bhandset" ).autocomplete({
   	source: [ <?php echo $autocompleteList; ?> ],
+  	focus: function( event, ui ) {
+        $( "#bhandset" ).val(ui.item.label);
+        return false;
+      },
 	select: function(event, ui) {  
-	    $( "#bhandset" ).val(ui.item.label);  
+	    $( "#bhandset" ).val(ui.item.label);
 	    $( "#bhandset_hidden" ).val(ui.item.value);
 	    return false;  
+	},
+	change: function(event, ui) {
+		if (!ui.item) {
+			$( "#bhandset" ).val('');
+			$('#bhandset_hidden').val('');
+
+			$('#byosd-checkmeid').hide();
+
+			alert('Did not match any item');
+		}
+		else {
+		    $( "#bhandset" ).val(ui.item.label);
+		    $( "#bhandset_hidden" ).val(ui.item.value);
+		    return false;  
+		}
 	}   
 });
 </script>
