@@ -202,18 +202,29 @@ $(document).ready(function(){
 
 			$('.edit-device, .edit-plan').on('click', function(){
 
+ 				editCartset = $(this).attr('cid');
+ 				editCart = true;
+
+
 				if($(this).hasClass('edit-device')){
 					displayPageSection('page-section', 'deviceselection');
 				}else{
+					if(cart[editCartset]['planID'] != 'BWW_PAYG'){
+						
+						var trID = cart[editCartset]['planID'];
+						
+						$( ".service-plan-item" ).each(function() {
+						  $(this).removeClass('selectedplan');
+						});
+
+						$('#'+trID).addClass('selectedplan');
+					}
+
 					displayPageSection('page-section', 'planselection');
 				}
 					
 
  				addbackHistory('shopping-cart');
-
- 				editCartset = $(this).attr('cid');
- 				editCart = true;
-
  				console.log(cart[orderCnt]);
 			})
 
