@@ -209,7 +209,7 @@ $(document).ready(function(){
 				if($(this).hasClass('edit-device')){
 					displayPageSection('page-section', 'deviceselection');
 				}else{
-					if(cart[editCartset]['planID'] != 'BWW_PAYG'){
+					// if(cart[editCartset]['planID'] != 'BWW_PAYG'){
 						
 						var trID = cart[editCartset]['planID'];
 						
@@ -218,7 +218,7 @@ $(document).ready(function(){
 						});
 
 						$('#'+trID).addClass('selectedplan');
-					}
+					// }
 
 					displayPageSection('page-section', 'planselection');
 				}
