@@ -59,6 +59,13 @@ margin-bottom: 50px;
     z-index: 2;
 }
 
+.total-price {
+    font-size: 18px;
+    font-weight: 100;
+    color: #fff;
+    padding: 0.6em;
+}
+
 .navbar-inverse .navbar-toggle {
     background: #ccc;
     border: 0 none;

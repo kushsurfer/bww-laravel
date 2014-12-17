@@ -176,27 +176,24 @@ $(document).ready(function(){
  		$.get("orderSummary", function( data ) {
 			$('#shopping-cart').html(data);
 
+			//set the due amount to the total price container in the header section
+			$('.total-price .price-value').text($('.total-due-today').text());
+
 			$('#checkout').on('click', function(event){
+				addbackHistory('shopping-cart');
 				displayPageSection('page-section', 'create-account');
 
-				addbackHistory('shopping-cart');
-
 				console.log(backorder);
-
 				
 				event.preventDefault();
 			});
 
 			$('.edit-device, .edit-plan').on('click', function(){
 
-				if($(this).hasClass('edit-device')){
-					displayPageSection('page-section', 'deviceselection');
-				}else{
-					displayPageSection('page-section', 'planselection');
-				}
-					
+				addbackHistory('shopping-cart');
 
- 				addbackHistory('shopping-cart');
+				if ($(this).hasClass('edit-device')) displayPageSection('page-section', 'deviceselection');
+				else displayPageSection('page-section', 'planselection');
 
  				editCartset = $(this).attr('cid');
  				editCart = true;
@@ -473,7 +470,14 @@ $(document).ready(function(){
 			images[i].src = preload.arguments[i];
 		}
 	}
-	preload("../images/device_bg.jpg", "../images/package_bg.jpg");
+	preload(
+		'../images/device_bg.jpg', 
+		'../images/package_bg.jpg',
+		'../images/cause_img1.jpg',
+		'../images/cause_1.jpg',
+		'../images/cause_2.jpg',
+		'../images/cause_3.jpg'
+	);
 
 
  	function checkSectionHistory(){
@@ -705,9 +709,24 @@ function displayPageSection(classname, id){
 function toggleCartButton(view) {
 	
 	var no_cart = ['causeselection', 'cause-detail'];
+	var show_total_price = ['shopping-cart', 'create-account', 'checkout-container'];
 
-	if ($.inArray(view, no_cart) !== -1) $('#cart-button').fadeOut();
-	else $('#cart-button').fadeIn();
+	if ($.inArray(view, no_cart) >= 0) {
+		$('#cart-button').hide();
+		$('.total-price').hide();
+	}
+	else if ($.inArray(view, show_total_price) >= 0) {
+		$('#cart-button').hide();
+		$('.total-price').show();
+	}
+	else {
+		$('#cart-button').show();
+		$('.total-price').hide();
+	} 
+
+	/*console.log(view);
+	console.log('cart icon: ' + $.inArray(view, no_cart));
+	console.log('price icon: ' + $.inArray(view, show_total_price));*/
 }
 
 function addbackHistory(container_id){

@@ -102,7 +102,7 @@
 	<div class="col-xs-7 col-sm-7 col-lg-8"></div>
 	<div class="cart-summary col-xs-3 col-sm-3 col-lg-2"><h4>Due Today*</h4></div>
 	<div class="cart-summary col-xs-2 col-sm-2 col-lg-2">
-		<h4>{{ '$' . number_format($dueAmount , 2, '.', '') }}</h4>
+		<h4 class="total-due-today">{{ '$' . number_format($dueAmount , 2, '.', '') }}</h4>
 	</div>
 </div>
 <div class="row">

@@ -116,6 +116,10 @@
 		<div class="orange-border fixed">
 			<img src="<?php echo url();?>/images/back_button.jpg" class="pull-left" id="back-button" style="display:none">
 			<img src="<?php echo url();?>/images/cart_icon.png" class="pull-right" id="cart-button" cid="" style="display:none">
+			<span class="total-price pull-right" style="display:none">
+				<span class="price-value">$289.00</span> &nbsp;
+				<span class="glyphicon glyphicon-chevron-down" style="font-size:11px"></span>
+			</span>
 		</div>
 	</nav>
 	
