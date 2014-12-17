@@ -33,8 +33,9 @@ class ShopController extends BaseController
 {   
     
     public function index(){
-
-    	Session::forget('ordersets');
+    	// Session::forget('ordersets');
+     //    Session::forget('cartID'); // forget old cart
+        Session::flush();
         return View::make('shop_view.shop1');
     }
 
@@ -427,11 +428,16 @@ class ShopController extends BaseController
                 
                 $deviceDetails = $deviceDetails[$cartProduct['deviceID']];
                 
-
+                if($planDetails['sku'] == 'BWW_PAYG'){
+                    $packageDetails = "Just pay for what you use. That's it";
+                }else{
+                    $packageDetails = $planDetails['plan_minutes'].' minutes, '.$planDetails['plan_messages'].' messages, '.$planDetails['plan_data'].' data';
+                }
+                
 
                 $cartdetails[] = array(
                     'deviceDetails' => array('name' => $deviceDetails['name'], 'price' => $deviceDetails['price']),
-                    'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month']),
+                    'planDetails'  => array('name' => $planDetails['name'], 'price' => $planDetails['per_month'], 'details' => $packageDetails),
                     'deviceImage' => $deviceDetails['images'][0], 
                     'activationFee' => $activationFee
                 );
@@ -709,13 +715,7 @@ class ShopController extends BaseController
     public function privacypage(){
         echo 'privacy page';
       
-        $session_id = MagentoAPI::initialize();
-
-        // $causeAttributes = array('cause_sponsors' => 3);
-
-        // var_dump(MagentoAPI::updateProductBySku($session_id, 'BGC', $causeAttributes));
-        // $resp = MagentoAPI::getProductDetailsByID($session_id, 8);
-        // echo $resp['sku'];
+        // var_dump(self::updateCauseSponsorCnt(7));
 
     }
 
@@ -1201,7 +1201,8 @@ class ShopController extends BaseController
         if($causedetail['cause_sponsors'] == ''){
             $sponsors = 1;
         }else{
-            $sponsors += int($causedetail['cause_sponsors']);
+            $sponsors = (int) $causedetail['cause_sponsors'];
+            $sponsors += 1;
         }
 
         $causeAttributes = array('cause_sponsors' => $sponsors);

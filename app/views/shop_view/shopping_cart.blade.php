@@ -47,7 +47,7 @@
 					<td><strong>Plan:</strong></td>
 					<td>
 						{{ $cartItem['planDetails']['name'] }}<br/>
-						<!-- 1200 minutes, unlimited messages, 750 MB data -->
+						{{ $cartItem['planDetails']['details'] }}
 					</td>
 					<td>
 						<a href="#" class="cart-button edit-plan" cid="{{ $key }}" >Edit</a>
