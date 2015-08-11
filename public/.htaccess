@@ -5,6 +5,16 @@
 
     RewriteEngine On
 
+    # Redirect HTTP to HTTPS
+    #RewriteEngine On
+    #RewriteCond %{HTTPS} !=on
+    #RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+    # Redirect shop to HTTPS
+    RewriteEngine on
+    RewriteCond %{HTTPS} off
+    RewriteRule ^shop https://bww-laravel.gfdev.net/shop [L,R=301]
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 

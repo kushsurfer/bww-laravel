@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'bwwlaravel',
-			'username'  => 'root',
-			'password'  => '',
+			'database'  => 'bww_laravel',
+			'username'  => 'bww_laravel_user',
+			'password'  => 'B3tt3rw0rldwir3l3ss',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
